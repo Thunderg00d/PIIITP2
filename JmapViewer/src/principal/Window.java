@@ -26,7 +26,6 @@ public class Window {
 					Window window = new Window();
 					window.frame.setVisible(true);
 					window.frame.add(map);
-					
 					//Coordinate bsAs = new Coordinate (59.2238,34.2237);
  					//mapa.setDisplayPosition(bsAs,3);
 				} catch (Exception e) {

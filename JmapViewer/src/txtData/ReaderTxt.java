@@ -17,7 +17,7 @@ public class ReaderTxt {
 		content = new ArrayList<String>();
 	}
 	
-	public static ArrayList<String> read(String archivo) throws IOException{
+	public ArrayList<String> read(String archivo) throws IOException{
 		
 		Scanner scanner;
 		File file = new File(getPath()+"\\"+archivo+".txt");
