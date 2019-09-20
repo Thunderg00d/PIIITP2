@@ -6,7 +6,6 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
-import txtData.ReaderTxt;
 
 
 public class Window {

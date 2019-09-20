@@ -11,7 +11,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 public class ReaderTxt {
-	private static ArrayList<String> content;
+	private  ArrayList<String> content;
 	
 	public ReaderTxt() {
 		content = new ArrayList<String>();
@@ -43,7 +43,7 @@ public class ReaderTxt {
 			
 			catch (FileNotFoundException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,"Dispositivo no encontrado : "+archivo);
+			JOptionPane.showMessageDialog(null,"Archivo no encontrado : "+archivo);
 			}
 		
 		
