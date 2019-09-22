@@ -14,6 +14,15 @@ public class Grafo
 		A = new boolean[vertices][vertices];
 	}
 	
+	//Crea un grafo completo
+	public void GrafoCompleto(int vertices){
+		A= new boolean [vertices][vertices];
+		for(int i=0;i<A.length;i++){
+			for(int j=0;j<A.length;i++){
+				A[i][j]=true;
+			}
+		}
+	}
 	// Operaciones sobre aristas
 	public void agregarArista(int i, int j)
 	{
