@@ -56,8 +56,7 @@ public class Window {
 		System.out.println(txt.read("instancia1"));
 		
 	}
-	private void setPoint() {
-		
+	private void setPoint() {	
 	}
 
 }
