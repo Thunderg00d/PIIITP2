@@ -6,7 +6,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Sebastian/Downloads/gson-2.8.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sebastian/Downloads/JMapViewer.jar"/>
+	<classpathentry kind="lib" path="Librerias/gson-2.8.5.jar"/>
+	<classpathentry kind="lib" path="Librerias/JMapViewer.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
