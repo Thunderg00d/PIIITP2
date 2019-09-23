@@ -5,23 +5,30 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LectorTxt {
-	public ArrayList<Double> leerTxt(String archivo) throws IOException {
+	public HashMap<Double, Double> leerTxt(String archivo) throws IOException {
 		File fr = new File(getPath() + "\\Instancias\\" + archivo + ".txt");
 		BufferedReader br = new BufferedReader(new FileReader(fr));
 		String numActual = "";
+		Double latitud = 0.0;
+		Double longitud = 0.0;
 		String st;
-		ArrayList<Double> lista = new ArrayList<Double>();
+		HashMap<Double, Double> lista = new HashMap<Double, Double>();
 		while ((st = br.readLine()) != null) {
 			for (int j = 0; j < st.length(); j++) {
 				if (st.charAt(j) == '-' || st.charAt(j) == ' ') {
 					if (numActual.length() > 0) {
-						lista.add(Double.valueOf(numActual) * -1);
+						latitud = Double.valueOf(numActual) * -1;
 						numActual = "";
 					}
 				} else {
 					numActual += st.charAt(j);
+					if (st.length() == j + 1) {
+						longitud = Double.valueOf(numActual) * -1;
+						lista.put(latitud, longitud);
+					}
 				}
 			}
 		}

@@ -2,13 +2,13 @@ package principal;
 
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
 import txtData.LectorTxt;
 
@@ -17,7 +17,7 @@ public class Window {
 	private JFrame frame;
 	private static JMapViewer mapa;
 	private LectorTxt lector;
-	private ArrayList<Double> lista;
+	private HashMap<Double,Double> lista;
 
 	/**
 	 * Launch the application.
@@ -56,11 +56,10 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mapa = new JMapViewer();
 		lector = new LectorTxt();
-		lista = new ArrayList<Double>();
-		lista = lector.leerTxt("instancia1");
-		for(int i = 1; i < lista.size(); i++) {
-			MapMarker coordenada = new MapMarkerDot(lista.get(i-1),lista.get(i));
-			mapa.addMapMarker(coordenada);
+		lista = new HashMap<Double,Double>();
+		lista = lector.leerTxt("instancia2");
+		for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {
+			mapa.addMapMarker(new MapMarkerDot(coordenadas.getKey(),coordenadas.getValue()));
 		}
 			
 	}
