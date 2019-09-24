@@ -1,28 +1,19 @@
 package principal;
 
 import java.awt.EventQueue;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
-import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
-
 import Intermediario.Intermediario;
-import txtData.LectorTxt;
 
 public class Window {
 
 	private JFrame frame;
 	private static JMapViewer mapa;
-	private LectorTxt lector;
-	private HashMap<Double,Double> lista;
 	private Intermediario inter;
 
 	/**
@@ -62,11 +53,11 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mapa = new JMapViewer();
 		inter = new Intermediario();
-		LinkedList<Point2D.Double> lista = new LinkedList<Point2D.Double>();
-		lista = inter.getCoordenadas();
-		for(Point2D.Double p : lista) {
+		for(Point2D.Double p : inter.getCoordenadas()) {
 			mapa.addMapMarker(new MapMarkerDot(p.getX(),p.getY()));
 		}
+		/*DefaultMapController mapController = new DefaultMapController(mapa);
+		mapController.setMovementMouseButton(MouseEvent.CLICK);*/
 		/*for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {
 			mapa.addMapMarker(new MapMarkerDot(coordenadas.getKey(),coordenadas.getValue()));
 		}*/

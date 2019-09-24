@@ -31,7 +31,7 @@ public class LectorTxt {
 			scanner = new Scanner(file);
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
-				FileWriter flwriter = new FileWriter(getPath()+"\\"+archivo+".txt", true);
+				FileWriter flwriter = new FileWriter(getPath()+"\\"+"instancias"+"\\"+archivo+".txt", true);
 				BufferedWriter bfwriter = new BufferedWriter(flwriter);
 					bfwriter.write(line);
 					content.add(line);
