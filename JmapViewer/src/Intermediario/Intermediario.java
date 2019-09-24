@@ -4,15 +4,18 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 import txtData.LectorTxt;
 
 public class Intermediario implements Cloneable{
-	private LinkedList<Point2D.Double> coordenadas;
+	private LinkedList<Coordinate> coordenadas;
 	private LectorTxt lector;
 	
 	
 	public Intermediario() {
-		coordenadas = new LinkedList<Point2D.Double>();
+		coordenadas = new LinkedList<Coordinate>();
 		lector = new LectorTxt();
 	}
 	
@@ -25,7 +28,7 @@ public class Intermediario implements Cloneable{
 			}
 		}
 		for(String s : coordesTemp) {
-			Point2D.Double coordenada= new Point2D.Double();
+			Coordinate coordenada= new Coordinate(0.0,0.0);
 			String numActual = "";
 			Double latitud = 0.0;
 			Double longitud = 0.0;
@@ -39,16 +42,17 @@ public class Intermediario implements Cloneable{
 					numActual += s.charAt(j);
 					if (s.length() == j + 1) {
 						longitud = Double.valueOf(numActual) * -1;
-						coordenada.setLocation(latitud, longitud);
+						coordenada.setLat(latitud);
+						coordenada.setLon(longitud);
 						coordenadas.add(coordenada);
 					}
 				}
 			}
 		}
 	}
-	public LinkedList<Point2D.Double> getCoordenadas() throws IOException{
+	public LinkedList<Coordinate> getCoordenadas() throws IOException{
 		setCoordenadas();
-		LinkedList<Point2D.Double> temp = new LinkedList<Point2D.Double>();
+		LinkedList<Coordinate> temp = new LinkedList<Coordinate>();
 		temp.addAll(coordenadas);
 		return temp;
 	}

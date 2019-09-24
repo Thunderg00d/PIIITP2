@@ -53,8 +53,8 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mapa = new JMapViewer();
 		inter = new Intermediario();
-		for(Point2D.Double p : inter.getCoordenadas()) {
-			mapa.addMapMarker(new MapMarkerDot(p.getX(),p.getY()));
+		for(Coordinate p : inter.getCoordenadas()) {
+			mapa.addMapMarker(new MapMarkerDot(p.getLat(),p.getLon()));
 		}
 		/*DefaultMapController mapController = new DefaultMapController(mapa);
 		mapController.setMovementMouseButton(MouseEvent.CLICK);*/
