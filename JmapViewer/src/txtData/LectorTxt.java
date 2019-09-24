@@ -1,47 +1,63 @@
 package txtData;
 
-import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 public class LectorTxt {
-	public HashMap<Double, Double> leerTxt(String archivo) throws IOException {
-		File fr = new File(getPath() + "\\Instancias\\" + archivo + ".txt");
-		BufferedReader br = new BufferedReader(new FileReader(fr));
-		String numActual = "";
-		Double latitud = 0.0;
-		Double longitud = 0.0;
-		String st;
-		HashMap<Double, Double> lista = new HashMap<Double, Double>();
-		while ((st = br.readLine()) != null) {
-			for (int j = 0; j < st.length(); j++) {
-				if (st.charAt(j) == '-' || st.charAt(j) == ' ') {
-					if (numActual.length() > 0) {
-						latitud = Double.valueOf(numActual) * -1;
-						numActual = "";
-					}
-				} else {
-					numActual += st.charAt(j);
-					if (st.length() == j + 1) {
-						longitud = Double.valueOf(numActual) * -1;
-						lista.put(latitud, longitud);
-					}
-				}
-			}
-		}
-		br.close();
-		return lista;
+	private  ArrayList<String> content;
+	
+	public LectorTxt() {
+		content = new ArrayList<String>();
 	}
-
-	public static String getPath() {
-		File miDir = new File(".");
+	
+	public ArrayList<String> read(String archivo) throws IOException{
+		
+		Scanner scanner;
+		File file = new File(getPath()+"\\"+"instancias"+"\\"+archivo+".txt");
 		try {
-			return (miDir.getCanonicalPath());
-		} catch (Exception e) {
-			e.printStackTrace();
+			scanner = new Scanner(file);
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		return null;
+		
+		try {
+			scanner = new Scanner(file);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				FileWriter flwriter = new FileWriter(getPath()+"\\"+archivo+".txt", true);
+				BufferedWriter bfwriter = new BufferedWriter(flwriter);
+					bfwriter.write(line);
+					content.add(line);
+					bfwriter.close();
+				}
+			scanner.close();
+			
+			}
+			
+			catch (FileNotFoundException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,"Archivo no encontrado : "+archivo);
+			}
+		
+		
+		
+		return content;
 	}
+	private static String getPath() {
+		File miDir = new File (".");
+	     try {
+	      return (miDir.getCanonicalPath());
+	       }
+	     catch(Exception e) {
+	       e.printStackTrace();
+	       }
+		return null;
+	     }
 }

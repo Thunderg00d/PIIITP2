@@ -1,15 +1,20 @@
 package principal;
 
 import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
+import Intermediario.Intermediario;
 import txtData.LectorTxt;
 
 public class Window {
@@ -18,6 +23,7 @@ public class Window {
 	private static JMapViewer mapa;
 	private LectorTxt lector;
 	private HashMap<Double,Double> lista;
+	private Intermediario inter;
 
 	/**
 	 * Launch the application.
@@ -55,12 +61,15 @@ public class Window {
 		frame.setBounds(100, 100, 650, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mapa = new JMapViewer();
-		lector = new LectorTxt();
-		lista = new HashMap<Double,Double>();
-		lista = lector.leerTxt("instancia2");
-		for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {
-			mapa.addMapMarker(new MapMarkerDot(coordenadas.getKey(),coordenadas.getValue()));
+		inter = new Intermediario();
+		LinkedList<Point2D.Double> lista = new LinkedList<Point2D.Double>();
+		lista = inter.getCoordenadas();
+		for(Point2D.Double p : lista) {
+			mapa.addMapMarker(new MapMarkerDot(p.getX(),p.getY()));
 		}
+		/*for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {
+			mapa.addMapMarker(new MapMarkerDot(coordenadas.getKey(),coordenadas.getValue()));
+		}*/
 			
 	}
 }
