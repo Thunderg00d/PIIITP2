@@ -1,8 +1,10 @@
 package txtData;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,28 +19,15 @@ public class LectorTxt {
 		content = new ArrayList<String>();
 	}
 	
-	public ArrayList<String> read(String archivo) throws IOException{
-		
-		Scanner scanner;
-		File file = new File(getPath()+"\\"+"instancias"+"\\"+archivo+".txt");
+	public ArrayList<String> LeerArchivo(String archivo) throws IOException{
 		try {
-			scanner = new Scanner(file);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
-			scanner = new Scanner(file);
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				FileWriter flwriter = new FileWriter(getPath()+"\\"+"instancias"+"\\"+archivo+".txt", true);
-				BufferedWriter bfwriter = new BufferedWriter(flwriter);
-					bfwriter.write(line);
-					content.add(line);
-					bfwriter.close();
-				}
-			scanner.close();
-			
+			File fr = new File(getPath() + "\\instancias\\" + archivo + ".txt");
+			BufferedReader br = new BufferedReader(new FileReader(fr));
+			String st;
+			while ((st = br.readLine()) != null) {
+				content.add(st);
+			}
+			br.close();
 			}
 			
 			catch (FileNotFoundException e) {
@@ -60,4 +49,5 @@ public class LectorTxt {
 	       }
 		return null;
 	     }
+
 }
