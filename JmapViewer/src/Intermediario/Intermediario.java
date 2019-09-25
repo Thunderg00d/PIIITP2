@@ -1,6 +1,4 @@
 package Intermediario;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
