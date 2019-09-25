@@ -6,28 +6,37 @@ import java.util.Set;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
-import javafx.util.Pair;
 
 public class Grafo {
+	
 	// Representamos el grafo por su matriz de adyacencia
 	private Double[][] A;
 
-	// El conjunto de vértices está fijo
+	// El conjunto de vertices esta fijo
 	public Grafo(int vertices) {
 		A = new Double[vertices][vertices];
 	}
-
-	// Crea un grafo completo
-	public void GrafoCompleto(int vertices, ArrayList<Coordinate> lista) {
-		for (int i = 0; i < vertices; i++) {
-			for (int j = 0; j < vertices; j++) {
+	public Grafo(ArrayList<Coordinate>lista){
+		A = new Double[lista.size()][lista.size()];
+		for (int i = 0; i < lista.size(); i++) {
+			for (int j = 0; j < lista.size(); j++) {
 				if (i != j) {
-					Double deltax = lista.get(i).getLat() - lista.get(j).getLat();
-					Double deltay = lista.get(i).getLon() - lista.get(j).getLon();
-					A[i][j] = A[j][i] = Math.sqrt(deltax*deltax + deltay*deltay);
+					distanciaEuclideana(i,j,lista.get(i),lista.get(j));
 				}
 			}
 		}
+	}
+
+	public Double getArista(int i,int j){
+		verificarIndices(i,j);
+		return A[i][j];
+	}
+
+	private void distanciaEuclideana(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
+		verificarIndices(i,j);
+		Double deltax = Math.abs(coordenadas1.getLat() - coordenadas1.getLon());
+		Double deltay = Math.abs(coordenadas2.getLat() - coordenadas2.getLon());
+		A[i][j] = A[j][i] = Math.sqrt(deltax*deltax + deltay*deltay);
 	}
 
 	public Double distancia(int i, int j) {
@@ -36,10 +45,7 @@ public class Grafo {
 
 	// Operaciones sobre aristas
 	public void agregarArista(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
-		verificarIndices(i, j);
-		Double deltax = coordenadas1.getLat() - coordenadas2.getLat();
-		Double deltay = coordenadas1.getLon() - coordenadas2.getLon();
-		A[i][j] = A[j][i] = Math.sqrt(deltax*deltax + deltay*deltay);
+		distanciaEuclideana(i,j,coordenadas1,coordenadas2);
 	}
 
 	public void borrarArista(int i, int j) {
@@ -69,7 +75,7 @@ public class Grafo {
 		return A.length;
 	}
 
-	// Lanza excepciones si los índices no son válidos
+	// Lanza excepciones si los indices no son validos
 	private void verificarIndices(int i, int j) {
 		verificarVertice(i);
 		verificarVertice(j);
