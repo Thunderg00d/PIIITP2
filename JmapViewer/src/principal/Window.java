@@ -1,20 +1,20 @@
 package principal;
 
 import java.awt.EventQueue;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+
 import Intermediario.Intermediario;
 
 public class Window {
 
 	private JFrame frame;
 	private static JMapViewer mapa;
-	private Intermediario inter;
+	private Intermediario intermediario;
 
 	/**
 	 * Launch the application.
@@ -52,10 +52,12 @@ public class Window {
 		frame.setBounds(100, 100, 650, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mapa = new JMapViewer();
-		inter = new Intermediario();
-		for(Coordinate p : inter.getCoordenadas()) {
-			mapa.addMapMarker(new MapMarkerDot(p.getLat(),p.getLon()));
+		intermediario = new Intermediario();
+		intermediario.setCoordenadas();
+		for(Coordinate vertice : intermediario.getCoordenadas()) {
+			mapa.addMapMarker(new MapMarkerDot(vertice.getLat(),vertice.getLon()));
 		}
+		
 		/*DefaultMapController mapController = new DefaultMapController(mapa);
 		mapController.setMovementMouseButton(MouseEvent.CLICK);*/
 		/*for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {

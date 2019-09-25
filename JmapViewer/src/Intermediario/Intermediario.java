@@ -1,6 +1,4 @@
 package Intermediario;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -19,11 +17,11 @@ public class Intermediario implements Cloneable{
 		lector = new LectorTxt();
 	}
 	
-	private void  setCoordenadas() throws IOException{
+	public void  setCoordenadas() throws IOException{
 		String[] archivos = {"instancia1","instancia2","instancia3","instancia4","instancia5"};
 		ArrayList<String> coordesTemp = new ArrayList<String>();
 		for(String s : archivos) {
-			for(String j : lector.read(s)) {
+			for(String j : lector.LeerArchivo(s)) {
 				coordesTemp.add(j);	
 			}
 		}
@@ -50,10 +48,7 @@ public class Intermediario implements Cloneable{
 			}
 		}
 	}
-	public LinkedList<Coordinate> getCoordenadas() throws IOException{
-		setCoordenadas();
-		LinkedList<Coordinate> temp = new LinkedList<Coordinate>();
-		temp.addAll(coordenadas);
-		return temp;
+	public LinkedList<Coordinate> getCoordenadas(){
+		return coordenadas;
 	}
 }
