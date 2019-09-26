@@ -2,13 +2,17 @@ package grafo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
+import javafx.util.Pair;
 
 public class Grafo {
-	
+
 	// Representamos el grafo por su matriz de adyacencia
 	private Double[][] A;
 
@@ -16,27 +20,101 @@ public class Grafo {
 	public Grafo(int vertices) {
 		A = new Double[vertices][vertices];
 	}
-	public Grafo(ArrayList<Coordinate>lista){
+
+	public Grafo(ArrayList<Coordinate> lista) {
 		A = new Double[lista.size()][lista.size()];
 		for (int i = 0; i < lista.size(); i++) {
 			for (int j = 0; j < lista.size(); j++) {
 				if (i != j) {
-					distanciaEuclideana(i,j,lista.get(i),lista.get(j));
+					distanciaEuclideana(i, j, lista.get(i), lista.get(j));
 				}
 			}
 		}
 	}
-
-	public Double getArista(int i,int j){
-		verificarIndices(i,j);
+	public Grafo(Grafo g) {
+		A = new Double[g.tamano()][g.tamano()];
+		for (int i = 0; i < g.tamano() - 1; i++) {
+			for (int j = 1 + i; j < g.tamano(); j++) {
+				A[i][j] = A[j][i] = g.getArista(i, j);
+			}
+		}
+		for(int i = 0; i<g.tamano();i++) {
+			A[i][i] = 0.0;
+		}
+		
+	}
+	Boolean isCyclicUtil(int v, Boolean marcados[], int parent) 
+    { 
+        // Mark the current node as visited 
+        marcados[v] = true; 
+        Integer i; 
+  
+        // Recur for all the vertices adjacent to this vertex 
+        Iterator<Integer> it = vecinos(v).iterator(); 
+        while (it.hasNext()) 
+        { 
+            i = it.next(); 
+  
+            // If an adjacent is not visited, then recur for that 
+            // adjacent 
+            if (!marcados[i]) 
+            { 
+                if (isCyclicUtil(i, marcados, v)) 
+                    return true; 
+            } 
+  
+            // If an adjacent is visited and not parent of current 
+            // vertex, then there is a cycle. 
+            else if (i != parent) 
+                return true; 
+        } 
+        return false; 
+    } 
+  
+    // Returns true if the graph contains a cycle, else false. 
+    Boolean isCyclic() 
+    { 
+        // Mark all the vertices as not visited and not part of 
+        // recursion stack 
+        Boolean marcados[] = new Boolean[tamano()]; 
+        for (int i = 0; i <tamano(); i++) 
+            marcados[i] = false; 
+  
+        // Call the recursive helper function to detect cycle in 
+        // different DFS trees 
+        for (int u = 0; u < tamano(); u++) 
+            if (!marcados[u]) // Don't recur for u if already visited 
+                if (isCyclicUtil(u, marcados, -1)) 
+                    return true; 
+  
+        return false; 
+    } 
+	public Double getArista(int i, int j) {
+		verificarIndices(i, j);
 		return A[i][j];
 	}
 
+	public Double[][] getMatriz() {
+		return A;
+	}
+
+	public void setMatriz(Double[][] matriz) {
+		A = matriz;
+	}
+
+	public void inicializarMatriz() {
+		for (int i = 0; i < tamano(); i++) {
+			for (int j = 0; j < tamano(); j++) {
+				A[i][j] = A[j][i] = 0.0;
+			}
+		}
+	}
+
 	private void distanciaEuclideana(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
-		verificarIndices(i,j);
-		Double deltax = Math.abs(coordenadas1.getLat() - coordenadas1.getLon());
-		Double deltay = Math.abs(coordenadas2.getLat() - coordenadas2.getLon());
-		A[i][j] = A[j][i] = Math.sqrt(deltax*deltax + deltay*deltay);
+		verificarIndices(i, j);
+		Double deltax = coordenadas2.getLat() - coordenadas1.getLat();
+		Double deltay = coordenadas2.getLon() - coordenadas1.getLon();
+		A[i][j] = A[j][i] = Math.sqrt(deltax * deltax + deltay * deltay);
 	}
 
 	public Double distancia(int i, int j) {
@@ -45,7 +123,11 @@ public class Grafo {
 
 	// Operaciones sobre aristas
 	public void agregarArista(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
-		distanciaEuclideana(i,j,coordenadas1,coordenadas2);
+		distanciaEuclideana(i, j, coordenadas1, coordenadas2);
+	}
+
+	public void agregarArista(int i, int j, Double distanciaEuclidea) {
+		A[i][j] = A[j][i] = distanciaEuclidea;
 	}
 
 	public void borrarArista(int i, int j) {
@@ -63,10 +145,10 @@ public class Grafo {
 		verificarVertice(i);
 
 		Set<Integer> ret = new HashSet<Integer>();
-		for (int j = 0; j < tamano(); ++j)
+		for (int j = 0; j < tamano(); ++j) {
 			if (i != j && existeArista(i, j))
 				ret.add(j);
-
+		}
 		return ret;
 	}
 
@@ -87,5 +169,34 @@ public class Grafo {
 	private void verificarVertice(int i) {
 		if (i < 0 || i >= tamano())
 			throw new IllegalArgumentException("El vertice " + i + " no existe!");
+	}
+
+	public Map<Double, Pair<Integer, Integer>> getMap() {
+		Map<Double, Pair<Integer, Integer>> map = new LinkedHashMap<Double, Pair<Integer, Integer>>();
+		for (int i = 0; i < tamano() - 1; i++) {
+
+			for (int j = 1 + i; j < tamano(); j++) {
+				Pair<Integer, Integer> par = new Pair<Integer, Integer>(i, j);
+				map.put(A[i][j], par);
+				if (i == tamano() - 2 && j == tamano() - 1) {
+					return map;
+				}
+
+			}
+		}
+		return map;
+	}
+
+	public int cantAristas() {
+		int cont = 0;
+		for (int i = 0; i < tamano() - 1; i++) {
+			for (int j = 1 + i; j < tamano(); j++) {
+				if(A[i][j] != 0.0) {
+					cont++;
+				}
+			}
+		}
+		return cont;
+
 	}
 }

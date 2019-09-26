@@ -7,14 +7,19 @@ import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
+import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 
 import Intermediario.Intermediario;
+import grafo.AGM;
+import grafo.Grafo;
 
 public class Window {
 
 	private JFrame frame;
 	private static JMapViewer mapa;
 	private Intermediario intermediario;
+	private Grafo grafo;
+	private AGM agm;
 
 	/**
 	 * Launch the application.
@@ -57,7 +62,9 @@ public class Window {
 		for(Coordinate vertice : intermediario.getCoordenadas()) {
 			mapa.addMapMarker(new MapMarkerDot(vertice.getLat(),vertice.getLon()));
 		}
-		
+		grafo = new Grafo(intermediario.getCoordenadas());
+		agm = new AGM();
+		grafo = agm.calcularKruskal(grafo);
 		/*DefaultMapController mapController = new DefaultMapController(mapa);
 		mapController.setMovementMouseButton(MouseEvent.CLICK);*/
 		/*for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {

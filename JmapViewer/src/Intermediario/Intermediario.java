@@ -1,24 +1,23 @@
 package Intermediario;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import txtData.LectorTxt;
 
 public class Intermediario implements Cloneable{
-	private LinkedList<Coordinate> coordenadas;
+	private ArrayList<Coordinate> coordenadas;
 	private LectorTxt lector;
 	
 	
 	public Intermediario() {
-		coordenadas = new LinkedList<Coordinate>();
+		coordenadas = new ArrayList<Coordinate>();
 		lector = new LectorTxt();
 	}
 	
 	public void  setCoordenadas() throws IOException{
-		String[] archivos = {"instancia1","instancia2","instancia3","instancia4","instancia5"};
+		String[] archivos = {"instancia1"};
 		ArrayList<String> coordesTemp = new ArrayList<String>();
 		for(String s : archivos) {
 			for(String j : lector.LeerArchivo(s)) {
@@ -48,7 +47,7 @@ public class Intermediario implements Cloneable{
 			}
 		}
 	}
-	public LinkedList<Coordinate> getCoordenadas(){
+	public ArrayList<Coordinate> getCoordenadas(){
 		return coordenadas;
 	}
 }
