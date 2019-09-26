@@ -1,13 +1,25 @@
 package principal;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.Stroke;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
+import org.openstreetmap.gui.jmapviewer.Layer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.Style;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapPolygon;
 
 import Intermediario.Intermediario;
 import grafo.AGM;
@@ -18,6 +30,7 @@ public class Window {
 	private JFrame frame;
 	private static JMapViewer mapa;
 	private Intermediario intermediario;
+	private ArrayList<Coordinate> coordenadas;
 	private Grafo grafo;
 	private AGM agm;
 
@@ -59,12 +72,24 @@ public class Window {
 		mapa = new JMapViewer();
 		intermediario = new Intermediario();
 		intermediario.setCoordenadas();
-		for(Coordinate vertice : intermediario.getCoordenadas()) {
+		coordenadas = intermediario.getCoordenadas();
+		for(Coordinate vertice : coordenadas) {
 			mapa.addMapMarker(new MapMarkerDot(vertice.getLat(),vertice.getLon()));
 		}
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
 		grafo = agm.calcularKruskal(grafo);
+		for (int i = 0; i < grafo.tamano() - 1; i++) {
+			for (int j = 1 + i; j < grafo.tamano(); j++) {
+				if(grafo.getArista(i, j)!= 0.0) {
+					mapa.addMapPolygon(
+							new MapPolygonImpl( 
+							new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon()),
+									new Coordinate(coordenadas.get(j).getLat(),coordenadas.get(j).getLon()),
+											new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
+				}
+			}
+		}
 		/*DefaultMapController mapController = new DefaultMapController(mapa);
 		mapController.setMovementMouseButton(MouseEvent.CLICK);*/
 		/*for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {
