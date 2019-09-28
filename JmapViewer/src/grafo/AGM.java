@@ -3,12 +3,17 @@ package grafo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeSet;
+import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import javafx.util.Pair;
 
 public class AGM {
+	
 	private LinkedHashMap<Double, Pair<Integer, Integer>> aristas;
+	private Set<Coordinate> setC;
+	
 	private Double[] aristasOrdenadas;
 	private Grafo grafo;
 	private int[] vertices;
@@ -17,13 +22,17 @@ public class AGM {
 	
 	public void ordenadasAristas(Grafo gr) {
 		
+
+		
 		aristas = (LinkedHashMap<Double, Pair<Integer, Integer>>) gr.getMap();
 		Double[] prueba = new Double[aristas.size()];
 		aristas.keySet().toArray(prueba);
+		
 		quickSort qs = new quickSort();
 		qs.sort(prueba, 0, prueba.length-1);
 		aristasOrdenadas = prueba;
-		grafo = new Grafo(gr.tamano());
+		grafo = new Grafo(gr.tamano(), null);
+		
 	}
 	private boolean formaCiclo(Double arista ) {
 		
@@ -36,10 +45,13 @@ public class AGM {
 		}
 		return false;
 	}
-	public Grafo calcularKruskal(Grafo gr) {
+	public Grafo calcularKruskal(Grafo gr, ArrayList<Coordinate> cord) {
+		
 		ordenadasAristas(gr);
+		
+		
 		grafo.inicializarMatriz();
-		agm = new Grafo(grafo.tamano());
+		agm = new Grafo(grafo.tamano(),cord );
 		agm.inicializarMatriz();
 		for(int i = 0; i<aristasOrdenadas.length; i++) {
 			if(!formaCiclo(aristasOrdenadas[i])){

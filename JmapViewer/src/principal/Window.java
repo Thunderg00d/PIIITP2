@@ -78,15 +78,15 @@ public class Window {
 		}
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
-		grafo = agm.calcularKruskal(grafo);
+		grafo = agm.calcularKruskal(grafo,coordenadas);
 		for (int i = 0; i < grafo.tamano() - 1; i++) {
 			for (int j = 1 + i; j < grafo.tamano(); j++) {
 				if(grafo.getArista(i, j)!= 0.0) {
 					mapa.addMapPolygon(
 							new MapPolygonImpl( 
-							new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon()),
+									new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon()),
 									new Coordinate(coordenadas.get(j).getLat(),coordenadas.get(j).getLon()),
-											new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
+									new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
 				}
 			}
 		}
@@ -95,6 +95,6 @@ public class Window {
 		/*for(Map.Entry<Double, Double> coordenadas : lista.entrySet()) {
 			mapa.addMapMarker(new MapMarkerDot(coordenadas.getKey(),coordenadas.getValue()));
 		}*/
-			
+
 	}
 }

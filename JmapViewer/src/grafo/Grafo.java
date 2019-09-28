@@ -15,10 +15,12 @@ public class Grafo {
 
 	// Representamos el grafo por su matriz de adyacencia
 	private Double[][] A;
+	private ArrayList<Coordinate> coordes;
 
 	// El conjunto de vertices esta fijo
-	public Grafo(int vertices) {
+	public Grafo(int vertices, ArrayList<Coordinate> coord) {
 		A = new Double[vertices][vertices];
+		coordes = coord; 
 	}
 
 	public Grafo(ArrayList<Coordinate> lista) {
@@ -27,6 +29,7 @@ public class Grafo {
 			for (int j = 0; j < lista.size(); j++) {
 				if (i != j) {
 					distanciaEuclideana(i, j, lista.get(i), lista.get(j));
+					
 				}
 			}
 		}
@@ -111,10 +114,23 @@ public class Grafo {
 	}
 
 	private void distanciaEuclideana(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
-		verificarIndices(i, j);
+		/*verificarIndices(i, j);
 		Double deltax = coordenadas2.getLat() - coordenadas1.getLat();
 		Double deltay = coordenadas2.getLon() - coordenadas1.getLon();
 		A[i][j] = A[j][i] = Math.sqrt(deltax * deltax + deltay * deltay);
+		*/
+		
+        double radioTierra = 6371;//en kilómetros  
+        double dLat = Math.toRadians(coordenadas2.getLat() - coordenadas1.getLat());  
+        double dLng = Math.toRadians(coordenadas2.getLon() - coordenadas1.getLon());  
+        double sindLat = Math.sin(dLat / 2);  
+        double sindLng = Math.sin(dLng / 2);  
+        double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)  
+                * Math.cos(Math.toRadians(coordenadas1.getLat())) * Math.cos(Math.toRadians( coordenadas2.getLat()));  
+        double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));  
+        A[i][j] = A[j][i]  = radioTierra * va2;  
+   
+        
 	}
 
 	public Double distancia(int i, int j) {
@@ -178,12 +194,16 @@ public class Grafo {
 			for (int j = 1 + i; j < tamano(); j++) {
 				Pair<Integer, Integer> par = new Pair<Integer, Integer>(i, j);
 				map.put(A[i][j], par);
-				if (i == tamano() - 2 && j == tamano() - 1) {
+				if (i == tamano() - 1 && j == tamano() - 1) {
+					System.out.println(map.toString());
+					
+					
 					return map;
 				}
 
 			}
 		}
+		
 		return map;
 	}
 
@@ -198,5 +218,10 @@ public class Grafo {
 		}
 		return cont;
 
+	}
+	public ArrayList<Coordinate> getCoords(){
+		ArrayList<Coordinate> cordis = new ArrayList<Coordinate>();
+		cordis.addAll(coordes);
+		return cordis;
 	}
 }
