@@ -19,15 +19,16 @@ public class Grafo {
 	// El conjunto de vertices esta fijo
 	public Grafo(int vertices) {
 		A = new Double[vertices][vertices];
+		inicializarMatriz();
 	}
 
 	public Grafo(ArrayList<Coordinate> lista) {
 		A = new Double[lista.size()][lista.size()];
-		for (int i = 0; i < lista.size(); i++) {
-			for (int j = 0; j < lista.size(); j++) {
-				if (i != j) {
+		for (int i = 0; i < tamano(); i++) {
+			for (int j = 0; j < tamano()&& i!=j; j++) {
+				
 					distanciaEuclideana(i, j, lista.get(i), lista.get(j));
-				}
+				
 			}
 		}
 	}
@@ -102,7 +103,7 @@ public class Grafo {
 		A = matriz;
 	}
 
-	public void inicializarMatriz() {
+	private void inicializarMatriz() {
 		for (int i = 0; i < tamano(); i++) {
 			for (int j = 0; j < tamano(); j++) {
 				A[i][j] = A[j][i] = 0.0;
@@ -156,7 +157,14 @@ public class Grafo {
 	public int tamano() {
 		return A.length;
 	}
-
+	public void imprimir() {
+		for(int i=0;i<tamano();i++){
+			for(int j=0;j<tamano() && j!=i;j++){
+				if(A[i][j]!=0.0)
+					System.out.println("g["+i+"]["+j+"]= "+A[i][j]);
+			}
+		}
+	}
 	// Lanza excepciones si los indices no son validos
 	private void verificarIndices(int i, int j) {
 		verificarVertice(i);
@@ -173,23 +181,21 @@ public class Grafo {
 
 	public Map<Double, Pair<Integer, Integer>> getMap() {
 		Map<Double, Pair<Integer, Integer>> map = new LinkedHashMap<Double, Pair<Integer, Integer>>();
-		for (int i = 0; i < tamano() - 1; i++) {
-
-			for (int j = 1 + i; j < tamano(); j++) {
-				Pair<Integer, Integer> par = new Pair<Integer, Integer>(i, j);
-				map.put(A[i][j], par);
-				if (i == tamano() - 2 && j == tamano() - 1) {
-					return map;
+		for(int i=0;i<tamano();i++) {
+			for(int j=0;j<tamano() && j!=i;j++){
+				if(A[i][j]!=0.0){
+				Pair<Integer,Integer>par=new Pair<Integer,Integer>(i,j);
+				map.put(A[i][j],par);
 				}
-
 			}
 		}
 		return map;
 	}
+	
 
-	public int cantAristas() {
+	/*public int cantAristas() {
 		int cont = 0;
-		for (int i = 0; i < tamano() - 1; i++) {
+		for (int i = 0; i < tamano() - 1; i++) {////tamano-1??
 			for (int j = 1 + i; j < tamano(); j++) {
 				if(A[i][j] != 0.0) {
 					cont++;
@@ -198,5 +204,20 @@ public class Grafo {
 		}
 		return cont;
 
+	}*/
+	@Override
+	public boolean equals(Object f) {
+		if(f.getClass()!=getClass())
+			return false;
+		Grafo otro=(Grafo) f;
+		boolean ret=tamano()==otro.tamano();
+		for(int i=0;i<tamano() && ret ;i++){
+			for(int j=0;j<tamano() && j!=i;j++) {
+				ret=ret && distancia(i,j).equals(otro.distancia(i, j));
+			}
+		}
+		return ret;
 	}
+	
+	
 }

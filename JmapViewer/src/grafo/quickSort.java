@@ -15,7 +15,9 @@ class quickSort
         for (int j=low; j<high; j++) 
         { 
             // If current element is smaller than the pivot 
-            if (arr[j] < pivot) 
+        	if(arr[j].equals(pivot))
+        		System.out.println("iguales");
+        	if (arr[j] < pivot) 
             { 
                 i++; 
   
@@ -55,7 +57,7 @@ class quickSort
     } 
   
     /* A utility function to print array of size n */
-    static void printArray(int arr[]) 
+    static void printArray(Double arr[]) 
     { 
         int n = arr.length; 
         for (int i=0; i<n; ++i) 
