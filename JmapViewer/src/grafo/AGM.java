@@ -1,11 +1,25 @@
 package grafo;
+
+import javafx.util.Pair;
 import ordenar.Ordenar;
 
 public class AGM {
 	private int [] padres;
 	private Grafo grafo;
 	private Ordenar ord;
-	public void ordenadasAristas(Grafo gr) {
+
+	public Grafo calcularKruskal(Grafo gr) {
+		inicializarValores(gr);
+		for(int i=0;i<ord.tamano();i++) {
+			Pair<Integer,Integer>actual=ord.indices(i);
+			if(!find(actual.getKey(),actual.getValue())) {
+				union(actual.getKey(),actual.getValue());
+				grafo.agregarArista(actual.getKey(),actual.getValue(), ord.getDistancia(i));
+			}
+		}	
+		return grafo;
+	}
+	private void inicializarValores(Grafo gr) {
 		grafo=new Grafo(gr.tamano());
 		ord=new Ordenar(gr.getDistancias(),gr.getIndices());
 		inicializarPadres(gr.tamano());
@@ -24,11 +38,11 @@ public class AGM {
 	 return i;
 	 }
 
-	 boolean find(int i, int j){
+	 private boolean find(int i, int j){
 		 return raiz(i) == raiz(j);
 	  }
 	 
-	 void union(int i, int j){
+	private void union(int i, int j){
 	  int ri = raiz(i);
 	  int rj = raiz(j);
 	 
@@ -36,24 +50,6 @@ public class AGM {
 	  }
 	
 
-	public Grafo calcularKruskal(Grafo gr) {
-		ordenadasAristas(gr);
-		for(int i=0;i<ord.tamano();i++) {
-			if(!find(ord.getIndice(i).getKey(),ord.getIndice(i).getValue())) {
-				union(ord.getIndice(i).getKey(),ord.getIndice(i).getValue());
-				grafo.agregarArista(ord.getIndice(i).getKey(), ord.getIndice(i).getValue(), ord.getDistancia(i));
-			}
-		}
-	/*	for(int i = 0; i<aristasOrdenadas.length; i++) {
-			if(!find(aristas.get(aristasOrdenadas[i]).getKey(),aristas.get(aristasOrdenadas[i]).getValue())){
-				union(aristas.get(aristasOrdenadas[i]).getKey(),aristas.get(aristasOrdenadas[i]).getValue());
-				grafo.agregarArista(aristas.get(aristasOrdenadas[i]).getKey(), aristas.get(aristasOrdenadas[i]).getValue(), aristasOrdenadas[i]);
-			}
-			
-			
-		}*/
-		
-		return grafo;
-	}
+	
 
 }
