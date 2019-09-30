@@ -46,18 +46,18 @@ public class GrafoTest {
 	@Test
 	public void AGMTest() {
 		Grafo grafo=new Grafo(6);
-		grafo.agregarArista(0, 1, 6.1); //1
+		grafo.agregarArista(0, 1, 6.0); //1
 		grafo.agregarArista(0, 2, 1.0);
-		grafo.agregarArista(0, 3, 5.2); //2
+		grafo.agregarArista(0, 3, 5.0); //2
 		
 		grafo.agregarArista(1, 2, 5.0);
 		grafo.agregarArista(1, 4, 3.0);
 		
-		grafo.agregarArista(2, 3, 5.3); //3
+		grafo.agregarArista(2, 3, 5.0); //3
 		grafo.agregarArista(2, 5, 4.0);
 		grafo.agregarArista(2, 4, 6.0);
 		
-		grafo.agregarArista(5, 4, 6.2); //2
+		grafo.agregarArista(5, 4, 6.0); //2
 		grafo.agregarArista(5,3, 2.0);
 		
 		Grafo esperado=new Grafo(6);
@@ -72,14 +72,12 @@ public class GrafoTest {
 		esperado.agregarArista(5, 3, 2.0);
 		AGM a=new AGM();
 		Grafo ret=a.calcularKruskal(grafo);
-		System.out.println("____________________________________");
-		ret.imprimir();
-		System.out.println("____________________________________");
-		esperado.imprimir();
-		//grafo.imprimir();
-		//System.out.println(esperado.equals(ret));
+		
 		assertEquals(true,esperado.equals(ret));
 	}
+	
+	
+	
 	
 
 }

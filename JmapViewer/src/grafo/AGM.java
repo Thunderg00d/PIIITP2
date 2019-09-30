@@ -1,30 +1,14 @@
 package grafo;
-
-import java.util.LinkedHashMap;
-
-import javafx.util.Pair;
+import ordenar.Ordenar;
 
 public class AGM {
-	private LinkedHashMap<Double, Pair<Integer, Integer>> aristas;
-	private Double[] aristasOrdenadas;
 	private int [] padres;
 	private Grafo grafo;
-	
+	private Ordenar ord;
 	public void ordenadasAristas(Grafo gr) {
 		grafo=new Grafo(gr.tamano());
-		
-		aristas = (LinkedHashMap<Double, Pair<Integer, Integer>>) gr.getMap();
-	
-		Double[] prueba = new Double[aristas.size()];
-		
-		aristas.keySet().toArray(prueba);
-		
-		quickSort qs = new quickSort();
-		
-		qs.sort(prueba, 0, prueba.length-1);
-		
-		aristasOrdenadas = prueba;
-		
+		ord=new Ordenar(gr.getDistancias(),gr.getIndices());
+		System.out.println("primero: "+ord.getDistancia(0));
 		inicializarPadres(gr.tamano());
 	}
 	private void inicializarPadres(int tamano) {
@@ -32,19 +16,8 @@ public class AGM {
 		for(int i=0;i<tamano;i++) {
 			padres[i]=i;
 		}
-		
 	}
-	private boolean formaCiclo(Double arista ) {
-		
-		//agm.agregarArista(aristas.get(arista).getKey(), aristas.get(arista).getValue(), arista);
-		//Grafo grafoTemporal  = new Grafo(agm);
-	//	if(grafoTemporal.isCyclic()) {
-		//	agm.borrarArista(aristas.get(arista).getKey(), aristas.get(arista).getValue());
 
-			return true;
-		//}
-		//return false;
-	}
 	
 	private int raiz(int i){
 	 while(padres[i] != i)
@@ -62,23 +35,24 @@ public class AGM {
 	 
 	  padres[ri] = rj;
 	  }
-	 
-	 void deshacerUnion(int i,int anterior) {
-		 padres[i]=anterior;
-	 }
+	
 
 	public Grafo calcularKruskal(Grafo gr) {
-		
 		ordenadasAristas(gr);
-	
-		for(int i = 0; i<aristasOrdenadas.length; i++) {
+		for(int i=0;i<ord.tamano();i++) {
+			if(!find(ord.getIndice(i).getKey(),ord.getIndice(i).getValue())) {
+				union(ord.getIndice(i).getKey(),ord.getIndice(i).getValue());
+				grafo.agregarArista(ord.getIndice(i).getKey(), ord.getIndice(i).getValue(), ord.getDistancia(i));
+			}
+		}
+	/*	for(int i = 0; i<aristasOrdenadas.length; i++) {
 			if(!find(aristas.get(aristasOrdenadas[i]).getKey(),aristas.get(aristasOrdenadas[i]).getValue())){
 				union(aristas.get(aristasOrdenadas[i]).getKey(),aristas.get(aristasOrdenadas[i]).getValue());
 				grafo.agregarArista(aristas.get(aristasOrdenadas[i]).getKey(), aristas.get(aristasOrdenadas[i]).getValue(), aristasOrdenadas[i]);
 			}
 			
 			
-		}
+		}*/
 		
 		return grafo;
 	}

@@ -2,9 +2,6 @@ package grafo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -44,52 +41,7 @@ public class Grafo {
 		}
 		
 	}
-	Boolean isCyclicUtil(int v, Boolean marcados[], int parent) 
-    { 
-        // Mark the current node as visited 
-        marcados[v] = true; 
-        Integer i; 
-  
-        // Recur for all the vertices adjacent to this vertex 
-        Iterator<Integer> it = vecinos(v).iterator(); 
-        while (it.hasNext()) 
-        { 
-            i = it.next(); 
-  
-            // If an adjacent is not visited, then recur for that 
-            // adjacent 
-            if (!marcados[i]) 
-            { 
-                if (isCyclicUtil(i, marcados, v)) 
-                    return true; 
-            } 
-  
-            // If an adjacent is visited and not parent of current 
-            // vertex, then there is a cycle. 
-            else if (i != parent) 
-                return true; 
-        } 
-        return false; 
-    } 
-  
-    // Returns true if the graph contains a cycle, else false. 
-    Boolean isCyclic() 
-    { 
-        // Mark all the vertices as not visited and not part of 
-        // recursion stack 
-        Boolean marcados[] = new Boolean[tamano()]; 
-        for (int i = 0; i <tamano(); i++) 
-            marcados[i] = false; 
-  
-        // Call the recursive helper function to detect cycle in 
-        // different DFS trees 
-        for (int u = 0; u < tamano(); u++) 
-            if (!marcados[u]) // Don't recur for u if already visited 
-                if (isCyclicUtil(u, marcados, -1)) 
-                    return true; 
-  
-        return false; 
-    } 
+
 	public Double getArista(int i, int j) {
 		verificarIndices(i, j);
 		return A[i][j];
@@ -179,32 +131,50 @@ public class Grafo {
 			throw new IllegalArgumentException("El vertice " + i + " no existe!");
 	}
 
-	public Map<Double, Pair<Integer, Integer>> getMap() {
-		Map<Double, Pair<Integer, Integer>> map = new LinkedHashMap<Double, Pair<Integer, Integer>>();
+
+	private int cantAristas() {
+		int ret=0;
 		for(int i=0;i<tamano();i++) {
-			for(int j=0;j<tamano() && j!=i;j++){
-				if(A[i][j]!=0.0){
-				Pair<Integer,Integer>par=new Pair<Integer,Integer>(i,j);
-				map.put(A[i][j],par);
-				}
+			for(int j=0;j<tamano() && j!=i;j++) {
+				if(getArista(i,j)!=0.0)
+					ret++;
 			}
 		}
-		return map;
+		return ret;
 	}
 	
-
-	/*public int cantAristas() {
-		int cont = 0;
-		for (int i = 0; i < tamano() - 1; i++) {////tamano-1??
-			for (int j = 1 + i; j < tamano(); j++) {
-				if(A[i][j] != 0.0) {
+	public Double[][] grafo() {
+		return A.clone();
+	}
+	public Double[] getDistancias() {
+		Double[] valores=new Double[cantAristas()];
+		int cont=0;
+		for(int i=0;i<tamano();i++) {
+			for(int j=0;j<tamano() && j!=i;j++){
+				if(getArista(i,j)!=0.0) {
+					valores[cont]=getArista(i,j);
 					cont++;
 				}
 			}
+			
 		}
-		return cont;
+		return valores;
+	}
+	public ArrayList<Pair<Integer,Integer>> getIndices() {
+		ArrayList<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
 
-	}*/
+		for(int i=0;i<tamano();i++) {
+			for(int j=0;j<tamano() && j!=i;j++){
+				if(getArista(i,j)!=0.0) {
+					valores.add(new Pair<Integer,Integer>(i,j));
+					
+				}
+			}
+			
+		}
+		return valores;
+	}
+	
 	@Override
 	public boolean equals(Object f) {
 		if(f.getClass()!=getClass())
