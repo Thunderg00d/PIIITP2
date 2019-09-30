@@ -8,7 +8,6 @@ public class AGM {
 	public void ordenadasAristas(Grafo gr) {
 		grafo=new Grafo(gr.tamano());
 		ord=new Ordenar(gr.getDistancias(),gr.getIndices());
-		System.out.println("primero: "+ord.getDistancia(0));
 		inicializarPadres(gr.tamano());
 	}
 	private void inicializarPadres(int tamano) {
