@@ -12,6 +12,7 @@ import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 import Intermediario.Intermediario;
 import grafo.AGM;
 import grafo.Grafo;
+import javafx.util.Pair;
 
 public class Window {
 
@@ -67,14 +68,19 @@ public class Window {
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
 		grafo = agm.calcularKruskal(grafo);
-
-		for (int i = 0; i < grafo.tamano() ; i++) { // Antes: Tamano()-1???
+		
+		ArrayList<Pair<Integer,Integer>>indices=grafo.getIndices();
+		
+		for(int i=0;i<indices.size();i++) {
+			dibujarLinea(indices.get(i).getKey(),indices.get(i).getValue());
+		}
+		/*for (int i = 0; i < grafo.tamano() ; i++) { // Antes: Tamano()-1???
 			for (int j = 0; j < grafo.tamano() && j!=i; j++) {
 				if(grafo.getArista(i, j)!= 0.0) {
 					dibujarLinea(i, j);
 				}
 			}
-		}
+		}*/
 			
 	}
 
