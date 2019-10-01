@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
@@ -13,15 +15,21 @@ import Intermediario.Intermediario;
 import grafo.AGM;
 import grafo.Grafo;
 import javafx.util.Pair;
+import javax.swing.JTextPane;
+import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Window {
 
 	private JFrame frame;
+	private JPanel panel;
 	private static JMapViewer mapa;
 	private Intermediario intermediario;
 	private ArrayList<Coordinate> coordenadas;
 	private Grafo grafo;
 	private AGM agm;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -32,9 +40,6 @@ public class Window {
 				try {
 					Window window = new Window();
 					window.frame.setVisible(true);
-					window.frame.add(mapa);
-					Coordinate bsAs = new Coordinate (-34.5237,-58.7038);
- 					mapa.setDisplayPosition(bsAs, 10);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,33 +60,64 @@ public class Window {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 650, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mapa = new JMapViewer();
-		intermediario = new Intermediario();
-		intermediario.setCoordenadas();
-		coordenadas = intermediario.getCoordenadas();
-		for(Coordinate vertice : coordenadas) {
-			mapa.addMapMarker(new MapMarkerDot(vertice.getLat(),vertice.getLon()));
-		}
+		valoresVentana();
+		inicializarPanel();
+		crearMapa();
+		agregarTexto();	
+	}
+
+	private void agregarTexto() {
+		JTextPane opcion = new JTextPane();
+		opcion.setFont(new Font("Sitka Text", Font.BOLD, 12));
+		opcion.setBackground(Color.LIGHT_GRAY);
+		opcion.setEditable(false);
+		opcion.setText("Cantidad de clusters: ");
+		opcion.setBounds(452, 11, 137, 20);
+		panel.add(opcion);
+		textField = new JTextField();
+		textField.setBounds(503, 31, 86, 20);
+		panel.add(textField);
+		textField.setColumns(10);
+	}
+	
+	private void crearMapa() throws IOException {
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
 		grafo = agm.calcularKruskal(grafo);
 		
+		mapa = new JMapViewer();
+		
+		Coordinate bsAs = new Coordinate (-34.5237,-58.7038);
+		mapa.setDisplayPosition(bsAs, 10);
+		intermediario = new Intermediario();
+		intermediario.setCoordenadas();
+		
+		mapa.setBounds(0, 0, 450, 500);
+		coordenadas = intermediario.getCoordenadas();
+		for(Coordinate vertice : coordenadas) {
+			mapa.addMapMarker(new MapMarkerDot(vertice.getLat(),vertice.getLon()));
+		}
+		panel.add(mapa);
+		frame.getContentPane().add(panel);
 		ArrayList<Pair<Integer,Integer>>indices=grafo.getIndices();
 		
 		for(int i=0;i<indices.size();i++) {
 			dibujarLinea(indices.get(i).getKey(),indices.get(i).getValue());
 		}
-		/*for (int i = 0; i < grafo.tamano() ; i++) { // Antes: Tamano()-1???
-			for (int j = 0; j < grafo.tamano() && j!=i; j++) {
-				if(grafo.getArista(i, j)!= 0.0) {
-					dibujarLinea(i, j);
-				}
-			}
-		}*/
-			
+	}
+	
+	private void inicializarPanel() {
+		panel=new JPanel();
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setBorder(null);
+		panel.setBounds(0,0,500,500);
+		panel.setLayout(null);
+	}
+	
+	private void valoresVentana() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 650, 500);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	private void dibujarLinea(int i, int j) {
