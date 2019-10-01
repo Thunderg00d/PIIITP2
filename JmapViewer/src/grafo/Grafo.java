@@ -2,6 +2,7 @@ package grafo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -18,8 +19,8 @@ public class Grafo {
 		A = new Double[vertices][vertices];
 		inicializarMatriz();
 	}
-
-	public Grafo(ArrayList<Coordinate> lista) {
+	
+	public Grafo(List<Coordinate> lista) {
 		A = new Double[lista.size()][lista.size()];
 		for (int i = 0; i < tamano(); i++) {
 			for (int j = 0; j < tamano()&& i!=j; j++) {
@@ -160,17 +161,13 @@ public class Grafo {
 		}
 		return valores;
 	}
-	public ArrayList<Pair<Integer,Integer>> getIndices() {
+	public List<Pair<Integer,Integer>> getIndices() {
 		ArrayList<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
-
 		for(int i=0;i<tamano();i++) {
 			for(int j=0;j<tamano() && j!=i;j++){
-				if(getArista(i,j)!=0.0) {
-					valores.add(new Pair<Integer,Integer>(i,j));
-					
-				}
+				if(getArista(i,j)!=0.0) 
+					valores.add(new Pair<Integer,Integer>(i,j));		
 			}
-			
 		}
 		return valores;
 	}

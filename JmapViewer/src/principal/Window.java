@@ -3,6 +3,8 @@ package principal;
 import java.awt.EventQueue;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -81,6 +83,7 @@ public class Window {
 	}
 	
 	private void crearMapa() throws IOException {
+		intermediario=new Intermediario();
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
 		grafo = agm.calcularKruskal(grafo);
@@ -99,7 +102,7 @@ public class Window {
 		}
 		panel.add(mapa);
 		frame.getContentPane().add(panel);
-		ArrayList<Pair<Integer,Integer>>indices=grafo.getIndices();
+		List<Pair<Integer,Integer>>indices=grafo.getIndices();
 		
 		for(int i=0;i<indices.size();i++) {
 			dibujarLinea(indices.get(i).getKey(),indices.get(i).getValue());

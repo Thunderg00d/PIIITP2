@@ -1,19 +1,19 @@
 package ordenar;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javafx.util.Pair;
 
 public class Ordenar {
 	Double []d;
-	ArrayList<Pair<Integer,Integer>>ind;
+	List<Pair<Integer,Integer>>ind;
 	
 	
-	public Ordenar(Double[]distancias,ArrayList<Pair<Integer,Integer>>indices) {
-		if(distancias.length!=indices.size())
+	public Ordenar(Double[]distancias,List<Pair<Integer, Integer>> list) {
+		if(distancias.length!=list.size())
 			throw new IllegalArgumentException("Los parametros deben tener el mismo largo");
 		d=distancias;
-		ind=indices;
+		ind=list;
 		quicksort(0,tamano()-1);
 	}
 	public int tamano() {
