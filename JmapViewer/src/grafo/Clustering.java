@@ -60,7 +60,6 @@ public class Clustering {
 			if(vec[i]>dis_mayor) {
 				dis_mayor=vec[i];
 				ind_mayor=ind.get(i);
-				System.out.println("entro");
 			}
 		}
 		
