@@ -64,9 +64,15 @@ public class Grafo {
 
 	private void distanciaEuclideana(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
 		verificarIndices(i, j);
-		Double deltax = coordenadas2.getLat() - coordenadas1.getLat();
-		Double deltay = coordenadas2.getLon() - coordenadas1.getLon();
-		A[i][j] = A[j][i] = Math.sqrt(deltax * deltax + deltay * deltay);
+		double radioTierra = 6371;
+        double dLat = Math.toRadians(coordenadas2.getLat() - coordenadas1.getLat());  
+        double dLng = Math.toRadians(coordenadas2.getLon() - coordenadas1.getLon());  
+        double sindLat = Math.sin(dLat / 2);  
+        double sindLng = Math.sin(dLng / 2);  
+        double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)  
+                * Math.cos(Math.toRadians(coordenadas1.getLat())) * Math.cos(Math.toRadians( coordenadas2.getLat()));  
+        double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));  
+        A[i][j] = A[j][i]  = radioTierra * va2;
 	}
 
 	public Double distancia(int i, int j) {
