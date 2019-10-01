@@ -9,32 +9,33 @@ public class Ordenar {
 	List<Pair<Integer,Integer>>ind;
 	
 	
-	public Ordenar(Double[]distancias,List<Pair<Integer, Integer>> list) {
+	public Ordenar(Double[]distancias,List<Pair<Integer, Integer>> list,String op) {
 		if(distancias.length!=list.size())
 			throw new IllegalArgumentException("Los parametros deben tener el mismo largo");
 		d=distancias;
 		ind=list;
-		quicksort(0,tamano()-1);
+		quicksort(0,tamano()-1,op);
 	}
 	public int tamano() {
 		return d.length;
 	}
 	
-	private void quicksort(int inicio, int fin) {
+	private void quicksort(int inicio, int fin, String s) {
 	    if (inicio < fin) {
-	        int partitionIndex = partition(inicio, fin);
+	        int partitionIndex = partition(inicio, fin,s);
 	 
-	        quicksort(inicio, partitionIndex-1);
-	        quicksort(partitionIndex+1, fin);
+	        quicksort(inicio, partitionIndex-1,s);
+	        quicksort(partitionIndex+1, fin,s);
 	    }
 	}
 	
-	private int partition( int inicio, int fin) {
+	private int partition( int inicio, int fin,String s) {
 	    Double pivot = d[fin];
 	    int i = (inicio-1);
 	 
 	    for (int j = inicio; j < fin; j++) {
-	        if (d[j] <= pivot) {
+	      if(s.equals("ascendente")) {
+	    	if (d[j] <= pivot) {
 	            i++;
 	 
 	            Double swapTemp = d[i];
@@ -44,6 +45,19 @@ public class Ordenar {
 	            d[i] = d[j];
 	            d[j] = swapTemp;
 	        }
+	      }
+	      if(s.contentEquals("descendente")) {
+	    	  if (d[j] >= pivot) {
+		            i++;
+		 
+		            Double swapTemp = d[i];
+		            Pair<Integer,Integer> swapITemp = ind.get(i);
+		            ind.set(i, ind.get(j));
+		            ind.set(j, swapITemp);
+		            d[i] = d[j];
+		            d[j] = swapTemp;
+		        }
+	      }
 	    }
 	    Pair<Integer,Integer> swapITemp=ind.get(i+1);
 	    Double swapTemp = d[i+1];
@@ -72,4 +86,5 @@ public class Ordenar {
 	public Double[] ordenados() {
 		return d;
 	}
+	
 }

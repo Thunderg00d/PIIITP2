@@ -24,9 +24,7 @@ public class Grafo {
 		A = new Double[lista.size()][lista.size()];
 		for (int i = 0; i < tamano(); i++) {
 			for (int j = 0; j < tamano()&& i!=j; j++) {
-				
 					distanciaEuclideana(i, j, lista.get(i), lista.get(j));
-				
 			}
 		}
 	}
@@ -95,15 +93,25 @@ public class Grafo {
 	}
 
 	// Vecinos de un vertice
-	public Set<Integer> vecinos(int i) {
+	public Set<Double> vecinos(int i) {
 		verificarVertice(i);
-		Set<Integer> ret = new HashSet<Integer>();
+		Set<Double> ret = new HashSet<Double>();
 		for (int j = 0; j < tamano(); j++) {
 			if (i != j && existeArista(i, j))
-				ret.add(j);
+				ret.add(getArista(i,j));
 		}
 		return ret;
 	}
+	// Vecinos de un vertice
+		public Set<Pair<Integer,Integer>> indice_vecinos(int i) {
+			verificarVertice(i);
+			Set<Pair<Integer,Integer>> ret = new HashSet<Pair<Integer,Integer>>();
+			for (int j = 0; j < tamano(); j++) {
+				if (i != j && existeArista(i, j))
+					ret.add(new Pair<Integer,Integer>(i,j));
+			}
+			return ret;
+		}
 
 	// Cantidad de vertices
 	public int tamano() {
@@ -170,7 +178,10 @@ public class Grafo {
 		}
 		return valores;
 	}
-	
+	public void setGrafo(Double[][] otro) {
+		
+		A=otro;
+		}
 	@Override
 	public boolean equals(Object f) {
 		if(f.getClass()!=getClass())

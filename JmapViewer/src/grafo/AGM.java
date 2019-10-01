@@ -21,7 +21,7 @@ public class AGM {
 	}
 	private void inicializarValores(Grafo gr) {
 		grafo=new Grafo(gr.tamano());
-		ord=new Ordenar(gr.getDistancias(),gr.getIndices());
+		ord=new Ordenar(gr.getDistancias(),gr.getIndices(),"ascendente");
 		inicializarPadres(gr.tamano());
 	}
 	private void inicializarPadres(int tamano) {

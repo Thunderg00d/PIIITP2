@@ -1,4 +1,4 @@
-package grafo;
+/*package grafo;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -136,7 +136,7 @@ public class BFS
 		
 		throw new IllegalArgumentException("El set esta vacio!");
 	}
-}
+}*/
 
 
 
