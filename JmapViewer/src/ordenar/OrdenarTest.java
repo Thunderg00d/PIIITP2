@@ -24,7 +24,7 @@ public class OrdenarTest {
 		indices.add(new Pair<Integer,Integer>(1,2));
 		indices.add(new Pair<Integer,Integer>(2,3));
 		indices.add(new Pair<Integer,Integer>(3,0));
-		Ordenar ord=new Ordenar(dis,indices,"ascendente");
+		Ordenar ord=new Ordenar(dis,indices);
 		
 		Double[]esperado=new Double[4];
 		esperado[0]=1.0;

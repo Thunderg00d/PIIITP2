@@ -8,6 +8,7 @@ import javafx.util.Pair;
 import ordenar.Ordenar;
 
 public class Clustering {
+
 	private List<Pair<Integer,Integer>>mayores;
 	private List<Double>mayoresDistancias;
 	private List<Pair<Integer,Integer>>eliminar;
@@ -16,6 +17,7 @@ public class Clustering {
 		mayores=new ArrayList<Pair<Integer,Integer>>();
 		mayoresDistancias=new ArrayList<Double>();
 		eliminar=new ArrayList<Pair<Integer,Integer>>();
+		
 		for(int i=0;i<g.tamano();i++) {
 			mayor(g.vecinos(i),g.indice_vecinos(i));
 		}
@@ -27,10 +29,13 @@ public class Clustering {
 			cont++;
 		}
 		
-		Ordenar ordenar=new Ordenar(aux,mayores,"descendente");
-		
-		for(int i=0;i<cant;i++) {
+		Ordenar ordenar=new Ordenar(aux,mayores);
+		int cantidad=0;
+		for(int i=ordenar.tamano()-1;i>=0;i--) {
+			if(cantidad==cant)
+				break;
 			eliminar.add(ordenar.indices(i));
+			cantidad++;
 		}
 		
 		for(int i=0;i<eliminar.size();i++) {
