@@ -91,15 +91,14 @@ public class Grafo {
 
 	public boolean existeArista(int i, int j) {
 		verificarIndices(i, j);
-		return A[i][j] != 0 ? true : false;
+		return A[i][j] != 0.0 ? true : false;
 	}
 
 	// Vecinos de un vertice
 	public Set<Integer> vecinos(int i) {
 		verificarVertice(i);
-
 		Set<Integer> ret = new HashSet<Integer>();
-		for (int j = 0; j < tamano(); ++j) {
+		for (int j = 0; j < tamano(); j++) {
 			if (i != j && existeArista(i, j))
 				ret.add(j);
 		}
@@ -137,7 +136,7 @@ public class Grafo {
 		int ret=0;
 		for(int i=0;i<tamano();i++) {
 			for(int j=0;j<tamano() && j!=i;j++) {
-				if(getArista(i,j)!=0.0)
+				if(existeArista(i,j))
 					ret++;
 			}
 		}
@@ -152,7 +151,7 @@ public class Grafo {
 		int cont=0;
 		for(int i=0;i<tamano();i++) {
 			for(int j=0;j<tamano() && j!=i;j++){
-				if(getArista(i,j)!=0.0) {
+				if(existeArista(i,j)) {
 					valores[cont]=getArista(i,j);
 					cont++;
 				}
@@ -165,7 +164,7 @@ public class Grafo {
 		ArrayList<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
 		for(int i=0;i<tamano();i++) {
 			for(int j=0;j<tamano() && j!=i;j++){
-				if(getArista(i,j)!=0.0) 
+				if(existeArista(i,j)) 
 					valores.add(new Pair<Integer,Integer>(i,j));		
 			}
 		}
