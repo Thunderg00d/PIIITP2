@@ -102,16 +102,7 @@ public class Grafo {
 		}
 		return ret;
 	}
-	// Vecinos de un vertice
-		public Set<Pair<Integer,Integer>> indice_vecinos(int i) {
-			verificarVertice(i);
-			Set<Pair<Integer,Integer>> ret = new HashSet<Pair<Integer,Integer>>();
-			for (int j = 0; j < tamano(); j++) {
-				if (i != j && existeArista(i, j))
-					ret.add(new Pair<Integer,Integer>(i,j));
-			}
-			return ret;
-		}
+
 
 	// Cantidad de vertices
 	public int tamano() {

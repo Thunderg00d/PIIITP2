@@ -13,8 +13,9 @@ import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
 
 import Intermediario.Intermediario;
+import clustering.Clustering;
 import grafo.AGM;
-import grafo.Clustering;
+
 import grafo.Grafo;
 import javafx.util.Pair;
 
@@ -72,8 +73,8 @@ public class Window {
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
 		grafo = agm.calcularKruskal(grafo);
-		Clustering c=new Clustering(grafo,3);
-	
+		Clustering c=new Clustering();
+		grafo.setGrafo(c.hacer_Clustering(grafo, 3).getMatriz());
 		List<Pair<Integer,Integer>>indices=grafo.getIndices();
 		
 		for(int i=0;i<indices.size();i++) {

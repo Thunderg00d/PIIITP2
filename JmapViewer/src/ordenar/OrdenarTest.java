@@ -26,12 +26,20 @@ public class OrdenarTest {
 		indices.add(new Pair<Integer,Integer>(3,0));
 		Ordenar ord=new Ordenar(dis,indices);
 		
-		Double[]esperado=new Double[4];
-		esperado[0]=1.0;
-		esperado[1]=2.0;
-		esperado[2]=2.2;
-		esperado[3]=2.3;
 		assertEquals(ord.getDistancia(0),Double.valueOf(1.0));
+		assertEquals(ord.indices(0),new Pair<Integer,Integer>(2,3));
+		
+		assertEquals(ord.getDistancia(1),Double.valueOf(2.0));
+		assertEquals(ord.indices(1),new Pair<Integer,Integer>(0,1));
+		
+		assertEquals(ord.getDistancia(2),Double.valueOf(2.2));
+		assertEquals(ord.indices(2),new Pair<Integer,Integer>(1,2));
+		
+		assertEquals(ord.getDistancia(3),Double.valueOf(2.3));
+		assertEquals(ord.indices(3),new Pair<Integer,Integer>(3,0));
+		
+		
+		
 	}
 
 }
