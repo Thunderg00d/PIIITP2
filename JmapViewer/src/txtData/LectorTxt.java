@@ -18,6 +18,7 @@ public class LectorTxt {
 	
 	public ArrayList<String> LeerArchivo(String archivo) throws IOException{
 		try {
+			content.clear();
 			File fr = new File(getPath() + "\\instancias\\" + archivo + ".txt");
 			BufferedReader br = new BufferedReader(new FileReader(fr));
 			String st;

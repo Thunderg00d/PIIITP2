@@ -14,7 +14,7 @@ public class Clustering {
 	
 	public Grafo hacer_Clustering(Grafo g,int cant) {
 		eliminar=new ArrayList<Pair<Integer,Integer>>();
-		Ordenar ordenar=new Ordenar(g.getDistancias(),g.getIndices());
+	    Ordenar ordenar=new Ordenar(g.getDistancias(),g.getIndices());
 		int cont=0;
 		for(int i=ordenar.tamano()-1;i>=0;i--) {
 			if(cont==cant-1)
@@ -27,6 +27,7 @@ public class Clustering {
 		for(int i=0;i<eliminar.size();i++) {
 			g.borrarArista(eliminar.get(i).getKey(), eliminar.get(i).getValue());
 		}
+	
 		return f;
 	}
 
