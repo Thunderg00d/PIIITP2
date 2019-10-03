@@ -48,7 +48,6 @@ public class Intermediario implements Cloneable{
 		}
 	}
 	public ArrayList<Coordinate> getCoordenadas(){
-		System.out.println(coordenadas.size());
 		return coordenadas;
 	}
 }
