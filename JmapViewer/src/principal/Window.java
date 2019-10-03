@@ -22,11 +22,8 @@ import javafx.util.Pair;
 public class Window {
 
 	private JFrame frame;
-	private static JMapViewer mapa;
-	private Intermediario intermediario;
-	private ArrayList<Coordinate> coordenadas;
-	private Grafo grafo;
-	private AGM agm;
+	private static Mapa mapa;
+
 
 	/**
 	 * Launch the application.
@@ -37,9 +34,9 @@ public class Window {
 				try {
 					Window window = new Window();
 					window.frame.setVisible(true);
-					window.frame.add(mapa);
+					window.frame.add(mapa.getMap());
 					Coordinate bsAs = new Coordinate (-34.5237,-58.7038);
- 					mapa.setDisplayPosition(bsAs, 10);
+ 					mapa.getMap().setDisplayPosition(bsAs, 10);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -63,31 +60,6 @@ public class Window {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 650, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mapa = new JMapViewer();
-		intermediario = new Intermediario();
-		intermediario.setCoordenadas();
-		coordenadas = intermediario.getCoordenadas();
-		for(Coordinate vertice : coordenadas) {
-			mapa.addMapMarker(new MapMarkerDot(vertice.getLat(),vertice.getLon()));
-		}
-		grafo = new Grafo(intermediario.getCoordenadas());
-		agm = new AGM();
-		grafo = agm.calcularKruskal(grafo);
-		Clustering c=new Clustering();
-		grafo.setGrafo(c.hacer_Clustering(grafo, 3).getMatriz());
-		List<Pair<Integer,Integer>>indices=grafo.getIndices();
-		
-		for(int i=0;i<indices.size();i++) {
-			dibujarLinea(indices.get(i).getKey(),indices.get(i).getValue());
-		}
-			
-	}
-
-	private void dibujarLinea(int i, int j) {
-		mapa.addMapPolygon(
-				new MapPolygonImpl( 
-				new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon()),
-						new Coordinate(coordenadas.get(j).getLat(),coordenadas.get(j).getLon()),
-								new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
+		mapa = new Mapa();
 	}
 }
