@@ -1,6 +1,7 @@
 package Intermediario;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
@@ -47,7 +48,7 @@ public class Intermediario implements Cloneable{
 			}
 		}
 	}
-	public ArrayList<Coordinate> getCoordenadas(){
+	public List<Coordinate> getCoordenadas(){
 		return coordenadas;
 	}
 }
