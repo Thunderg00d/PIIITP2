@@ -3,12 +3,14 @@ package principal;
 
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import Intermediario.Intermediario;
+import clustering.Clustering;
 import grafo.AGM;
 import grafo.Grafo;
 import javafx.util.Pair;
@@ -17,6 +19,14 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.LineBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
 
 public class Window {
 	private JFrame frame;
@@ -25,6 +35,8 @@ public class Window {
 	private AGM agm;
 	private JTextField pregunta;
 	private JTextField textField;
+	private Clustering cluster;
+	private JTextField txtInstaciasDeseadas;
 
 
 	/**
@@ -56,17 +68,19 @@ public class Window {
 	 * @throws IOException 
 	 */
 	private void initialize() throws IOException {
-		dibujarMapaYGrafo(); 
+		dibujarMapa();
 		inicializarValoresPantalla();
 		
 	}
-
-	private void dibujarMapaYGrafo() throws IOException {
+	private void dibujarMapa() {
+		mapa = new Mapa();
+	}
+	private void dibujarInstancias(ArrayList<String> instancias) throws IOException {
+		mapa.borrarGrafo();
 		Intermediario intermediario=new Intermediario();
-		intermediario.setCoordenadas();
+		intermediario.setCoordenadas(instancias);
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
 		grafo=new Grafo(coordenadas);
-		mapa = new Mapa();
 		agm=new AGM();
 		grafo = agm.calcularKruskal(grafo);
 		mapa.agregarMarcas(coordenadas);
@@ -79,36 +93,107 @@ public class Window {
 
 	private void inicializarValoresPantalla() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 650, 500);
+		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mapa.getMap());
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(500, 0, 134, 461);
+		panel.setBorder(new LineBorder(Color.BLACK, 2));
+		panel.setBounds(500, 0, 184, 461);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JButton aceptar = new JButton("aceptar");
-		aceptar.setBounds(0, 46, 134, 23);
+		JButton aceptar = new JButton("Aceptar");
+		aceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		aceptar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				cluster = new Clustering();
+				cluster.hacer_Clustering(grafo, Integer.valueOf(textField.getText()));
+				
+			}
+		});
+		aceptar.setBounds(25, 291, 134, 23);
 		panel.add(aceptar);
 		
-		JButton cancelar = new JButton("cancelar");
-		cancelar.setBounds(0, 101, 134, 23);
-		panel.add(cancelar);
-		
 		pregunta = new JTextField();
+		pregunta.setBorder(new EmptyBorder(0, 0, 0, 0));
+		pregunta.setHorizontalAlignment(SwingConstants.CENTER);
 		pregunta.setSelectionColor(Color.WHITE);
 		pregunta.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
 		pregunta.setEditable(false);
 		pregunta.setText("N\u00FAmero de clusters:");
-		pregunta.setBounds(0, 0, 118, 29);
+		pregunta.setBounds(25, 232, 134, 29);
 		panel.add(pregunta);
 		pregunta.setColumns(10);
 		
 		textField = new JTextField();
-		textField.setBounds(500, 27, 134, 20);
-		frame.getContentPane().add(textField);
+		textField.setBounds(25, 260, 134, 20);
+		panel.add(textField);
 		textField.setColumns(10);
+		
+		txtInstaciasDeseadas = new JTextField();
+		txtInstaciasDeseadas.setText("Instacias deseadas:");
+		txtInstaciasDeseadas.setSelectionColor(Color.WHITE);
+		txtInstaciasDeseadas.setHorizontalAlignment(SwingConstants.CENTER);
+		txtInstaciasDeseadas.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		txtInstaciasDeseadas.setEditable(false);
+		txtInstaciasDeseadas.setColumns(10);
+		txtInstaciasDeseadas.setBorder(new EmptyBorder(0, 0, 0, 0));
+		txtInstaciasDeseadas.setBounds(25, 31, 134, 29);
+		panel.add(txtInstaciasDeseadas);
+		
+		
+		JCheckBox chckbxInstancia1 = new JCheckBox("Instancia 1");
+		chckbxInstancia1.setBounds(35, 67, 97, 23);
+		panel.add(chckbxInstancia1);
+		
+		JCheckBox chckbxInstancia2 = new JCheckBox("Instancia 2");
+		chckbxInstancia2.setBounds(35, 93, 97, 23);
+		panel.add(chckbxInstancia2);
+		
+		JCheckBox chckbxInstancia3 = new JCheckBox("Instancia 3");
+		chckbxInstancia3.setBounds(35, 119, 97, 23);
+		panel.add(chckbxInstancia3);
+		
+		JCheckBox chckbxInstancia4 = new JCheckBox("Instancia 4");
+		chckbxInstancia4.setBounds(35, 145, 97, 23);
+		panel.add(chckbxInstancia4);
+		
+		JCheckBox chckbxInstancia5 = new JCheckBox("Instancia 5");
+		chckbxInstancia5.setBounds(35, 171, 97, 23);
+		panel.add(chckbxInstancia5);
+		
+		JButton button = new JButton("Aceptar");
+
+		button.setBounds(25, 198, 134, 23);
+		panel.add(button);
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				ArrayList<String> instancias = new ArrayList<String>(); 
+				if(chckbxInstancia1.isSelected())
+					instancias.add("Instancia1");
+				if(chckbxInstancia2.isSelected())
+					instancias.add("Instancia2");
+				if(chckbxInstancia3.isSelected())
+					instancias.add("Instancia3");
+				if(chckbxInstancia4.isSelected()) 
+					instancias.add("Instancia4");
+				if(chckbxInstancia5.isSelected())
+					instancias.add("Instancia5");
+				try {
+					dibujarInstancias(instancias);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
 	}
 }

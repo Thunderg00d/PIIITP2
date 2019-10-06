@@ -17,10 +17,9 @@ public class Intermediario implements Cloneable{
 		lector = new LectorTxt();
 	}
 	
-	public void  setCoordenadas() throws IOException{
-		String[] archivos = {"instancia1","instancia2","instancia3","instancia4","instancia5"};
+	public void  setCoordenadas(ArrayList<String> instancias) throws IOException{
 		ArrayList<String> coordesTemp = new ArrayList<String>();
-		for(String s : archivos) {
+		for(String s : instancias) {
 			for(String j : lector.LeerArchivo(s)) {
 				coordesTemp.add(j);	
 			}

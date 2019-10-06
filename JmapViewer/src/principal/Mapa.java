@@ -34,4 +34,8 @@ public class Mapa {
 	public JMapViewer getMap() {
 		return mapa;
 	}
+	public void borrarGrafo() {
+		mapa.removeAllMapPolygons();
+		mapa.removeAllMapMarkers();
+	}
 }
