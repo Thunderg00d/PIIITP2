@@ -118,11 +118,15 @@ public class Window {
 		aceptarCantidadClusters.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				mapa.borrarGrafo();
-				mapa.agregarMarcas(intermediario.getCoordenadas());
-				cluster = new Clustering();
-				cluster.hacer_Clustering(grafo, Integer.valueOf(numeroClusters.getText()));
-				dibujarAristas();
+				try {
+					cluster = new Clustering();
+					cluster.hacer_Clustering(grafo, Integer.valueOf(numeroClusters.getText()));
+					mapa.borrarGrafo();
+					mapa.agregarMarcas(intermediario.getCoordenadas());
+					dibujarAristas();
+				}
+				catch(Exception e) {
+				}
 			}
 		});
 		aceptarCantidadClusters.setBounds(25, 291, 134, 23);
