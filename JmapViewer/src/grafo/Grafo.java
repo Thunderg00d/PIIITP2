@@ -64,6 +64,7 @@ public class Grafo {
 	}
 
 	public Double distancia(int i, int j) {
+		verificarIndices(i,j);
 		return A[i][j];
 	}
 
@@ -73,6 +74,7 @@ public class Grafo {
 	}
 
 	public void agregarArista(int i, int j, Double distanciaEuclidea) {
+		verificarIndices(i, j);
 		A[i][j] = A[j][i] = distanciaEuclidea;
 	}
 
