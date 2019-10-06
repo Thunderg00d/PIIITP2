@@ -18,10 +18,7 @@ public class GrafoTest {
 		coordenadas.add(new Coordinate(6.0, 3.0));
 		coordenadas.add(new Coordinate(10.0, 5.0));
 		Grafo grafo=new Grafo(coordenadas);
-		Double deltaX=6.0-10.0;
-		Double deltaY=3.0-5.0;
-		Double resultado=Math.sqrt((deltaX*deltaX)+(deltaY*deltaY));
-		assertEquals(resultado,grafo.getArista(1, 0));
+		assertEquals(Double.valueOf(496.29358833444417),grafo.getArista(1, 0));
 	}
 
 	@Test
@@ -30,10 +27,7 @@ public class GrafoTest {
 		coordenadas.add(new Coordinate(10.0, 5.0));
 		coordenadas.add(new Coordinate(6.0, 3.0));
 		Grafo grafo=new Grafo(coordenadas);
-		Double deltaX=6.0-10.0;
-		Double deltaY=3.0-5.0;
-		Double resultado=Math.sqrt((deltaX*deltaX)+(deltaY*deltaY));
-		assertEquals(resultado,grafo.getArista(1, 0));
+		assertEquals(Double.valueOf(496.29358833444417),grafo.getArista(1, 0));
 	}
 	@Test(expected = java.lang.IllegalArgumentException.class)
 	public void PesoMismoVerticeTest() {
