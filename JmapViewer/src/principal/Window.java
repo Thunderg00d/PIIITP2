@@ -34,9 +34,10 @@ public class Window {
 	private Grafo grafo;
 	private AGM agm;
 	private JTextField pregunta;
-	private JTextField textField;
+	private JTextField numeroClusters;
 	private Clustering cluster;
 	private JTextField txtInstaciasDeseadas;
+	Intermediario intermediario;
 
 
 	/**
@@ -77,7 +78,7 @@ public class Window {
 	}
 	private void dibujarInstancias(ArrayList<String> instancias) throws IOException {
 		mapa.borrarGrafo();
-		Intermediario intermediario=new Intermediario();
+		intermediario=new Intermediario();
 		intermediario.setCoordenadas(instancias);
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
 		grafo=new Grafo(coordenadas);
@@ -85,6 +86,11 @@ public class Window {
 		grafo = agm.calcularKruskal(grafo);
 		mapa.agregarMarcas(coordenadas);
 		
+		dibujarAristas();
+	}
+
+	private void dibujarAristas() {
+		List<Coordinate>coordenadas=intermediario.getCoordenadas();
 		List<Pair<Integer,Integer>>indices=grafo.getIndices();
 		for(int i=0;i<indices.size();i++) {
 			mapa.dibujarLinea(coordenadas,indices.get(i).getKey(),indices.get(i).getValue());
@@ -104,21 +110,23 @@ public class Window {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JButton aceptar = new JButton("Aceptar");
-		aceptar.addActionListener(new ActionListener() {
+		JButton aceptarCantidadClusters = new JButton("Aceptar");
+		aceptarCantidadClusters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		aceptar.addMouseListener(new MouseAdapter() {
+		aceptarCantidadClusters.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				mapa.borrarGrafo();
+				mapa.agregarMarcas(intermediario.getCoordenadas());
 				cluster = new Clustering();
-				cluster.hacer_Clustering(grafo, Integer.valueOf(textField.getText()));
-				
+				cluster.hacer_Clustering(grafo, Integer.valueOf(numeroClusters.getText()));
+				dibujarAristas();
 			}
 		});
-		aceptar.setBounds(25, 291, 134, 23);
-		panel.add(aceptar);
+		aceptarCantidadClusters.setBounds(25, 291, 134, 23);
+		panel.add(aceptarCantidadClusters);
 		
 		pregunta = new JTextField();
 		pregunta.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -131,10 +139,10 @@ public class Window {
 		panel.add(pregunta);
 		pregunta.setColumns(10);
 		
-		textField = new JTextField();
-		textField.setBounds(25, 260, 134, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		numeroClusters = new JTextField();
+		numeroClusters.setBounds(25, 260, 134, 20);
+		panel.add(numeroClusters);
+		numeroClusters.setColumns(10);
 		
 		txtInstaciasDeseadas = new JTextField();
 		txtInstaciasDeseadas.setText("Instacias deseadas:");
@@ -168,11 +176,11 @@ public class Window {
 		chckbxInstancia5.setBounds(35, 171, 97, 23);
 		panel.add(chckbxInstancia5);
 		
-		JButton button = new JButton("Aceptar");
+		JButton aceptarInstancia = new JButton("Aceptar");
 
-		button.setBounds(25, 198, 134, 23);
-		panel.add(button);
-		button.addMouseListener(new MouseAdapter() {
+		aceptarInstancia.setBounds(25, 198, 134, 23);
+		panel.add(aceptarInstancia);
+		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				ArrayList<String> instancias = new ArrayList<String>(); 
@@ -194,6 +202,10 @@ public class Window {
 				
 			}
 		});
+		
+		
+		
+		
 		
 	}
 }

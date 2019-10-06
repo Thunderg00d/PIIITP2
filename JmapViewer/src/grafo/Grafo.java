@@ -29,6 +29,10 @@ public class Grafo {
 		}
 	}
 	
+	public Grafo(Grafo grafo) {
+		A=grafo.grafo();
+	}
+	
 	public Double getArista(int i, int j) {
 		verificarIndices(i, j);
 		return A[i][j];
@@ -121,6 +125,7 @@ public class Grafo {
 	public Double[][] grafo() {
 		return A.clone();
 	}
+	
 	public Double[] getDistancias() {
 		Double[] valores=new Double[cantAristas()];
 		int cont=0;
@@ -134,6 +139,7 @@ public class Grafo {
 		}
 		return valores;
 	}
+	
 	public List<Pair<Integer,Integer>> getIndices() {
 		ArrayList<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
 		for(int i=0;i<tamano();i++) {
@@ -144,9 +150,5 @@ public class Grafo {
 		}
 		return valores;
 	}
-	
-	public void setGrafo(Double[][] otro) {
-		A=otro;
-		}
 	
 }

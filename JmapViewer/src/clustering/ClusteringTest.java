@@ -1,10 +1,9 @@
 package clustering;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import grafo.Grafo;
+import grafoTest.Assert;
 
 public class ClusteringTest {
 
@@ -24,8 +23,8 @@ public class ClusteringTest {
 		esperado.agregarArista(3, 5, 2.0);
 		
 		Clustering c=new Clustering();
-	
-		assertEquals(c.hacer_Clustering(grafo, 2),esperado);
+		c.hacer_Clustering(grafo,2);
+		Assert.iguales(esperado, grafo);
 		
 		
 	}
