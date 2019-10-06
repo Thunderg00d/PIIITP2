@@ -20,27 +20,15 @@ public class Grafo {
 		inicializarMatriz();
 	}
 	
-	public Grafo(List<Coordinate> lista) {
-		A = new Double[lista.size()][lista.size()];
+	public Grafo(List<Coordinate> coordenadas) {
+		A = new Double[coordenadas.size()][coordenadas.size()];
 		for (int i = 0; i < tamano(); i++) {
-			for (int j = 0; j < tamano()&& i!=j; j++) {
-					distanciaEuclideana(i, j, lista.get(i), lista.get(j));
+			for (int j = (i+1); j < tamano()&& i!=j; j++) {
+					distanciaEuclideana(i, j, coordenadas.get(i), coordenadas.get(j));
 			}
 		}
 	}
-	public Grafo(Grafo g) {
-		A = new Double[g.tamano()][g.tamano()];
-		for (int i = 0; i < g.tamano() - 1; i++) {
-			for (int j = 1 + i; j < g.tamano(); j++) {
-				A[i][j] = A[j][i] = g.getArista(i, j);
-			}
-		}
-		for(int i = 0; i<g.tamano();i++) {
-			A[i][i] = 0.0;
-		}
-		
-	}
-
+	
 	public Double getArista(int i, int j) {
 		verificarIndices(i, j);
 		return A[i][j];
@@ -109,7 +97,6 @@ public class Grafo {
 		return ret;
 	}
 
-
 	// Cantidad de vertices
 	public int tamano() {
 		return A.length;
@@ -136,11 +123,10 @@ public class Grafo {
 			throw new IllegalArgumentException("El vertice " + i + " no existe!");
 	}
 
-
 	private int cantAristas() {
 		int ret=0;
 		for(int i=0;i<tamano();i++) {
-			for(int j=0;j<tamano() && j!=i;j++) {
+			for(int j=(i+1);j<tamano() && j!=i;j++) {
 				if(existeArista(i,j))
 					ret++;
 			}
@@ -155,30 +141,30 @@ public class Grafo {
 		Double[] valores=new Double[cantAristas()];
 		int cont=0;
 		for(int i=0;i<tamano();i++) {
-			for(int j=0;j<tamano() && j!=i;j++){
+			for(int j=(i+1);j<tamano() && j!=i;j++){
 				if(existeArista(i,j)) {
 					valores[cont]=getArista(i,j);
 					cont++;
 				}
 			}
-			
 		}
 		return valores;
 	}
 	public List<Pair<Integer,Integer>> getIndices() {
 		ArrayList<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
 		for(int i=0;i<tamano();i++) {
-			for(int j=0;j<tamano() && j!=i;j++){
+			for(int j=(i+1);j<tamano() && j!=i;j++){
 				if(existeArista(i,j)) 
 					valores.add(new Pair<Integer,Integer>(i,j));		
 			}
 		}
 		return valores;
 	}
+	
 	public void setGrafo(Double[][] otro) {
-		
 		A=otro;
 		}
+	
 	@Override
 	public boolean equals(Object f) {
 		if(f.getClass()!=getClass())
@@ -186,7 +172,7 @@ public class Grafo {
 		Grafo otro=(Grafo) f;
 		boolean ret=tamano()==otro.tamano();
 		for(int i=0;i<tamano() && ret ;i++){
-			for(int j=0;j<tamano() && j!=i;j++) {
+			for(int j=(i+1);j<tamano() && j!=i;j++) {
 				ret=ret && distancia(i,j).equals(otro.distancia(i, j));
 			}
 		}
