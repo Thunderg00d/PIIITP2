@@ -89,15 +89,17 @@ public class Grafo {
 	}
 
 	// Vecinos de un vertice
-	public Set<Double> vecinos(int i) {
+	public Set<Integer> vecinos(int i)
+	{
 		verificarVertice(i);
-		Set<Double> ret = new HashSet<Double>();
-		for (int j = 0; j < tamano(); j++) {
-			if (i != j && existeArista(i, j))
-				ret.add(getArista(i,j));
-		}
+		
+		Set<Integer> ret = new HashSet<Integer>();
+		for(int j=0; j<tamano(); ++j) if( i!=j && existeArista(i,j) )
+			ret.add(j);
+		
 		return ret;
 	}
+
 
 	// Cantidad de vertices
 	public int tamano() {

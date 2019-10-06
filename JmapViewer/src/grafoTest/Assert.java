@@ -2,8 +2,10 @@
 	package grafoTest;
 
 	import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Set;
 
 import grafo.Grafo;
 import javafx.util.Pair;
@@ -27,6 +29,15 @@ import ordenar.Ordenar;
 				assertEquals(ordenar.indices(i),indicesResultantes.get(i));
 			}
 		}
+		
+		public static void iguales(int[] expected, Set<Integer> obtained)
+		{
+			assertEquals(expected.length, obtained.size());
+			
+			for(Integer valor: expected)
+				assertTrue( obtained.contains(valor) );
+		}
+
 	}
 
 
