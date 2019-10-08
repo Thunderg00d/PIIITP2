@@ -24,9 +24,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 
 public class Window {
 	private JFrame frame;
@@ -38,6 +37,7 @@ public class Window {
 	private Clustering cluster;
 	private JTextField txtInstaciasDeseadas;
 	Intermediario intermediario;
+	private JTextField cantClusters;
 
 
 	/**
@@ -109,21 +109,18 @@ public class Window {
 		panel.setBounds(500, 0, 184, 461);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		cluster = new Clustering();
 		
 		JButton aceptarCantidadClusters = new JButton("Aceptar");
-		aceptarCantidadClusters.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		aceptarCantidadClusters.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					cluster = new Clustering();
 					cluster.hacer_Clustering(grafo, Integer.valueOf(numeroClusters.getText()));
 					mapa.borrarGrafo();
 					mapa.agregarMarcas(intermediario.getCoordenadas());
 					dibujarAristas();
+					cantClusters.setText(String.valueOf(cluster.cantClusters()));
 				}
 				catch(Exception e) {
 				}
@@ -184,6 +181,16 @@ public class Window {
 
 		aceptarInstancia.setBounds(25, 198, 134, 23);
 		panel.add(aceptarInstancia);
+		
+		JLabel lblCantClusters = new JLabel("Cant. clusters: ");
+		lblCantClusters.setBounds(25, 339, 97, 16);
+		panel.add(lblCantClusters);
+		
+		cantClusters = new JTextField();
+		cantClusters.setBounds(114, 336, 45, 22);
+		panel.add(cantClusters);
+		cantClusters.setColumns(10);
+		cantClusters.setText("0");
 		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -200,6 +207,7 @@ public class Window {
 					instancias.add("Instancia5");
 				try {
 					dibujarInstancias(instancias);
+					cantClusters.setText("1");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -11,6 +11,7 @@ import ordenar.Ordenar;
 public class Clustering {
 
 	private List<Pair<Integer,Integer>>aristasAEliminar;
+	private int cantClusters = 1;
 	
 	public void hacer_Clustering(Grafo grafo,int cantidadClusters) {
 		if(cantidadClusters>grafo.tamano())
@@ -30,6 +31,10 @@ public class Clustering {
 		for(int i=0;i<aristasAEliminar.size();i++) {
 			grafo.borrarArista(aristasAEliminar.get(i).getKey(), aristasAEliminar.get(i).getValue());
 		}
+		cantClusters+=aristasAEliminar.size();
+	}
+	public int cantClusters() {
+		return cantClusters;
 	}
 
 }
