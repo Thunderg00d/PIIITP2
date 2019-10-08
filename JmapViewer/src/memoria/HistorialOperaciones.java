@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import org.openstreetmap.gui.jmapviewer.Coordinate;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -54,7 +56,8 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 		try {
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String jsonString = gson.toJson(o);
-			FileWriter writer = new FileWriter(arch);
+			FileWriter writer = new FileWriter(arch+".JSON");
+		
 			writer.write(jsonString);
 			writer.close();
 		}
@@ -66,11 +69,11 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 	/**
 	 * trae de memoria un array con todos los valores de tipo number. ( los trae como double). 
 	 */
-	public ArrayList<Double> getNumsDMemo() {
+	public ArrayList<Double> getNumsDMemo(String arch) {
 		ArrayList<Double> numerosARet = new ArrayList<Double>();
 		try {
 			JsonParser parser = new JsonParser();
-			FileReader fr = new FileReader("calcuSAn.json");
+			FileReader fr = new FileReader(arch+".JSON");
 			JsonElement datos = parser.parse(fr);
 			elementosSegunTipo(datos);
 
@@ -94,7 +97,7 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 		try {
 			strings = new ArrayList<String>();
 			JsonParser parser = new JsonParser();
-			FileReader fr = new FileReader("calcuSAn.json");
+			FileReader fr = new FileReader("Calcu.json.JSON");
 			JsonElement datos = parser.parse(fr);
 			elementosSegunTipo(datos);
 			Set<String> hashSet = new HashSet<String>(strings);
@@ -126,7 +129,7 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 	/**
 	 * guarda en el archivo una linkedList de tipo Object. en el archivo pasado como parametro 
 	 **/
-	public void agregarAMemoria(LinkedList<Object> o, String arch) throws IOException {
+	public void agregarAMemoriaCoord(ArrayList<Coordinate> o, String arch) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String jsonString = gson.toJson(o);
 		FileWriter writer = new FileWriter(arch);

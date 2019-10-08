@@ -38,4 +38,7 @@ public class Mapa {
 		mapa.removeAllMapPolygons();
 		mapa.removeAllMapMarkers();
 	}
+	public void agregarMacador(Coordinate b) {
+		mapa.addMapMarker(new MapMarkerDot(b.getLat(),b.getLon()));
+	}
 }

@@ -8,7 +8,9 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
+import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 
+import Intermediario.CareTaker;
 import Intermediario.Intermediario;
 import clustering.Clustering;
 import grafo.AGM;
@@ -18,11 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -38,7 +43,8 @@ public class Window {
 	private JTextField txtInstaciasDeseadas;
 	Intermediario intermediario;
 	private JTextField cantClusters;
-
+	private CareTaker care;
+	private Estado estado;
 
 	/**
 	 * Launch the application.
@@ -71,18 +77,67 @@ public class Window {
 	private void initialize() throws IOException {
 		dibujarMapa();
 		inicializarValoresPantalla();
-		
+mapa.getMap().addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ICoordinate a = mapa.getMap().getPosition(new Point(e.getPoint().x,e.getPoint().y));
+				Coordinate b = new Coordinate(a.getLat(),a.getLon());
+				mapa.agregarMacador(b);
+				estado.SetEstado(b);
+				
+			
+				try {
+					care.setMemoria(estado.getCantCaract());
+					mapa.agregarMacador(b);
+				
+	
+					
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			
+			}
+		});
 	}
 	private void dibujarMapa() {
 		mapa = new Mapa();
 	}
 	private void dibujarInstancias(ArrayList<String> instancias) throws IOException {
 		mapa.borrarGrafo();
+		care= new CareTaker();
 		intermediario=new Intermediario();
-		intermediario.setCoordenadas(instancias);
+		intermediario.setCoordenadas(instancias,care.getNumerosDMemoria(0));
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
 		grafo=new Grafo(coordenadas);
 		agm=new AGM();
+		estado = new Estado();
 		grafo = agm.calcularKruskal(grafo);
 		mapa.agregarMarcas(coordenadas);
 		
