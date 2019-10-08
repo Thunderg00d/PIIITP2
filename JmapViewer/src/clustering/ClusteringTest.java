@@ -7,7 +7,7 @@ import grafoTest.Assert;
 
 public class ClusteringTest {
 
-	/*@Test
+	@Test
 	public void testClustering() {
 		Grafo grafo=new Grafo(6);
 		grafo.agregarArista(0, 2, 1.0);
@@ -25,7 +25,7 @@ public class ClusteringTest {
 		Clustering c=new Clustering(grafo);
 		c.clusteringAristasMasPesadas(2);
 		Assert.iguales(esperado, grafo);	
-	}*/
+	}
 	@Test
 	public void testClusteringPromedio() {
 		/*
@@ -63,7 +63,7 @@ public class ClusteringTest {
 		
 		Assert.iguales(esperado, grafo);	
 	}
-	/*@Test
+	@Test
 	public void testClusteringPromedio2() {
 		Grafo grafo = new Grafo(5);
 		grafo.agregarArista(0, 1, 2.0);
@@ -86,7 +86,7 @@ public class ClusteringTest {
 		Clustering c=new Clustering(grafo);
 		c.clusteringVecinosMasPesados(4);
 		Assert.iguales(esperado, grafo);	
-	}*/
+	}
 	
 	
 }
