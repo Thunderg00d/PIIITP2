@@ -45,6 +45,7 @@ public class Window {
 	private JTextField cantClusters;
 	private CareTaker care;
 	private Estado estado;
+	
 
 	/**
 	 * Launch the application.
@@ -105,15 +106,15 @@ mapa.getMap().addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ICoordinate a = mapa.getMap().getPosition(new Point(e.getPoint().x,e.getPoint().y));
-				Coordinate b = new Coordinate(a.getLat(),a.getLon());
-				mapa.agregarMacador(b);
-				estado.SetEstado(b);
+				ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x,e.getPoint().y));
+				Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(),obtenerPosicion.getLon());
+				mapa.agregarMacador(coordenadaClickeada);
+				estado.SetEstado(coordenadaClickeada);
 				
 			
 				try {
-					care.setMemoria(estado.getCantCaract());
-					mapa.agregarMacador(b);
+					care.setMemoria(estado.getCoordenadas());
+					mapa.agregarMacador(coordenadaClickeada);
 				
 	
 					
@@ -135,6 +136,11 @@ mapa.getMap().addMouseListener(new MouseListener() {
 		intermediario=new Intermediario();
 		intermediario.setCoordenadas(instancias,care.getNumerosDMemoria(0));
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
+		coordenadas.addAll(estado.getCoordenadas());
+		//List<Coordinate>coordenadasClickeadas=estado.getCoordenadas();
+		//for(Coordinate coordenadaClickeada: coordenadasClickeadas) { //Agrega al grafo las coordenadas clickeadas
+	//		coordenadas.add(coordenadaClickeada);
+	//	}
 		grafo=new Grafo(coordenadas);
 		agm=new AGM();
 		estado = new Estado();
@@ -153,6 +159,9 @@ mapa.getMap().addMouseListener(new MouseListener() {
 	}
 
 	private void inicializarValoresPantalla() {
+		
+		estado=new Estado();
+		care=new CareTaker();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -267,6 +276,17 @@ mapa.getMap().addMouseListener(new MouseListener() {
 		panel.add(cantClusters);
 		cantClusters.setColumns(10);
 		cantClusters.setText("0");
+		
+		JButton eliminarNodo = new JButton("Eliminar Nodo");
+		eliminarNodo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+				
+			}
+		});
+		eliminarNodo.setBounds(25, 357, 134, 23);
+		panel.add(eliminarNodo);
 		
 		
 		aceptarInstancia.addMouseListener(new MouseAdapter() {

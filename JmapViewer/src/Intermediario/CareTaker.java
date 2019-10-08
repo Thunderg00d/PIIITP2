@@ -12,28 +12,27 @@ import memoria.HistorialOperaciones;
 
 public class CareTaker implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private LinkedList<Double> estAGuardar;
+	private LinkedList<Double> estadoAGuardar;
 	private HistorialOperaciones repo;
 	
 	
 	public CareTaker() {
-		estAGuardar= new LinkedList<Double>();
+		estadoAGuardar= new LinkedList<Double>();
 		repo=new HistorialOperaciones();
 	}
 	
 	private void guardarEstados() throws IOException {
-		
 		repo.agregarAMemoria(this, "Calcu.json");
 	}
 	
-	public void setMemoria(List<Coordinate> list) throws IOException {
-		for(Coordinate c : list) {
-			estAGuardar.add(c.getLat());
-			estAGuardar.add(c.getLon());
+	public void setMemoria(List<Coordinate> coordenadas) throws IOException {
+		for(Coordinate coordenada : coordenadas) {
+			estadoAGuardar.add(coordenada.getLat());
+			estadoAGuardar.add(coordenada.getLon());
 		}
 		
 		guardarEstados();
-		estAGuardar.clear();
+		estadoAGuardar.clear();
 	}
 	
 	public ArrayList<Coordinate> getNumerosDMemoria(int estado) {
@@ -53,13 +52,12 @@ public class CareTaker implements Serializable {
 	
 	
 	public void setMemoria(ArrayList<Double> arrayList) throws IOException {
-		estAGuardar.addAll(arrayList);
+		estadoAGuardar.addAll(arrayList);
 		
 		guardarEstados();
 	}
 	
 	public void setMemoria(String estadoNums) throws IOException {
-		//estAGuardar.add(estadoNums);
 		guardarEstados();	
 	}
 	

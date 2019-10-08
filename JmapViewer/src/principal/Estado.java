@@ -7,30 +7,18 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 public class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String estadoOps;
-	private ArrayList<Coordinate> cantcaracteres;
+	private ArrayList<Coordinate> coordenadas;
 	
 	public Estado() {
-		this.estadoOps="";
-		this.cantcaracteres = new ArrayList<Coordinate>();
-		
+		coordenadas = new ArrayList<Coordinate>();
 	}
 	
-	public void SetEstado(Coordinate c) {
-		
-		this.cantcaracteres.add(c);
-		
+	public void SetEstado(Coordinate c) {		
+		coordenadas.add(c);	
 	}
-	
 
-	public String getEstadoNums() {
-		
-		return this.estadoOps;
-		
-	}
-	
-	public ArrayList<Coordinate> getCantCaract(){
-		return this.cantcaracteres;
+	public ArrayList<Coordinate> getCoordenadas(){
+		return coordenadas;
 	}
 	
 	
