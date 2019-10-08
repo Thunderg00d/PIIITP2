@@ -136,11 +136,7 @@ mapa.getMap().addMouseListener(new MouseListener() {
 		intermediario=new Intermediario();
 		intermediario.setCoordenadas(instancias,care.getNumerosDMemoria(0));
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
-		coordenadas.addAll(estado.getCoordenadas());
-		//List<Coordinate>coordenadasClickeadas=estado.getCoordenadas();
-		//for(Coordinate coordenadaClickeada: coordenadasClickeadas) { //Agrega al grafo las coordenadas clickeadas
-	//		coordenadas.add(coordenadaClickeada);
-	//	}
+		coordenadas.addAll(estado.getCoordenadas()); 
 		grafo=new Grafo(coordenadas);
 		agm=new AGM();
 		estado = new Estado();
