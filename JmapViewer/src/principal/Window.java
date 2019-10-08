@@ -164,25 +164,46 @@ mapa.getMap().addMouseListener(new MouseListener() {
 		panel.setBounds(500, 0, 184, 461);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
-		cluster = new Clustering();
 		
-		JButton aceptarCantidadClusters = new JButton("Aceptar");
-		aceptarCantidadClusters.addMouseListener(new MouseAdapter() {
+		
+		JButton clusterMayorArista = new JButton("Mayores");
+		clusterMayorArista.setBounds(25, 307, 134, 23);
+		panel.add(clusterMayorArista);
+		clusterMayorArista.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					cluster.hacer_Clustering(grafo, Integer.valueOf(numeroClusters.getText()));
+					cluster=new Clustering(grafo);
+					cluster.clusteringAristasMasPesadas(Integer.valueOf(numeroClusters.getText()));
 					mapa.borrarGrafo();
 					mapa.agregarMarcas(intermediario.getCoordenadas());
 					dibujarAristas();
 					cantClusters.setText(String.valueOf(cluster.cantClusters()));
 				}
 				catch(Exception e) {
+					System.out.println(e.toString());
 				}
 			}
 		});
-		aceptarCantidadClusters.setBounds(25, 291, 134, 23);
-		panel.add(aceptarCantidadClusters);
+		JButton clusterPromedio = new JButton("Promedio");
+		clusterPromedio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					cluster=new Clustering(grafo);
+					cluster.clusteringVecinosMasPesados(Integer.valueOf(numeroClusters.getText()));
+					mapa.borrarGrafo();
+					mapa.agregarMarcas(intermediario.getCoordenadas());
+					dibujarAristas();
+					cantClusters.setText(String.valueOf(cluster.cantClusters()));
+				}
+				catch(Exception e) {
+					System.out.println(e.toString());
+				}
+			}
+		});
+		clusterPromedio.setBounds(25, 281, 134, 23);
+		panel.add(clusterPromedio);
 		
 		pregunta = new JTextField();
 		pregunta.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -238,14 +259,16 @@ mapa.getMap().addMouseListener(new MouseListener() {
 		panel.add(aceptarInstancia);
 		
 		JLabel lblCantClusters = new JLabel("Cant. clusters: ");
-		lblCantClusters.setBounds(25, 339, 97, 16);
+		lblCantClusters.setBounds(25, 408, 97, 16);
 		panel.add(lblCantClusters);
 		
 		cantClusters = new JTextField();
-		cantClusters.setBounds(114, 336, 45, 22);
+		cantClusters.setBounds(114, 405, 45, 22);
 		panel.add(cantClusters);
 		cantClusters.setColumns(10);
 		cantClusters.setText("0");
+		
+		
 		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

@@ -91,6 +91,27 @@ public class Grafo {
 		
 		return ret;
 	}
+		public Pair<Integer,Integer>vecinoMasPesado(int i){
+			Pair<Integer,Integer>masPesado=new Pair<Integer,Integer>(0,0);
+			double mayor=0.0;
+			for(int j=0; j<tamano(); ++j) 
+				if( i!=j && existeArista(i,j) && getArista(i,j)>mayor) {
+				    mayor=getArista(i,j);
+				    masPesado=new Pair<Integer,Integer>(i,j);
+				}
+			return masPesado;
+		}
+		public Double promedioVecinos(int vertice){
+			Double pesos=0.0;
+			int cantidadVecinos=0;
+			for(int i=0;i<tamano();i++) {
+				if(i!=vertice && existeArista(i,vertice)) {
+					pesos+=getArista(i,vertice);
+					cantidadVecinos++;
+				}
+			}
+			return pesos/cantidadVecinos;
+		}
 
 	// Cantidad de vertices
 	public int tamano() {
@@ -111,7 +132,7 @@ public class Grafo {
 			throw new IllegalArgumentException("El vertice " + i + " no existe!");
 	}
 
-	private int cantAristas() {
+	public int cantAristas() {
 		int ret=0;
 		for(int i=0;i<tamano();i++) {
 			for(int j=i+1;j<tamano() && j!=i;j++) {

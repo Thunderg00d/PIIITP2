@@ -9,11 +9,11 @@ public class Ordenar {
 	List<Pair<Integer,Integer>>ind;
 	
 	
-	public Ordenar(Double[]distancias,List<Pair<Integer, Integer>> list) {
-		if(distancias.length!=list.size())
+	public Ordenar(Double[]distancias,List<Pair<Integer, Integer>>indices) {
+		if(distancias.length!=indices.size())
 			throw new IllegalArgumentException("Los parametros deben tener el mismo largo");
 		d=distancias;
-		ind=list;
+		ind=indices;
 		quicksort(0,tamano()-1);
 	}
 	public int tamano() {
