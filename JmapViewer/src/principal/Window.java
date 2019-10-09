@@ -108,7 +108,7 @@ mapa.getMap().addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x,e.getPoint().y));
 				Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(),obtenerPosicion.getLon());
-				mapa.agregarMacador(coordenadaClickeada);
+				//mapa.agregarMacador(coordenadaClickeada);
 				estado.SetEstado(coordenadaClickeada);
 				
 			
@@ -133,7 +133,6 @@ mapa.getMap().addMouseListener(new MouseListener() {
 	private void dibujarInstancias(ArrayList<String> instancias) throws IOException {
 		mapa.borrarGrafo();
 		care= new CareTaker();
-		intermediario=new Intermediario();
 		intermediario.setCoordenadas(instancias,care.getNumerosDMemoria(0));
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
 		coordenadas.addAll(estado.getCoordenadas()); 
@@ -155,7 +154,7 @@ mapa.getMap().addMouseListener(new MouseListener() {
 	}
 
 	private void inicializarValoresPantalla() {
-		
+		intermediario=new Intermediario();
 		estado=new Estado();
 		care=new CareTaker();
 		frame = new JFrame();
@@ -277,8 +276,15 @@ mapa.getMap().addMouseListener(new MouseListener() {
 		eliminarNodo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				
-				
+				if(estado.getCoordenadas().size()>0 && grafo==null) {
+					mapa.eliminarMarcador(estado.getCoordenadas().get(estado.getCoordenadas().size()-1));
+					estado.eliminarUltimaCoordenada();
+					try {
+						care.setMemoria(estado.getCoordenadas());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		});
 		eliminarNodo.setBounds(25, 357, 134, 23);

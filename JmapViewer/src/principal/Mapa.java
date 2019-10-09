@@ -6,6 +6,7 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
 import org.openstreetmap.gui.jmapviewer.MapPolygonImpl;
+import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 
 public class Mapa {
 	private static JMapViewer mapa;
@@ -41,4 +42,9 @@ public class Mapa {
 	public void agregarMacador(Coordinate b) {
 		mapa.addMapMarker(new MapMarkerDot(b.getLat(),b.getLon()));
 	}
+	public void eliminarMarcador(Coordinate b) {
+		List<MapMarker> marcas=mapa.getMapMarkerList();
+		if(marcas.size()!=0) 
+			mapa.removeMapMarker(marcas.get(marcas.size()-1));
+	}	
 }
