@@ -16,7 +16,12 @@ public class Estado implements Serializable {
 	public void SetEstado(Coordinate c) {		
 		coordenadas.add(c);	
 	}
-
+	public void eliminarUltimaCoordenada() {
+		if(!coordenadas.isEmpty())
+			coordenadas.remove(coordenadas.size()-1);
+		else
+			System.out.println("no se elimino la coordenada");
+	}
 	public ArrayList<Coordinate> getCoordenadas(){
 		return coordenadas;
 	}
