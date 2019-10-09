@@ -1,9 +1,7 @@
 package clustering;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import grafo.BFS;
 import grafo.Grafo;
@@ -13,7 +11,7 @@ import ordenar.Ordenar;
 public class Clustering {
 
 	private List<Pair<Integer, Integer>> aristasAEliminar;
-	private HashMap<Double, ArrayList<Integer>> clus = new HashMap<Double, ArrayList<Integer>>();
+	private List<Cluster>clusters;
 
 	private int cantClusters = 1;
 	private Grafo grafo;
@@ -21,8 +19,10 @@ public class Clustering {
 	public Clustering(Grafo g) {
 		grafo = g;
 		aristasAEliminar = new ArrayList<Pair<Integer, Integer>>();
+		clusters=new ArrayList<Cluster>();
 	}
-
+	
+	
 	public void clusteringAristasMasPesadas(int cantidadClusters) {
 		corroborarCantidad(cantidadClusters, grafo.cantAristas());
 		reiniciarValores();
@@ -40,69 +40,55 @@ public class Clustering {
 			aristasEliminadas++;
 
 		}
-		BFS bfs = new BFS(grafo);
-		for (int i = 0; i < aristasAEliminar.size(); i++) {
-			/*
-			 * if(x.equals(y)) {
-			 * Pair<Integer,Integer>indiceVecinoMasPesado=grafo.vecinoMasPesado(x);
-			 * grafo.borrarArista(indiceVecinoMasPesado.getKey(),indiceVecinoMasPesado.
-			 * getValue()); } else grafo.borrarArista(aristasAEliminar.get(i).getKey(),
-			 * aristasAEliminar.get(i).getValue()); }
-			 */
-
-			grafo.borrarArista(aristasAEliminar.get(i).getKey(), aristasAEliminar.get(i).getValue());
-
-			if (clus.size() == 0) {
-				Double num1 = bfs.pesoSubgrafo(aristasAEliminar.get(i).getKey());
-				Double num2 = bfs.pesoSubgrafo(aristasAEliminar.get(i).getValue());
-				clus.put(num1, bfs.verticesDelSubgrafo(aristasAEliminar.get(i).getKey()));
-				clus.put(num2, bfs.verticesDelSubgrafo(aristasAEliminar.get(i).getValue()));
-			} else {
-
-				HashMap<Double, ArrayList<Integer>> copy = clonarSet(clus);
-				System.out.println(copy.toString());
-				for (Entry<Double, ArrayList<Integer>> entry : copy.entrySet()) {
-					bfs = new BFS(grafo);
-					if (entry.getValue().contains(aristasAEliminar.get(i).getKey())) {
-						Double num1 = bfs.pesoSubgrafo(aristasAEliminar.get(i).getKey());
-						Double num2 = bfs.pesoSubgrafo(aristasAEliminar.get(i).getValue());
-						clus.remove(entry.getKey());
-						clus.put(num1, bfs.verticesDelSubgrafo(aristasAEliminar.get(i).getKey()));
-						clus.put(num2, bfs.verticesDelSubgrafo(aristasAEliminar.get(i).getValue()));
-					}
-
-				}
+		
+		for (Pair<Integer,Integer>aristaAEliminar: aristasAEliminar) {
+			grafo.borrarArista(aristaAEliminar.getKey(), aristaAEliminar.getValue());
+			BFS bfs = new BFS(grafo);
+			
+			if(clusters.isEmpty()) {
+				Double peso1=bfs.pesoSubgrafo(aristaAEliminar.getKey());
+				Double peso2=bfs.pesoSubgrafo(aristaAEliminar.getValue());
+				Cluster c1=new Cluster(peso1,bfs.verticesDelSubgrafo(aristaAEliminar.getKey()));
+				Cluster c2=new Cluster(peso2,bfs.verticesDelSubgrafo(aristaAEliminar.getValue()));
+				clusters.add(c1);
+				clusters.add(c2);
 			}
-
+			else {
+				List<Cluster>clustersClonado= clonarCluster();
+				for(Cluster cluster: clustersClonado) {
+					bfs=new BFS(grafo);
+					if(cluster.getVertices().contains(aristaAEliminar.getKey())) {
+						Double peso1=bfs.pesoSubgrafo(aristaAEliminar.getKey());
+						Double peso2=bfs.pesoSubgrafo(aristaAEliminar.getValue());
+						Cluster c1=new Cluster(peso1,bfs.verticesDelSubgrafo(aristaAEliminar.getKey()));
+						Cluster c2=new Cluster(peso2,bfs.verticesDelSubgrafo(aristaAEliminar.getValue()));
+						clusters.remove(cluster);
+						clusters.add(c1);
+						clusters.add(c2);
+					}
+				}
+				
+			}
 		}
-		System.out.println("CLUSTERS: " + clus.keySet().toString());
 		cantClusters += aristasAEliminar.size();
 
 	}
-
-	private HashMap<Double, ArrayList<Integer>> clonarSet(HashMap<Double, ArrayList<Integer>> clus2) {
-		HashMap<Double, ArrayList<Integer>> copia = new HashMap<Double, ArrayList<Integer>>();
-		for (Entry<Double, ArrayList<Integer>> entry : clus2.entrySet()) {
-			copia.put(entry.getKey(), entry.getValue());
+	private List<Cluster> clonarCluster() {
+		List<Cluster>ret=new ArrayList<Cluster>();
+		for(Cluster cluster: clusters) {
+			ret.add(cluster);
 		}
-		return copia;
+		return ret;
 	}
 
-	public void clusteringVecinosMasPesados(int cantidadClusters) {
-		corroborarCantidad(cantidadClusters, grafo.tamano());
-		reiniciarValores();
-		Double[] promedioVecinos = new Double[grafo.tamano()];
-		List<Pair<Integer, Integer>> indices = new ArrayList<Pair<Integer, Integer>>();
-		for (int i = 0; i < grafo.tamano(); i++) {
-			promedioVecinos[i] = grafo.promedioVecinos(i);
-			indices.add(new Pair<Integer, Integer>(i, i));
-		}
-		eliminarAristas(cantidadClusters, promedioVecinos, indices);
 
+	public List<Cluster>getClusters(){
+		return clusters;
 	}
 
 	private void reiniciarValores() {
 		aristasAEliminar.clear();
+		cantClusters=1;
 	}
 
 	private void corroborarCantidad(int cantidadClusters, int maximaCantidad) {

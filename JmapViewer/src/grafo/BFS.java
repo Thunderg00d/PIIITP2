@@ -1,6 +1,5 @@
 package grafo;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +25,7 @@ public class BFS
 		
 		while( pendientes.size() != 0 )
 		{
-			System.out.println(pendientes.toString());
+			//System.out.println(pendientes.toString());
 			int i = seleccionarPendiente();
 			marcados[i] = true;
 			
@@ -49,11 +48,11 @@ public class BFS
 			pesoTotal=0.0;
 		return temp;
 	}
-	public ArrayList<Integer> verticesDelSubgrafo(int j){
-		ArrayList<Integer> vertices = new ArrayList<Integer>();
+	public Set<Integer> verticesDelSubgrafo(int j){
+		Set<Integer> vertices = new HashSet<Integer>();
 		inicializarAuxiliares(j);
-		while( pendientes.size() != 0 )
-		{
+	
+		while( pendientes.size() != 0 ){
 			int i = seleccionarPendiente();
 			marcados[i] = true;
 			pendientes.addAll(vecinosNoMarcados(i));
@@ -77,12 +76,15 @@ public class BFS
 	}
 
 	// Vecinos no marcados de un vertice
-	private Set<Integer> vecinosNoMarcados(int i)
-	{
+	private Set<Integer> vecinosNoMarcados(int i){
 		Set<Integer> ret = new HashSet<Integer>();
-		for(Integer j: grafo.vecinos(i) ) if( marcados[j] == false ) {
-			pesoTotal+=grafo.getArista(i, j);
-			ret.add(j);
+		for(Integer vertice: grafo.vecinos(i) ) {
+			if( marcados[vertice] == false ) {
+				pesoTotal+=grafo.getArista(i, vertice);
+				ret.add(vertice);
+				 
+				
+			}
 	}
 		return ret;
 	}

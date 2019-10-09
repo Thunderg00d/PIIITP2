@@ -26,7 +26,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
@@ -46,10 +45,6 @@ public class Window {
 	private CareTaker care;
 	private Estado estado;
 	
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -63,58 +58,27 @@ public class Window {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 * @throws IOException 
-	 */
+
 	public Window() throws IOException {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws IOException 
-	 */
+
 	private void initialize() throws IOException {
 		dibujarMapa();
 		inicializarValoresPantalla();
-mapa.getMap().addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+		mapa.getMap().addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x,e.getPoint().y));
 				Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(),obtenerPosicion.getLon());
-				//mapa.agregarMacador(coordenadaClickeada);
 				estado.SetEstado(coordenadaClickeada);
-				
+				mapa.agregarMacador(coordenadaClickeada);
 			
 				try {
 					care.setMemoria(estado.getCoordenadas());
-					mapa.agregarMacador(coordenadaClickeada);
+					
 				
 	
 					
@@ -195,7 +159,7 @@ mapa.getMap().addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent arg0) {
 				try {
 					cluster=new Clustering(grafo);
-					cluster.clusteringVecinosMasPesados(Integer.valueOf(numeroClusters.getText()));
+					//cluster.clusteringVecinosMasPesados(Integer.valueOf(numeroClusters.getText()));
 					mapa.borrarGrafo();
 					mapa.agregarMarcas(intermediario.getCoordenadas());
 					dibujarAristas();
