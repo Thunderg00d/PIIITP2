@@ -8,7 +8,7 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import txtData.LectorTxt;
 
 public class Intermediario implements Cloneable{
-	private ArrayList<Coordinate> coordenadas;
+	private List<Coordinate> coordenadas;
 	private LectorTxt lector;
 	
 	
@@ -17,8 +17,8 @@ public class Intermediario implements Cloneable{
 		lector = new LectorTxt();
 	}
 	
-	public void  setCoordenadas(ArrayList<String> instancias,ArrayList<Coordinate> set) throws IOException{
-		ArrayList<String> coordesTemp = new ArrayList<String>();
+	public void  setCoordenadas(List<String> instancias,List<Coordinate> set) throws IOException{
+		List<String> coordesTemp = new ArrayList<String>();
 		for(String s : instancias) {
 			for(String j : lector.LeerArchivo(s)) {
 				coordesTemp.add(j);	
@@ -51,4 +51,5 @@ public class Intermediario implements Cloneable{
 	public List<Coordinate> getCoordenadas(){
 		return coordenadas;
 	}
+	
 }

@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.openstreetmap.gui.jmapviewer.Coordinate;
@@ -22,8 +23,8 @@ import com.google.gson.JsonPrimitive;
 
 public class HistorialOperaciones implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<String> strings;
-	private ArrayList<Double> doubles;
+	private List<String> strings;
+	private List<Double> doubles;
 
 	public HistorialOperaciones() {
 		strings = new ArrayList<String>();
@@ -90,9 +91,8 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 	/**
 	 * trae del archivo todos los datos de tipo String en un array
 	 */
-	public ArrayList<String> traerOpsDMemo() {
-
-		ArrayList<String> operandosARet = new ArrayList<String>();
+	public List<String> traerOpsDMemo() {
+		List<String> operandosARet = new ArrayList<String>();
 		try {
 			strings = new ArrayList<String>();
 			JsonParser parser = new JsonParser();
@@ -172,11 +172,11 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 		}
 	}
 
-	public ArrayList<Double> getNumeros() {
+	public List<Double> getNumeros() {
 		return doubles;
 	}
 
-	public ArrayList<String> getOperandos() {
+	public List<String> getOperandos() {
 		return strings;
 	}
 }

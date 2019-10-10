@@ -94,7 +94,7 @@ public class Window {
 	private void dibujarMapa() {
 		mapa = new Mapa();
 	}
-	private void dibujarInstancias(ArrayList<String> instancias) throws IOException {
+	private void dibujarInstancias(List<String> instancias) throws IOException {
 		mapa.borrarGrafo();
 		care= new CareTaker();
 		intermediario.setCoordenadas(instancias,care.getNumerosDMemoria(0));

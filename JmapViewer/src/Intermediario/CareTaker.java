@@ -35,9 +35,9 @@ public class CareTaker implements Serializable {
 		estadoAGuardar.clear();
 	}
 	
-	public ArrayList<Coordinate> getNumerosDMemoria(int estado) {
-		ArrayList<Double> temp = new ArrayList<Double>();
-		ArrayList<Coordinate> tempC = new ArrayList<Coordinate>();
+	public List<Coordinate> getNumerosDMemoria(int estado) {
+		List<Double> temp = new ArrayList<Double>();
+		List<Coordinate> tempC = new ArrayList<Coordinate>();
 		temp.addAll(repo.getNumsDMemo("Calcu.json"));
 		for (int i=0; i<temp.size();i+=2) {
 			tempC.add(new Coordinate(temp.get(i),temp.get(i+1)));
@@ -46,7 +46,7 @@ public class CareTaker implements Serializable {
 		return tempC;
 	}
 	
-	public ArrayList<String> getEstadoOperandos() {
+	public List<String> getEstadoOperandos() {
 		return repo.traerOpsDMemo();
 	}
 	
