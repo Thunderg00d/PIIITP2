@@ -97,7 +97,7 @@ public class Clustering {
 	}
 
 	public int cantClusters() {
-		return cantClusters;
+		return clusters.size();
 	}
 
 }

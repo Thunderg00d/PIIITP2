@@ -37,9 +37,10 @@ public class Mapa {
 		Random r  = new Random();
 		for(Cluster cluster : list) {
 			int random = r.nextInt(arr.length);
+			cluster.setColor(arr[random]);
 			for(Integer vertice : cluster.getVertices()) {
 				MapMarker marker = new MapMarkerDot(
-						arr[random],
+						cluster.getColor(),
 						coordenadas.get(vertice).getLat(),
 						coordenadas.get(vertice).getLon());
 				mapa.addMapMarker(marker);

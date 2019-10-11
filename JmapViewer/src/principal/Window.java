@@ -12,6 +12,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 
 import Intermediario.CareTaker;
 import Intermediario.Intermediario;
+import clustering.Cluster;
 import clustering.Clustering;
 import grafo.AGM;
 import grafo.Grafo;
@@ -30,6 +31,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Window {
 	private JFrame frame;
@@ -41,7 +43,6 @@ public class Window {
 	private Clustering cluster;
 	private JTextField txtInstaciasDeseadas;
 	Intermediario intermediario;
-	private JTextField cantClusters;
 	private CareTaker care;
 	private Estado estado;
 	
@@ -146,8 +147,7 @@ public class Window {
 					mapa.borrarGrafo();
 					mapa.agregarMarcas(intermediario.getCoordenadas(),cluster.getClusters());
 					dibujarAristas();
-					cantClusters.setText(String.valueOf(cluster.cantClusters()));
-				}
+					}
 				catch(Exception e) {
 					System.out.println(e.toString());
 				}
@@ -163,7 +163,6 @@ public class Window {
 					mapa.borrarGrafo();
 					mapa.agregarMarcas(intermediario.getCoordenadas());
 					dibujarAristas();
-					cantClusters.setText(String.valueOf(cluster.cantClusters()));
 				}
 				catch(Exception e) {
 					System.out.println(e.toString());
@@ -226,16 +225,6 @@ public class Window {
 		aceptarInstancia.setBounds(25, 198, 134, 23);
 		panel.add(aceptarInstancia);
 		
-		JLabel lblCantClusters = new JLabel("Cant. clusters: ");
-		lblCantClusters.setBounds(25, 408, 97, 16);
-		panel.add(lblCantClusters);
-		
-		cantClusters = new JTextField();
-		cantClusters.setBounds(114, 405, 45, 22);
-		panel.add(cantClusters);
-		cantClusters.setColumns(10);
-		cantClusters.setText("0");
-		
 		JButton eliminarNodo = new JButton("Eliminar Nodo");
 		eliminarNodo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -254,6 +243,26 @@ public class Window {
 		eliminarNodo.setBounds(25, 357, 134, 23);
 		panel.add(eliminarNodo);
 		
+		JButton btnEstadisticas = new JButton("Estadisticas");
+		btnEstadisticas.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String estadisticas = "";
+				estadisticas += "Cant. clusters: " +
+								String.valueOf(cluster.cantClusters()) + "\n";
+				int i = 0;
+				for(Cluster clus : cluster.getClusters()) {
+					i++;
+					estadisticas += "Peso cluster N°" + i +" color"+ cluster.getClusters().get(i-1).getColor().toString().substring(14)+ ": ";
+					estadisticas += clus.getPeso();
+					estadisticas += "\n";
+				}
+				JOptionPane.showMessageDialog(null, estadisticas);
+			}
+		});
+		btnEstadisticas.setBounds(25, 404, 134, 23);
+		panel.add(btnEstadisticas);
+		
 		
 		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
@@ -271,7 +280,6 @@ public class Window {
 					instancias.add("Instancia5");
 				try {
 					dibujarInstancias(instancias);
-					cantClusters.setText("1");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

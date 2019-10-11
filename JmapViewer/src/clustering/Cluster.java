@@ -1,12 +1,14 @@
 package clustering;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Cluster {
 	private Set<Integer> vertices;
 	private Double peso;
-
+	private Color color;
+	
 	public Cluster(Double p,Set<Integer> v) {
 		vertices = v;
 		peso = p;
@@ -19,6 +21,13 @@ public class Cluster {
 		}
 		return clone;
 	}
+	public void setColor(Color c) {
+		color = c;
+	}
+	public Color getColor() {
+		return color;
+	}
+
 
 	public int tamano() {
 		return vertices.size();
