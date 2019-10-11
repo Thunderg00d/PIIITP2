@@ -144,7 +144,7 @@ public class Window {
 					cluster=new Clustering(grafo);
 					cluster.clusteringAristasMasPesadas(Integer.valueOf(numeroClusters.getText()));
 					mapa.borrarGrafo();
-					mapa.agregarMarcas(intermediario.getCoordenadas());
+					mapa.agregarMarcas(intermediario.getCoordenadas(),cluster.getClusters());
 					dibujarAristas();
 					cantClusters.setText(String.valueOf(cluster.cantClusters()));
 				}
