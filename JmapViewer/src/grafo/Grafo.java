@@ -1,5 +1,6 @@
 package grafo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,8 +10,12 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 
 import javafx.util.Pair;
 
-public class Grafo {
+public class Grafo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Representamos el grafo por su matriz de adyacencia
 	private Double[][] A;
 
@@ -30,7 +35,13 @@ public class Grafo {
 	}
 	
 	public Grafo(Grafo grafo) {
-		A=grafo.grafo();
+		A=new Double[grafo.tamano()][grafo.tamano()];
+		for(int i=0;i<tamano();i++) {
+			for(int j=i+1;j<tamano();j++) {
+				agregarArista(i,j,grafo.getArista(i, j));
+			}
+		}
+		
 	}
 	
 	public Double getArista(int i, int j) {
@@ -141,10 +152,6 @@ public class Grafo {
 			}
 		}
 		return ret;
-	}
-	
-	public Double[][] grafo() {
-		return A.clone();
 	}
 	
 	public Double[] getDistancias() {

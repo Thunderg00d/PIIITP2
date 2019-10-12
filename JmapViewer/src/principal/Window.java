@@ -12,6 +12,7 @@ import org.openstreetmap.gui.jmapviewer.interfaces.ICoordinate;
 
 import Intermediario.CareTaker;
 import Intermediario.Intermediario;
+import Intermediario.Originator;
 import clustering.Cluster;
 import clustering.Clustering;
 import grafo.AGM;
@@ -30,7 +31,6 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class Window {
@@ -42,10 +42,11 @@ public class Window {
 	private JTextField numeroClusters;
 	private Clustering cluster;
 	private JTextField txtInstaciasDeseadas;
-	Intermediario intermediario;
+	private List<Coordinate>coordenadasClickeadas;
+	private List<String>instancias;
+	private Intermediario intermediario;
 	private CareTaker care;
-	private Estado estado;
-	
+	private Originator originator;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -72,44 +73,44 @@ public class Window {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x,e.getPoint().y));
-				Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(),obtenerPosicion.getLon());
-				estado.SetEstado(coordenadaClickeada);
-				mapa.agregarMacador(coordenadaClickeada);
-			
-				try {
-					care.setMemoria(estado.getCoordenadas());
-					
-				
-	
-					
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x, e.getPoint().y));
+					Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(), obtenerPosicion.getLon());
+					mapa.agregarMacador(coordenadaClickeada);
+					coordenadasClickeadas.add(coordenadaClickeada);
 				}
-				
-			
-			}
 		});
 	}
 	private void dibujarMapa() {
 		mapa = new Mapa();
 	}
-	private void dibujarInstancias(List<String> instancias) throws IOException {
+	private void dibujarInstancias() throws IOException {
+		agregarInstancias();
+		actualizarEstado();
+		actualizarMapa();
+	}
+	private void actualizarMapa() {
 		mapa.borrarGrafo();
-		care= new CareTaker();
-		intermediario.setCoordenadas(instancias,care.getNumerosDMemoria(0));
-		List<Coordinate>coordenadas=intermediario.getCoordenadas();
-		coordenadas.addAll(estado.getCoordenadas()); 
-		grafo=new Grafo(coordenadas);
-		agm=new AGM();
-		estado = new Estado();
-		grafo = agm.calcularKruskal(grafo);
-		mapa.agregarMarcas(coordenadas);
-		
+		mapa.agregarMarcas(intermediario.getCoordenadas());
 		dibujarAristas();
+		coordenadasClickeadas.clear();
 	}
 
+	private void actualizarEstado() {
+		originator.set(new Pair<Grafo, List<Double>>(grafo, intermediario.getDoubles()));
+		care.addMemento(originator.guardarAMemento());
+	}
+
+	private void agregarInstancias() throws IOException {
+		for (String instancia : instancias) {
+			intermediario.castear(instancia);
+		}
+		intermediario.agregar(coordenadasClickeadas);
+		grafo = new Grafo(intermediario.getCoordenadas());
+		agm = new AGM();
+
+		grafo = agm.calcularKruskal(grafo);
+	}
+	
 	private void dibujarAristas() {
 		List<Coordinate>coordenadas=intermediario.getCoordenadas();
 		List<Pair<Integer,Integer>>indices=grafo.getIndices();
@@ -119,8 +120,10 @@ public class Window {
 	}
 
 	private void inicializarValoresPantalla() {
+		coordenadasClickeadas=new ArrayList<Coordinate>();
+		instancias=new ArrayList<String>();
 		intermediario=new Intermediario();
-		estado=new Estado();
+		originator=new Originator(null);
 		care=new CareTaker();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 700, 500);
@@ -142,26 +145,28 @@ public class Window {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					cluster=new Clustering(grafo);
-					cluster.clusteringAristasMasPesadas(Integer.valueOf(numeroClusters.getText()));
+					cluster = new Clustering(grafo);
+					grafo = new Grafo(cluster.clusteringAristasMasPesadas(Integer.valueOf(numeroClusters.getText())));
 					mapa.borrarGrafo();
-					mapa.agregarMarcas(intermediario.getCoordenadas(),cluster.getClusters());
+					actualizarEstado();
+					mapa.agregarMarcas(intermediario.getCoordenadas(), cluster.getClusters());
 					dibujarAristas();
-					}
-				catch(Exception e) {
+
+				} catch (Exception e) {
 					System.out.println(e.toString());
 				}
 			}
 		});
-		JButton clusterPromedio = new JButton("Promedio");
-		clusterPromedio.addMouseListener(new MouseAdapter() {
+		JButton clusterAzar = new JButton("Azar");
+		clusterAzar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					cluster=new Clustering(grafo);
-					//cluster.clusteringVecinosMasPesados(Integer.valueOf(numeroClusters.getText()));
+					cluster = new Clustering(grafo);
+					grafo = new Grafo(cluster.clusteringAlAzar(Integer.valueOf(numeroClusters.getText())));
 					mapa.borrarGrafo();
-					mapa.agregarMarcas(intermediario.getCoordenadas());
+					actualizarEstado();
+					mapa.agregarMarcas(intermediario.getCoordenadas(), cluster.getClusters());
 					dibujarAristas();
 				}
 				catch(Exception e) {
@@ -169,8 +174,8 @@ public class Window {
 				}
 			}
 		});
-		clusterPromedio.setBounds(25, 281, 134, 23);
-		panel.add(clusterPromedio);
+		clusterAzar.setBounds(25, 281, 134, 23);
+		panel.add(clusterAzar);
 		
 		pregunta = new JTextField();
 		pregunta.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -229,19 +234,59 @@ public class Window {
 		eliminarNodo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(estado.getCoordenadas().size()>0 && grafo==null) {
-					mapa.eliminarMarcador(estado.getCoordenadas().get(estado.getCoordenadas().size()-1));
-					estado.eliminarUltimaCoordenada();
-					try {
-						care.setMemoria(estado.getCoordenadas());
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+				if (coordenadasClickeadas.size() > 0) {
+					mapa.eliminarMarcador(coordenadasClickeadas.get(coordenadasClickeadas.size() - 1));
 				}
 			}
 		});
 		eliminarNodo.setBounds(25, 357, 134, 23);
 		panel.add(eliminarNodo);
+
+		
+		JButton deshacer = new JButton("deshacer");
+		deshacer.setBounds(10, 11, 89, 23);
+		panel.add(deshacer);
+
+		JButton rehacer = new JButton("rehacer");
+		rehacer.setBounds(109, 11, 65, 23);
+
+		panel.add(rehacer);
+		rehacer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					if (care.estadoActual() + 1 < care.tamano()) {
+						Pair<Grafo, List<Double>> estado = care.getMemento(care.estadoActual() + 1).getEstado();
+						grafo = new Grafo(estado.getKey());
+						intermediario = new Intermediario(estado.getValue());
+
+						actualizarMapa();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		deshacer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					if (care.estadoActual() > 0) {
+						Pair<Grafo, List<Double>> estado = care.getMemento(care.estadoActual() - 1).getEstado();
+						grafo = new Grafo(estado.getKey());
+						intermediario = new Intermediario(estado.getValue());
+
+						actualizarMapa();
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		
 		JButton btnEstadisticas = new JButton("Estadisticas");
 		btnEstadisticas.addMouseListener(new MouseAdapter() {
@@ -253,7 +298,7 @@ public class Window {
 				int i = 0;
 				for(Cluster clus : cluster.getClusters()) {
 					i++;
-					estadisticas += "Peso cluster N°" + i +" color"+ cluster.getClusters().get(i-1).getColor().toString().substring(14)+ ": ";
+					estadisticas += "Peso cluster N°" + i +" color "+ cluster.getClusters().get(i-1).getNombreColor()+ ": ";
 					estadisticas += clus.getPeso();
 					estadisticas += "\n";
 				}
@@ -267,7 +312,6 @@ public class Window {
 		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				ArrayList<String> instancias = new ArrayList<String>(); 
 				if(chckbxInstancia1.isSelected())
 					instancias.add("Instancia1");
 				if(chckbxInstancia2.isSelected())
@@ -279,7 +323,8 @@ public class Window {
 				if(chckbxInstancia5.isSelected())
 					instancias.add("Instancia5");
 				try {
-					dibujarInstancias(instancias);
+					dibujarInstancias();
+					instancias.clear();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

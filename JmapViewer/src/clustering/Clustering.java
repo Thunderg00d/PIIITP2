@@ -1,7 +1,10 @@
 package clustering;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import grafo.BFS;
 import grafo.Grafo;
@@ -10,36 +13,39 @@ import ordenar.Ordenar;
 
 public class Clustering {
 
-	private List<Pair<Integer, Integer>> aristasAEliminar;
+	private Set<Pair<Integer, Integer>> aristasAEliminar;
 	private List<Cluster>clusters;
 
 	private int cantClusters = 1;
 	private Grafo grafo;
 
 	public Clustering(Grafo g) {
-		grafo = g;
-		aristasAEliminar = new ArrayList<Pair<Integer, Integer>>();
+		grafo = new Grafo(g);
+		aristasAEliminar = new HashSet<Pair<Integer, Integer>>();
 		clusters=new ArrayList<Cluster>();
 	}
 	
 	
-	public void clusteringAristasMasPesadas(int cantidadClusters) {
-		corroborarCantidad(cantidadClusters, grafo.cantAristas());
+	public Grafo clusteringAristasMasPesadas(int cantidadClusters) {
+		corroborarCantidad(cantidadClusters);
 		reiniciarValores();
-		eliminarAristas(cantidadClusters, grafo.getDistancias(), grafo.getIndices());
+		agregarAristasAEliminar(cantidadClusters);
+		eliminarAristas(cantidadClusters);
 		cantClusters += aristasAEliminar.size();
+		return grafo;
+	}
+	
+	public Grafo clusteringAlAzar(int cantidadClusters) {
+		corroborarCantidad(cantidadClusters);
+		reiniciarValores();
+		agregarAristasAEliminarAzar(cantidadClusters);
+		eliminarAristas(cantidadClusters);
+		cantClusters += aristasAEliminar.size();
+		return grafo;
 	}
 
-	private void eliminarAristas(int cantidadClusters, Double[] distancias, List<Pair<Integer, Integer>> indices) {
-		Ordenar ordenar = new Ordenar(distancias, indices);
-		int aristasEliminadas = 0;
-		for (int i = ordenar.tamano() - 1; i >= 0; i--) {
-			if (aristasEliminadas == cantidadClusters - 1)
-				break;
-			aristasAEliminar.add(ordenar.indices(i));
-			aristasEliminadas++;
-
-		}
+	private void eliminarAristas(int cantidadClusters) {
+		
 		
 		for (Pair<Integer,Integer>aristaAEliminar: aristasAEliminar) {
 			grafo.borrarArista(aristaAEliminar.getKey(), aristaAEliminar.getValue());
@@ -73,6 +79,32 @@ public class Clustering {
 		cantClusters += aristasAEliminar.size();
 
 	}
+
+
+	private void agregarAristasAEliminar(int cantidadClusters) {
+		Ordenar ordenar = new Ordenar(grafo.getDistancias(), grafo.getIndices());
+		int aristasEliminadas = 0;
+		for (int i = ordenar.tamano() - 1; i >= 0; i--) {
+			if (aristasEliminadas == cantidadClusters - 1)
+				break;
+			aristasAEliminar.add(ordenar.indices(i));
+			aristasEliminadas++;
+
+		}
+	}
+	private void agregarAristasAEliminarAzar(int cantidadClusters) {
+		int aristasEliminadas = 0;
+		while(aristasEliminadas!=cantidadClusters-1) {
+			Random r  = new Random();
+			int i=r.nextInt(grafo.tamano());
+			int j=r.nextInt(grafo.tamano());
+			if( i!=j && grafo.existeArista(i,j) && !aristasAEliminar.contains(new Pair<Integer,Integer>(i,j))) {
+				aristasAEliminar.add(new Pair<Integer,Integer>(i,j));
+				aristasEliminadas++;
+			}
+		}
+	}
+	
 	private List<Cluster> clonarCluster() {
 		List<Cluster>ret=new ArrayList<Cluster>();
 		for(Cluster cluster: clusters) {
@@ -91,13 +123,14 @@ public class Clustering {
 		cantClusters=1;
 	}
 
-	private void corroborarCantidad(int cantidadClusters, int maximaCantidad) {
-		if (cantidadClusters > maximaCantidad)
+	private void corroborarCantidad(int cantidadClusters) {
+		if (cantidadClusters > grafo.cantAristas())
 			throw new IllegalArgumentException("La cantidad de clusters debe ser menor a la cantidad de aristas");
 	}
 
 	public int cantClusters() {
-		return clusters.size();
+		return cantClusters;
 	}
 
 }
+

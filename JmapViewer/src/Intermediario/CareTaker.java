@@ -1,64 +1,32 @@
 package Intermediario;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-import org.openstreetmap.gui.jmapviewer.Coordinate;
+/*
+ * Componente que registra los cambios del Originator.
+ *  Este componente nos permite viajar entre los 
+ *  distintos estados del Originator.
+ */
+public class CareTaker {
+	private List<Memento> estadosGuardados = new ArrayList<Memento>();
+	private int estadoActual;
+    public void addMemento(Memento m) { 
+		   estadosGuardados.add(m); 
+		   estadoActual=estadosGuardados.size()-1;
+    }
+	
+    public Memento getMemento(int i) { 
+    		if(i>tamano()-1 || i<0)
+    			throw new IllegalArgumentException("Indice ingresado no valido");
+    		estadoActual=i;
+		   return estadosGuardados.get(i); 
+	}
+    public int estadoActual() {
+    	return estadoActual;
+    }
 
-import memoria.HistorialOperaciones;
-
-public class CareTaker implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private LinkedList<Double> estadoAGuardar;
-	private HistorialOperaciones repo;
-	
-	
-	public CareTaker() {
-		estadoAGuardar= new LinkedList<Double>();
-		repo=new HistorialOperaciones();
+	public int tamano() {
+		return estadosGuardados.size();
 	}
-	
-	private void guardarEstados() throws IOException {
-		repo.agregarAMemoria(this, "Calcu.json");
-	}
-	
-	public void setMemoria(List<Coordinate> coordenadas) throws IOException {
-		for(Coordinate coordenada : coordenadas) {
-			estadoAGuardar.add(coordenada.getLat());
-			estadoAGuardar.add(coordenada.getLon());
-		}
-		
-		guardarEstados();
-		estadoAGuardar.clear();
-	}
-	
-	public List<Coordinate> getNumerosDMemoria(int estado) {
-		List<Double> temp = new ArrayList<Double>();
-		List<Coordinate> tempC = new ArrayList<Coordinate>();
-		temp.addAll(repo.getNumsDMemo("Calcu.json"));
-		for (int i=0; i<temp.size();i+=2) {
-			tempC.add(new Coordinate(temp.get(i),temp.get(i+1)));
-		}
-													
-		return tempC;
-	}
-	
-	public List<String> getEstadoOperandos() {
-		return repo.traerOpsDMemo();
-	}
-	
-	
-	public void setMemoria(ArrayList<Double> arrayList) throws IOException {
-		estadoAGuardar.addAll(arrayList);
-		
-		guardarEstados();
-	}
-	
-	public void setMemoria(String estadoNums) throws IOException {
-		guardarEstados();	
-	}
-	
 }

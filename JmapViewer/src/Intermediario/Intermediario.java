@@ -8,48 +8,58 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import txtData.LectorTxt;
 
 public class Intermediario implements Cloneable{
-	private List<Coordinate> coordenadas;
-	private LectorTxt lector;
-	
+private List<Coordinate>coordenadas;
 	
 	public Intermediario() {
-		coordenadas = new ArrayList<Coordinate>();
-		lector = new LectorTxt();
+		coordenadas=new ArrayList<Coordinate>();
 	}
 	
-	public void  setCoordenadas(List<String> instancias,List<Coordinate> set) throws IOException{
-		List<String> coordesTemp = new ArrayList<String>();
-		for(String s : instancias) {
-			for(String j : lector.LeerArchivo(s)) {
-				coordesTemp.add(j);	
-			}
+	public Intermediario(List<Double> value) {
+		coordenadas=new ArrayList<Coordinate>();
+		for(int i=0;i<value.size();i+=2) {
+			coordenadas.add(new Coordinate(value.get(i),value.get(i+1)));
 		}
-		for(String s : coordesTemp) {
-			Coordinate coordenada= new Coordinate(0.0,0.0);
-			String numActual = "";
-			Double latitud = 0.0;
-			Double longitud = 0.0;
-			for (int j = 0; j < s.length(); j++) {
-				if (s.charAt(j) == '-' || s.charAt(j) == ' ') {
-					if (numActual.length() > 0) {
-						latitud = Double.valueOf(numActual) * -1;
-						numActual = "";
+	}
+
+	public void  castear(String nombreArchivo) throws IOException{
+		LectorTxt lector=new LectorTxt();
+		List<String>lineas=lector.LeerArchivo(nombreArchivo);
+		for(String s: lineas) {
+				int espacio=s.indexOf(" ", 1);
+				if(espacio!=-1) {
+					try {
+					Double lat=Double.parseDouble(s.substring(0, espacio));
+					Double lon=Double.parseDouble(s.substring(espacio+1,s.length()));
+					coordenadas.add(new Coordinate(lat,lon));
 					}
-				} else {
-					numActual += s.charAt(j);
-					if (s.length() == j + 1) {
-						longitud = Double.valueOf(numActual) * -1;
-						coordenada.setLat(latitud);
-						coordenada.setLon(longitud);
-						coordenadas.add(coordenada);
+					catch(NumberFormatException e) {
+						e.printStackTrace();
 					}
 				}
+			
 			}
-		}
-		coordenadas.addAll(set);
 	}
 	public List<Coordinate> getCoordenadas(){
 		return coordenadas;
 	}
+	public void agregar(List<Coordinate>otrasCoordenadas) {
+		coordenadas.addAll(otrasCoordenadas);
+	}
+
+	public List<Double> getDoubles() {
+		List<Double>ret=new ArrayList<Double>();
+		for(Coordinate coordenada:coordenadas) {
+			ret.add(coordenada.getLat());
+			ret.add(coordenada.getLon());
+		}
+		return ret;
+	}
+
+	public void eliminarUltimaCoordenada() {
+		if(coordenadas.size()>0) {
+			coordenadas.remove(coordenadas.size()-1);
+		}
+	}
+	
 	
 }

@@ -1,10 +1,6 @@
 package principal;
 
 import java.util.List;
-import java.util.Random;
-import java.awt.Color;
-import java.awt.color.*;
-
 import org.openstreetmap.gui.jmapviewer.Coordinate;
 import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import org.openstreetmap.gui.jmapviewer.MapMarkerDot;
@@ -33,11 +29,7 @@ public class Mapa {
 							new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
 		}
 	public void agregarMarcas(List<Coordinate>coordenadas, List<Cluster> list) {
-		Color arr[] = {Color.BLACK,Color.BLUE,Color.DARK_GRAY,Color.MAGENTA,Color.RED,Color.WHITE,Color.YELLOW};
-		Random r  = new Random();
 		for(Cluster cluster : list) {
-			int random = r.nextInt(arr.length);
-			cluster.setColor(arr[random]);
 			for(Integer vertice : cluster.getVertices()) {
 				MapMarker marker = new MapMarkerDot(
 						cluster.getColor(),
