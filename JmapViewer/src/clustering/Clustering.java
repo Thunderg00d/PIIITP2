@@ -16,36 +16,38 @@ public class Clustering {
 	private Set<Pair<Integer, Integer>> aristasAEliminar;
 	private List<Cluster>clusters;
 
-	private int cantClusters = 1;
+	private int cantClusters;
 	private Grafo grafo;
 
 	public Clustering(Grafo g) {
 		grafo = new Grafo(g);
 		aristasAEliminar = new HashSet<Pair<Integer, Integer>>();
 		clusters=new ArrayList<Cluster>();
+		cantClusters=0;
 	}
 	
 	
 	public Grafo clusteringAristasMasPesadas(int cantidadClusters) {
+
 		corroborarCantidad(cantidadClusters);
 		reiniciarValores();
+		cantClusters=cantidadClusters;
 		agregarAristasAEliminar(cantidadClusters);
 		eliminarAristas(cantidadClusters);
-		cantClusters += aristasAEliminar.size();
 		return grafo;
 	}
 	
 	public Grafo clusteringAlAzar(int cantidadClusters) {
+		
 		corroborarCantidad(cantidadClusters);
 		reiniciarValores();
+		cantClusters=cantidadClusters;
 		agregarAristasAEliminarAzar(cantidadClusters);
 		eliminarAristas(cantidadClusters);
-		cantClusters += aristasAEliminar.size();
 		return grafo;
 	}
 
 	private void eliminarAristas(int cantidadClusters) {
-		
 		
 		for (Pair<Integer,Integer>aristaAEliminar: aristasAEliminar) {
 			grafo.borrarArista(aristaAEliminar.getKey(), aristaAEliminar.getValue());
@@ -73,11 +75,8 @@ public class Clustering {
 						clusters.add(c2);
 					}
 				}
-				
 			}
 		}
-		cantClusters += aristasAEliminar.size();
-
 	}
 
 
@@ -120,7 +119,7 @@ public class Clustering {
 
 	private void reiniciarValores() {
 		aristasAEliminar.clear();
-		cantClusters=1;
+		cantClusters=0;
 	}
 
 	private void corroborarCantidad(int cantidadClusters) {
