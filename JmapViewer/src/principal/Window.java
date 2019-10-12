@@ -19,9 +19,12 @@ import grafo.AGM;
 import grafo.Grafo;
 import javafx.util.Pair;
 import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -47,6 +50,9 @@ public class Window {
 	private Intermediario intermediario;
 	private CareTaker care;
 	private Originator originator;
+	private JButton deshacer;
+	private JButton rehacer;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -243,12 +249,14 @@ public class Window {
 		panel.add(eliminarNodo);
 
 		
-		JButton deshacer = new JButton("deshacer");
-		deshacer.setBounds(10, 11, 89, 23);
+		JButton deshacer = new JButton("");
+		deshacer.setIcon(new ImageIcon(Window.class.getResource("/Imagenes/deshacer.png")));
+		deshacer.setBounds(0, 0, 97, 29);
 		panel.add(deshacer);
 
-		JButton rehacer = new JButton("rehacer");
-		rehacer.setBounds(109, 11, 65, 23);
+		JButton rehacer = new JButton("");
+		rehacer.setIcon(new ImageIcon(Window.class.getResource("/Imagenes/rehacer.png")));
+		rehacer.setBounds(94, 0, 90, 29);
 
 		panel.add(rehacer);
 		rehacer.addMouseListener(new MouseAdapter() {
@@ -330,11 +338,10 @@ public class Window {
 				}
 				
 			}
-		});
-		
-		
-		
+		});	
 		
 		
 	}
+
+
 }
