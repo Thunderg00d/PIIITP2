@@ -19,12 +19,10 @@ import grafo.AGM;
 import grafo.Grafo;
 import javafx.util.Pair;
 import javax.swing.JPanel;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Color;
 import javax.swing.SwingConstants;
@@ -50,8 +48,6 @@ public class Window {
 	private Intermediario intermediario;
 	private CareTaker care;
 	private Originator originator;
-	private JButton deshacer;
-	private JButton rehacer;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -131,7 +127,7 @@ public class Window {
 		intermediario=new Intermediario();
 		originator=new Originator(null);
 		care=new CareTaker();
-		frame = new JFrame();
+		frame = new JFrame("Mapa");
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mapa.getMap());
