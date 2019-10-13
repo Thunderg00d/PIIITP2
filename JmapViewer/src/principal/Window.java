@@ -33,6 +33,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Window {
 	private JFrame frame;
@@ -109,7 +111,6 @@ public class Window {
 		intermediario.agregar(coordenadasClickeadas);
 		grafo = new Grafo(intermediario.getCoordenadas());
 		agm = new AGM();
-
 		grafo = agm.calcularKruskal(grafo);
 	}
 	
@@ -231,6 +232,10 @@ public class Window {
 		panel.add(chckbxInstancia5);
 		
 		JButton aceptarInstancia = new JButton("Aceptar");
+		aceptarInstancia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 
 		aceptarInstancia.setBounds(25, 198, 134, 23);
 		panel.add(aceptarInstancia);
@@ -353,6 +358,8 @@ public class Window {
 				try {
 					dibujarInstancias();
 					instancias.clear();
+					intermediario.reiniciarValores();
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

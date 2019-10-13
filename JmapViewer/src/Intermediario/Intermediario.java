@@ -22,7 +22,6 @@ private List<Coordinate>coordenadas;
 	}
 
 	public void  castear(String nombreArchivo) throws IOException{
-		reiniciarValores();
 		LectorTxt lector=new LectorTxt();
 		List<String>lineas=lector.LeerArchivo(nombreArchivo);
 		for(String s: lineas) {
@@ -61,7 +60,7 @@ private List<Coordinate>coordenadas;
 			coordenadas.remove(coordenadas.size()-1);
 		}
 	}
-	private void reiniciarValores() {
+	public void reiniciarValores() {
 		coordenadas.clear();
 	}
 	
