@@ -1,6 +1,8 @@
 package clustering;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,38 +12,82 @@ import org.junit.Test;
 
 import grafo.Grafo;
 import grafoTest.Assert;
+import grafoTest.CrearGrafos;
 
 public class ClusteringTest {
-
-	@Test
-	public void testClustering() {
-		Grafo grafo=new Grafo(6);
-		grafo.agregarArista(0, 2, 1.0);	
-		grafo.agregarArista(1, 2, 5.0);	
-		grafo.agregarArista(1, 4, 3.0);
-		grafo.agregarArista(2, 5, 4.0);
-		grafo.agregarArista(5, 3, 2.0);
+	@Test(expected = IllegalArgumentException.class)
+	public void ClusteringGrafoNullTest() {
+		Grafo grafo=CrearGrafos.crearGrafo5();
 		
+		@SuppressWarnings("unused")
+		Clustering c=new Clustering(grafo,3);
+	}
+	@Test(expected = IllegalArgumentException.class)
+	public void ClusteringMasClustersQueAristas() {
+		Grafo grafo=CrearGrafos.crearGrafo1();
+		
+		@SuppressWarnings("unused")
+		Clustering c=new Clustering(grafo,100);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void ClusteringCantidadClustersNegativa() {
+		Grafo grafo=CrearGrafos.crearGrafo1();
+		
+		@SuppressWarnings("unused")
+		Clustering c=new Clustering(grafo,-1);
+	}
+	@Test
+	public void ClusteringMasPesadasGrafoNoConexo() {
+		Grafo grafo=CrearGrafos.crearGrafoNoConexo();
+		Clustering c=new Clustering(grafo,2);
+		assertEquals(c.aristasMasPesadas(),false);
+	}
+	@Test
+	public void ClusteringPromedioGrafoNoConexo() {
+		Grafo grafo=CrearGrafos.crearGrafoNoConexo();
+		Clustering c=new Clustering(grafo,2);
+		assertEquals(c.promedio(),false);
+	}
+	@Test
+	public void ClusteringAzarGrafoNoConexo() {
+		Grafo grafo=CrearGrafos.crearGrafoNoConexo();
+		Clustering c=new Clustering(grafo,2);
+		assertEquals(c.azar(),false);
+	}
+	@Test
+	public void ClusteringMasPesadasTest() {
+		Grafo grafo = CrearGrafos.crearGrafo1();	
+		/* Aristas del grafo
+	  		E(0, 2)= 1.0	
+			E(1, 2)=5.0	
+			E(1, 4)=3.0
+			E(2, 5)=4.0
+			E(5, 3)=2.0
+			Arista mas pesada=(1,2)*/
 		Grafo esperado=new Grafo(6);
 		esperado.agregarArista(0, 2, 1.0);	
 		esperado.agregarArista(1, 4, 3.0);
 		esperado.agregarArista(2, 5, 4.0);
 		esperado.agregarArista(5, 3, 2.0);
-		Clustering c=new Clustering(grafo);
-		c.clusteringAristasMasPesadas(2);
-		Assert.iguales(esperado, grafo);	
+		Clustering c=new Clustering(grafo,2);
+		c.aristasMasPesadas();
+		Assert.iguales(esperado, c.getGrafo());	
 	}
+	
+	
+	
 	@Test
-	public void testClusteringPeso() {
-		Grafo grafo=new Grafo(6);
-		// 0 2 3 5 ( 1+4+2 )=7
-		// 1 4 (3)=3
-		grafo.agregarArista(0, 2, 1.0);	
-		grafo.agregarArista(1, 2, 5.0);	
-		grafo.agregarArista(1, 4, 3.0);
-		grafo.agregarArista(2, 5, 4.0);
-		grafo.agregarArista(5, 3, 2.0);
-		
+	public void ClusteringMasPesadasPesoClustersTest() {
+		Grafo grafo = CrearGrafos.crearGrafo1();
+		/* Aristas del grafo
+	  		E(0, 2)= 1.0	
+			E(1, 2)=5.0	
+			E(1, 4)=3.0
+			E(2, 5)=4.0
+			E(5, 3)=2.0
+			Arista mas pesada=(1,2)*/
+
 		Set<Integer>vertices1= new HashSet<Integer>();
 		vertices1.add(0);
 		vertices1.add(5);
@@ -49,28 +95,113 @@ public class ClusteringTest {
 		vertices1.add(2);
 		Double peso1=7.0; 
 		Cluster c1=new Cluster(peso1,vertices1);
+		
 		Set<Integer>vertices2= new HashSet<Integer>();
 		vertices2.add(4);
 		vertices2.add(1);
 		Double peso2=3.0;
 		Cluster c2=new Cluster(peso2,vertices2);
 		
-		boolean ret=true;
-		Clustering c=new Clustering(grafo);
-		c.clusteringAristasMasPesadas(2);
+		Clustering c=new Clustering(grafo,2);
+		c.aristasMasPesadas();
+		
 		List<Cluster>clusters=c.getClusters();
 		
 		
-		for(Cluster cluster: clusters) {
-			System.out.println(cluster.getVertices().toString()+" "+cluster.getPeso().toString());
-		}
-		
-		
-		ret = ret && clusters.contains(c1) && clusters.contains(c2);
-		
-		
-		assertEquals(true,ret);
+		assertTrue(clusters.contains(c1) && clusters.contains(c2));
 	}
+	
+	@Test
+	public void ClusteringMasPromedioPesoClustersTest() {
+		Grafo grafo = CrearGrafos.crearGrafo1();
+		/* Aristas del grafo
+	  		E(0, 2)= 1.0	
+			E(1, 2)=5.0	
+			E(1, 4)=3.0
+			E(2, 5)=4.0
+			E(5, 3)=2.0
+			Arista mas pesada=(1,2)*/
+
+		Set<Integer>vertices1= new HashSet<Integer>();
+		vertices1.add(0);
+		vertices1.add(5);
+		vertices1.add(3);
+		vertices1.add(2);
+		Double peso1=7.0; 
+		Cluster c1=new Cluster(peso1,vertices1);
+		
+		Set<Integer>vertices2= new HashSet<Integer>();
+		vertices2.add(4);
+		vertices2.add(1);
+		Double peso2=3.0;
+		Cluster c2=new Cluster(peso2,vertices2);
+		
+		Clustering c=new Clustering(grafo,2);
+		c.promedio();
+		
+		List<Cluster>clusters=c.getClusters();
+		
+		
+		assertTrue(clusters.contains(c1) && clusters.contains(c2));
+	}
+	
+	
+	@Test
+	
+	public void ClusteringAzarTest() {
+		Grafo grafo = CrearGrafos.crearGrafo1();
+		/* Aristas del grafo
+	  		E(0, 2)= 1.0	
+			E(1, 2)=5.0	
+			E(1, 4)=3.0
+			E(2, 5)=4.0
+			E(5, 3)=2.0
+			Arista mas pesada=(1,2)*/
+		Clustering c=new Clustering(grafo,3);
+		c.azar();
+		
+		assertEquals(c.getGrafo().cantAristas(),grafo.cantAristas()-2);
+	}
+	@Test
+	public void ClusteringPromedioTest() {
+		Grafo grafo = CrearGrafos.crearGrafo1();
+		/* Aristas del grafo
+		  	E(0, 2)= 1.0	
+			E(1, 2)=5.0	
+			E(1, 4)=3.0
+			E(2, 5)=4.0
+			E(5, 3)=2.0
+		 Promedio vertice 0=1.0
+		 Promedio vertice 1=4.0
+		 Promedio vertice 2=3.33
+		 Promedio vertice 3=2.0
+		 Promedio vertice 4=3.0
+		 Promedio vertice 5=3.0
+		 
+		 Mayor de los promedios= 3.33 vertice 2
+		 Mayor arista del vertice 2= (1,2)
+		 */
+		Set<Integer>vertices1= new HashSet<Integer>();
+		vertices1.add(0);
+		vertices1.add(5);
+		vertices1.add(3);
+		vertices1.add(2);
+		Double peso1=7.0; 
+		Cluster c1=new Cluster(peso1,vertices1);
+		
+		Set<Integer>vertices2= new HashSet<Integer>();
+		vertices2.add(4);
+		vertices2.add(1);
+		Double peso2=3.0;
+		Cluster c2=new Cluster(peso2,vertices2);
+	
+		Clustering c=new Clustering(grafo,2);
+		c.aristasMasPesadas();
+		List<Cluster>clusters=c.getClusters();
+
+		assertTrue(clusters.contains(c1) && clusters.contains(c2));
+	}
+	
 
 	
 }

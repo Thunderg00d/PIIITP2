@@ -15,9 +15,13 @@ public class BFS
 	
 	public BFS(Grafo g)
 	{
+		corroborarExistencia(g);
 		grafo = g;
 	}
-
+	private void corroborarExistencia(Grafo g) {
+		if(g==null)
+			throw new IllegalArgumentException("El grafo no existe");
+	}
 	// Determina si el grafo es conexo
 	public boolean esConexo()
 	{
@@ -25,7 +29,6 @@ public class BFS
 		
 		while( pendientes.size() != 0 )
 		{
-			//System.out.println(pendientes.toString());
 			int i = seleccionarPendiente();
 			marcados[i] = true;
 			

@@ -28,14 +28,14 @@ public class Mapa {
 							new Coordinate(coordenadas.get(j).getLat(),coordenadas.get(j).getLon()),
 							new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
 		}
-	public void agregarMarcas(List<Coordinate>coordenadas, List<Cluster> list) {
-		for(Cluster cluster : list) {
+	public void agregarMarcas(List<Coordinate>coordenadas, List<Cluster> clusters) {
+		for(Cluster cluster : clusters) {
 			for(Integer vertice : cluster.getVertices()) {
 				MapMarker marker = new MapMarkerDot(
 						cluster.getColor(),
 						coordenadas.get(vertice).getLat(),
 						coordenadas.get(vertice).getLon());
-				mapa.addMapMarker(marker);
+						mapa.addMapMarker(marker);
 			}
 			
 		}

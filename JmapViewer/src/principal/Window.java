@@ -147,13 +147,14 @@ public class Window {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					cluster = new Clustering(grafo);
-					grafo = new Grafo(cluster.clusteringAristasMasPesadas(Integer.valueOf(numeroClusters.getText())));
+					cluster = new Clustering(grafo,Integer.valueOf(numeroClusters.getText()));
+					if(cluster.aristasMasPesadas()){
+					grafo = new Grafo(cluster.getGrafo());
 					mapa.borrarGrafo();
 					actualizarEstado();
 					mapa.agregarMarcas(intermediario.getCoordenadas(), cluster.getClusters());
 					dibujarAristas();
-
+					}
 				} catch (Exception e) {
 					System.out.println(e.toString());
 				}
@@ -164,12 +165,14 @@ public class Window {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					cluster = new Clustering(grafo);
-					grafo = new Grafo(cluster.clusteringAlAzar(Integer.valueOf(numeroClusters.getText())));
+					cluster = new Clustering(grafo,Integer.valueOf(numeroClusters.getText()));
+					if(cluster.azar()){
+					grafo = new Grafo(cluster.getGrafo());
 					mapa.borrarGrafo();
 					actualizarEstado();
 					mapa.agregarMarcas(intermediario.getCoordenadas(), cluster.getClusters());
 					dibujarAristas();
+				}
 				}
 				catch(Exception e) {
 					System.out.println(e.toString());
@@ -241,7 +244,7 @@ public class Window {
 				}
 			}
 		});
-		eliminarNodo.setBounds(25, 357, 134, 23);
+		eliminarNodo.setBounds(25, 393, 134, 23);
 		panel.add(eliminarNodo);
 
 		
@@ -309,9 +312,30 @@ public class Window {
 				JOptionPane.showMessageDialog(null, estadisticas);
 			}
 		});
-		btnEstadisticas.setBounds(25, 404, 134, 23);
+		btnEstadisticas.setBounds(25, 427, 134, 23);
 		panel.add(btnEstadisticas);
 		
+		JButton promedio = new JButton("Promedio");
+		promedio.setBounds(25, 334, 134, 23);
+		panel.add(promedio);
+		promedio.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					cluster = new Clustering(grafo,Integer.valueOf(numeroClusters.getText()));
+					if(cluster.promedio()){
+					grafo = new Grafo(cluster.getGrafo());
+					mapa.borrarGrafo();
+					actualizarEstado();
+					mapa.agregarMarcas(intermediario.getCoordenadas(), cluster.getClusters());
+					dibujarAristas();
+				}
+				}
+				catch(Exception e) {
+					System.out.println(e.toString());
+				}
+			}
+		});
 		
 		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
@@ -338,6 +362,4 @@ public class Window {
 		
 		
 	}
-
-
 }

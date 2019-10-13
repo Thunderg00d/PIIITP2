@@ -18,7 +18,7 @@ public class Grafo implements Serializable{
 	private static final long serialVersionUID = 1L;
 	// Representamos el grafo por su matriz de adyacencia
 	private Double[][] A;
-
+	
 	// El conjunto de vertices esta fijo
 	public Grafo(int vertices) {
 		A = new Double[vertices][vertices];
@@ -40,8 +40,7 @@ public class Grafo implements Serializable{
 			for(int j=i+1;j<tamano();j++) {
 				agregarArista(i,j,grafo.getArista(i, j));
 			}
-		}
-		
+		}	
 	}
 	
 	public Double getArista(int i, int j) {
@@ -68,6 +67,7 @@ public class Grafo implements Serializable{
                 * Math.cos(Math.toRadians(coordenadas1.getLat())) * Math.cos(Math.toRadians( coordenadas2.getLat()));  
         double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));  
         A[i][j] = A[j][i]  = radioTierra * va2;
+        
 	}
 
 	// Operaciones sobre aristas
@@ -112,6 +112,34 @@ public class Grafo implements Serializable{
 				}
 			return masPesado;
 		}
+		
+		public Pair<Integer,Integer> calcularAristaMasPesada() {
+			Double masPesada=Double.MIN_VALUE;
+			Pair<Integer,Integer>vertice=new Pair<Integer,Integer>(0,0);
+			for(int i=0;i<tamano();i++) {
+				for(int j=i+1;j<tamano() && j!=i;j++) {
+					if(existeArista(i,j) && getArista(i,j)>masPesada){
+						masPesada=getArista(i,j);
+						vertice=new Pair<Integer,Integer>(i,j);
+					}
+				}
+			}
+			return vertice;
+		}
+		
+		public Pair<Integer,Integer> aristaMenosPesada() {
+			Double menosPesada=Double.MAX_VALUE;
+			Pair<Integer,Integer>vertice=new Pair<Integer,Integer>(0,0);
+			for(int i=0;i<tamano();i++) {
+				for(int j=i+1;j<tamano() && j!=i;j++) {
+					if(existeArista(i,j) && getArista(i,j)<menosPesada){
+						menosPesada=getArista(i,j);
+						vertice=new Pair<Integer,Integer>(i,j);
+					}
+				}
+			}
+			return vertice;
+		}
 		public Double promedioVecinos(int vertice){
 			Double pesos=0.0;
 			int cantidadVecinos=0;
@@ -123,7 +151,17 @@ public class Grafo implements Serializable{
 			}
 			return pesos/cantidadVecinos;
 		}
-
+		public Pair<Integer,Integer> promedioMasPesado(){
+			Pair<Integer,Integer> verticeMasPesado=new Pair<Integer,Integer>(0,0);
+			Double masPesado=0.0;
+			for(int i=0;i<tamano();i++) {
+				if(promedioVecinos(i)>masPesado) {
+					masPesado=promedioVecinos(i);
+					verticeMasPesado=vecinoMasPesado(i);
+				}
+			}
+			return verticeMasPesado;
+		}
 	// Cantidad de vertices
 	public int tamano() {
 		return A.length;
@@ -169,7 +207,7 @@ public class Grafo implements Serializable{
 	}
 	
 	public List<Pair<Integer,Integer>> getIndices() {
-		ArrayList<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
+		List<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
 		for(int i=0;i<tamano();i++) {
 			for(int j=i+1;j<tamano() && j!=i;j++){
 				if(existeArista(i,j)) 

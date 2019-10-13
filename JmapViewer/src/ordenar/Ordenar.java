@@ -2,22 +2,26 @@ package ordenar;
 
 import java.util.List;
 
+import grafo.Grafo;
 import javafx.util.Pair;
 
 public class Ordenar {
-	Double []d;
+
 	List<Pair<Integer,Integer>>ind;
+	Grafo grafo;
 	
-	
-	public Ordenar(Double[]distancias,List<Pair<Integer, Integer>>indices) {
-		if(distancias.length!=indices.size())
-			throw new IllegalArgumentException("Los parametros deben tener el mismo largo");
-		d=distancias;
-		ind=indices;
+	public Ordenar(Grafo g) {
+		corroborarExistencia(g);
+		grafo=new Grafo(g);
+		ind=grafo.getIndices();
 		quicksort(0,tamano()-1);
 	}
+	private void corroborarExistencia(Grafo g) {
+		if(g==null)
+			throw new IllegalArgumentException("El grafo no existe");
+	}
 	public int tamano() {
-		return d.length;
+		return ind.size();
 	}
 	
 	private void quicksort(int inicio, int fin) {
@@ -30,27 +34,28 @@ public class Ordenar {
 	}
 	
 	private int partition( int inicio, int fin) {
-	    Double pivot = d[fin];
+		//Pair<Integer,Integer>indiceFin=new Pair<Integer,Integer>(ind.get(fin).getKey(),ind.get)
+	    Double pivot = grafo.getArista(ind.get(fin).getKey(), ind.get(fin).getValue());
 	    int i = (inicio-1);
 	 
 	    for (int j = inicio; j < fin; j++) {
-	    	if (d[j] <= pivot) {
+	    	if (grafo.getArista(ind.get(j).getKey(), ind.get(j).getValue()) <= pivot) {
 	            i++;
 	 
-	            Double swapTemp = d[i];
+	           // Double swapTemp = d[i];
 	            Pair<Integer,Integer> swapITemp = ind.get(i);
 	            ind.set(i, ind.get(j));
 	            ind.set(j, swapITemp);
-	            d[i] = d[j];
-	            d[j] = swapTemp;
+	           // d[i] = d[j];
+	           // d[j] = swapTemp;
 	        }
 	      
 	    }
 	    Pair<Integer,Integer> swapITemp=ind.get(i+1);
-	    Double swapTemp = d[i+1];
-	    d[i+1] = d[fin];
+	  //  Double swapTemp = d[i+1];
+	   // d[i+1] = d[fin];
 	    ind.set(i+1, ind.get(fin));
-	    d[fin] = swapTemp;
+	   // d[fin] = swapTemp;
 	    ind.set(fin, swapITemp);
 	 
 	    return i+1;
@@ -68,10 +73,11 @@ public class Ordenar {
 
 	}
 	public Double getDistancia(int i) {
-		return d[i];
+		return grafo.getArista(ind.get(i).getKey(), ind.get(i).getValue());
 	}
-	public Double[] ordenados() {
-		return d;
+	public List<Pair<Integer,Integer>>getIndices(){
+		return ind;
 	}
+	
 	
 }

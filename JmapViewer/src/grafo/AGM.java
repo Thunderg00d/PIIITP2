@@ -9,6 +9,10 @@ public class AGM {
 	private Ordenar ord;
 
 	public Grafo calcularKruskal(Grafo gr) {
+		corroborarExistencia(gr);
+		BFS bfs=new BFS(gr);
+		if(!bfs.esConexo())
+			return null;
 		inicializarValores(gr);
 		for(int i=0;i<ord.tamano();i++) {
 			Pair<Integer,Integer>actual=ord.indices(i);
@@ -19,9 +23,14 @@ public class AGM {
 		}	
 		return grafo;
 	}
+	private void corroborarExistencia(Grafo gr) {
+		if (gr==null)
+			throw new IllegalArgumentException("El grafo no existe");
+		
+	}
 	private void inicializarValores(Grafo gr) {
 		grafo=new Grafo(gr.tamano());
-		ord=new Ordenar(gr.getDistancias(),gr.getIndices());
+		ord=new Ordenar(gr);
 		inicializarPadres(gr.tamano());
 	}
 	private void inicializarPadres(int tamano) {
