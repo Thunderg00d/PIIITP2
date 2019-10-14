@@ -365,7 +365,7 @@ public class Window {
 					dibujarInstancias();
 					instancias.clear();
 					care.guardar();
-					care= care.set();
+					//care= care.set();
 					
 				} catch (IOException e) {
 					e.printStackTrace();

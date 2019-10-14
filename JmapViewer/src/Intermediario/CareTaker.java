@@ -17,7 +17,7 @@ public class CareTaker {
 	private int estadoActual;
 	public  CareTaker() throws FileNotFoundException {
 		repo = new HistorialOperaciones();
-		
+	
 	}
     public void addMemento(Memento m) { 
 		   estadosGuardados.add(m); 
@@ -44,8 +44,6 @@ public class CareTaker {
 	
 	public CareTaker set() throws FileNotFoundException {
 		CareTaker temp = this.repo.leerJSON(("Grafos")) ;
-		
-		
 		return temp;
 	}
 }
