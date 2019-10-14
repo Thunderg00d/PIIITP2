@@ -161,38 +161,27 @@ public class ReaccionEventos {
 		}
 	}
 	public void rehacer() {
-		try {
 			if (careTaker.estadoActual() + 1 < careTaker.tamano()) {
 				Pair<Grafo, List<Double>> estado = careTaker.getMemento(careTaker.estadoActual() + 1).getEstado();
 				grafo = new Grafo(estado.getKey());
 				intermediario = new Intermediario(estado.getValue());
-
 				actualizarMapa();
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
+	
 	public void deshacer() {
-		try {
 			if (careTaker.estadoActual() > 0) {
 				Pair<Grafo, List<Double>> estado = careTaker.getMemento(careTaker.estadoActual() - 1).getEstado();
 				grafo = new Grafo(estado.getKey());
 				intermediario = new Intermediario(estado.getValue());
 				actualizarMapa();
-				 
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
+	
 	public void agregarEstadisticas() {
 		if(cluster!=null) {
 		String estadisticas = "";
-		estadisticas += "Cant. clusters: " +
-						String.valueOf(cluster.cantClusters()) + "\n";
+		estadisticas += "Cant. clusters: " +String.valueOf(cluster.cantClusters()) + "\n";
 		int i = 0;
 		for(Cluster clus : cluster.getClusters()) {
 			i++;
