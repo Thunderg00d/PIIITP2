@@ -22,9 +22,14 @@ public class VecinoMasPesadoTest {
 	}
 	
 	@Test
-	public void vecinoMasPesadoGrafoNullTest() {
+	public void vecinoMasPesadoGrafoNoConexoTest() {
 		Grafo grafo= CrearGrafos.noConexo();
 		assertEquals(new Pair<Integer,Integer>(0,0),grafo.vecinoMasPesado(4));
 	}
-
+	
+	@Test
+	public void vecinoMasPesadoTodosAisladosTest() {
+		Grafo grafo= CrearGrafos.todosAislados();
+		assertEquals(new Pair<Integer,Integer>(0,0),grafo.vecinoMasPesado(4));
+	}
 }

@@ -118,7 +118,7 @@ public class Grafo implements Serializable{
 					cantidadVecinos++;
 				}
 			}
-			return pesos/cantidadVecinos;
+			return cantidadVecinos>0.0 && pesos>0.0? pesos/cantidadVecinos: 0.0;
 	}
 	
 	public Pair<Integer,Integer> promedioMasPesado(){

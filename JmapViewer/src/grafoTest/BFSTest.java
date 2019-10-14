@@ -47,12 +47,7 @@ public class BFSTest {
 		@Test
 		public void pesoSubgrafoTest() {
 			Grafo grafo= CrearGrafos.grafoConexo2();
-			/* Aristas del grafo 
-		 	E(0, 2)= 1.0 
-		 	E(1, 2)=5.0 
-		 	E(1, 4)=3.0 
-		 	E(2, 5)=4.0 
-		 	E(5, 3)=2.0     */
+	
 			BFS bfs=new BFS(grafo);
 			assertEquals(Double.valueOf(bfs.pesoSubgrafo(0)),Double.valueOf(43.0));
 		}
@@ -60,12 +55,7 @@ public class BFSTest {
 		@Test
 		public void verticesSubgrafoTest() {
 			Grafo grafo= CrearGrafos.grafoConexo2();
-			/* Aristas del grafo 
-		 	E(0, 2)= 1.0 
-		 	E(1, 2)=5.0 
-		 	E(1, 4)=3.0 
-		 	E(2, 5)=4.0 
-		 	E(5, 3)=2.0     */
+		
 			int[] verticesDelSubgrafo=new int[6];
 			for(int i=0;i<6;i++)
 				verticesDelSubgrafo[i]=i;

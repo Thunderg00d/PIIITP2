@@ -12,7 +12,7 @@ import ordenar.Ordenar;
 public class OrdenarTest {
 	@Test
 	public void Ordenartest() {
-		Grafo grafo=CrearGrafos.grafoConexo3();
+		Grafo grafo=CrearGrafos.grafoConexo1();
 		/* Aristas del grafo
   			E(0, 2)= 1.0	
 			E(1, 2)=5.0	
