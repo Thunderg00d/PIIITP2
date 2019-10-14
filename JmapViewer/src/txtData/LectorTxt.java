@@ -6,17 +6,18 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
 public class LectorTxt {
-	private  ArrayList<String> content;
+	private  List<String> content;
 	
 	public LectorTxt() {
 		content = new ArrayList<String>();
 	}
 	
-	public ArrayList<String> LeerArchivo(String archivo) throws IOException{
+	public List<String> LeerArchivo(String archivo) throws IOException{
 		try {
 			content.clear();
 			File fr = new File(getPath() + "\\instancias\\" + archivo + ".txt");
