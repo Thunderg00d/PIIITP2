@@ -29,6 +29,8 @@ public class ReaccionEventos {
 	private Intermediario intermediario;
 	private List<Coordinate>coordenadasClickeadas;
 	private Clustering cluster;
+	private String[]opciones= {"Numero ingresado no valido","No se ha seleccionado ninguna instancia"};
+	
 	
 	public ReaccionEventos(Mapa m) throws FileNotFoundException {
 		mapa=m;
@@ -38,12 +40,14 @@ public class ReaccionEventos {
 		originator=new Originator(null);
 		coordenadasClickeadas=new ArrayList<Coordinate>();
 	}
+	
 	public void agregarCoordenada(MouseEvent e) {
 		ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x, e.getPoint().y));
 		Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(), obtenerPosicion.getLon());
 		mapa.agregarMacador(coordenadaClickeada);
 		coordenadasClickeadas.add(coordenadaClickeada);
 	}
+	
 	private void dibujarInstancias(List<String>instancias) throws IOException {
 		agregarInstancias(instancias);
 		actualizarEstado();
@@ -91,8 +95,11 @@ public class ReaccionEventos {
 			dibujarAristas();
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			JOptionPane.showMessageDialog(null, e.toString());
 		}
+		}
+		else {
+			JOptionPane.showMessageDialog(null, opciones[0]);
 		}
 	}
 	public void clusterAzar(String cantidadClusters) {
@@ -108,10 +115,14 @@ public class ReaccionEventos {
 		}
 		}
 		catch(Exception e) {
-			System.out.println(e.toString());
+			JOptionPane.showMessageDialog(null, e.toString());
 		}
+		}
+		else {
+			JOptionPane.showMessageDialog(null, opciones[0]);
 		}
 	}
+	
 	public void clusterPromedio(String cantidadClusters) {
 		if(esNumero(cantidadClusters)) {
 		try {
@@ -125,16 +136,21 @@ public class ReaccionEventos {
 		}
 		}
 		catch(Exception e) {
-			System.out.println(e.toString());
+			JOptionPane.showMessageDialog(null, e.toString());
 		}
+		}
+		else {
+			JOptionPane.showMessageDialog(null, opciones[0]);
 		}
 	}
+	
 	public void eliminarNodo() {
 		if (coordenadasClickeadas.size() > 0) {
 			mapa.eliminarMarcador(coordenadasClickeadas.get(coordenadasClickeadas.size() - 1));
 			coordenadasClickeadas.remove(coordenadasClickeadas.size()-1);
 		}
 	}
+	
 	public void aceptarInstancia(List<String>instancias) {
 		if(!instancias.isEmpty()){
 		try {
@@ -156,10 +172,13 @@ public class ReaccionEventos {
 				grafo = agm.calcularKruskal(grafo);
 				actualizarEstado();
 				actualizarMapa();
-				//coordenadasClickeadas.clear();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, opciones[1]);
 			}
 		}
 	}
+	
 	public void rehacer() {
 			if (careTaker.estadoActual() + 1 < careTaker.tamano()) {
 				Pair<Grafo, List<Double>> estado = careTaker.getMemento(careTaker.estadoActual() + 1).getEstado();
@@ -192,6 +211,7 @@ public class ReaccionEventos {
 		JOptionPane.showMessageDialog(null, estadisticas);
 		}
 	}
+	
 	private boolean esNumero(String s) {
 		try {
 			Integer.valueOf(s);
