@@ -96,7 +96,6 @@ public class Window {
 		mapa.borrarGrafo();
 		mapa.agregarMarcas(intermediario.getCoordenadas());
 		dibujarAristas();
-		coordenadasClickeadas.clear();
 	}
 
 	private void actualizarEstado() {
