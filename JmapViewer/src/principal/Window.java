@@ -2,6 +2,7 @@
 package principal;
 
 import java.awt.EventQueue;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import clustering.Clustering;
 import grafo.AGM;
 import grafo.Grafo;
 import javafx.util.Pair;
+import memoria.HistorialOperaciones;
+
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -51,6 +54,7 @@ public class Window {
 	private CareTaker care;
 	private Originator originator;
 	
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -81,6 +85,7 @@ public class Window {
 					Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(), obtenerPosicion.getLon());
 					mapa.agregarMacador(coordenadaClickeada);
 					coordenadasClickeadas.add(coordenadaClickeada);
+					
 				}
 		});
 	}
@@ -121,12 +126,13 @@ public class Window {
 		}
 	}
 
-	private void inicializarValoresPantalla() {
+	private void inicializarValoresPantalla() throws FileNotFoundException {
 		coordenadasClickeadas=new ArrayList<Coordinate>();
 		instancias=new ArrayList<String>();
 		intermediario=new Intermediario();
 		originator=new Originator(null);
 		care=new CareTaker();
+		care= care.set();
 		frame = new JFrame("Mapa");
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -288,8 +294,8 @@ public class Window {
 						Pair<Grafo, List<Double>> estado = care.getMemento(care.estadoActual() - 1).getEstado();
 						grafo = new Grafo(estado.getKey());
 						intermediario = new Intermediario(estado.getValue());
-
 						actualizarMapa();
+						
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -358,7 +364,8 @@ public class Window {
 					intermediario.reiniciarValores();
 					dibujarInstancias();
 					instancias.clear();
-					
+					care.guardar();
+					care= care.set();
 					
 				} catch (IOException e) {
 					e.printStackTrace();

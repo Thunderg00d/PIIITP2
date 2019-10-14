@@ -1,5 +1,7 @@
 package memoria;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -21,6 +23,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
+import Intermediario.CareTaker;
+
 public class HistorialOperaciones implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private List<String> strings;
@@ -33,9 +37,9 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 	/**
 	 * Metodo el cual crea un archivo de tipo Json tomando como parametro un string que usara para nombre.
 	 */
-	public void generarJSON(String archivo) {
+	public void generarJSON(String archivo, Object o) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String json = gson.toJson(this);
+		String json = gson.toJson(o);
 
 		try {
 			FileWriter writer = new FileWriter(archivo);
@@ -66,6 +70,20 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 			ex.printStackTrace();
 		}
 	}
+	
+	public  CareTaker leerJSON(String archivo)
+	 {
+	 Gson gson = new Gson();
+	 CareTaker ret = null;
+	
+	 try
+	 {
+	 BufferedReader br = new BufferedReader(new FileReader(archivo+".JSON"));
+	 ret = gson.fromJson(br, CareTaker.class);
+	 }
+	 catch (Exception e) {  }
+	 return ret;
+	 }
 	/**
 	 * trae de memoria un array con todos los valores de tipo number. ( los trae como double). 
 	 */
