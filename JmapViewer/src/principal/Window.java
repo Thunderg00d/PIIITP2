@@ -356,9 +356,10 @@ public class Window {
 				if(chckbxInstancia5.isSelected())
 					instancias.add("Instancia5");
 				try {
+					intermediario.reiniciarValores();
 					dibujarInstancias();
 					instancias.clear();
-					intermediario.reiniciarValores();
+					
 					
 				} catch (IOException e) {
 					e.printStackTrace();
