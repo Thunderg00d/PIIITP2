@@ -16,10 +16,8 @@ public class Grafo implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// Representamos el grafo por su matriz de adyacencia
 	private Double[][] A;
 	
-	// El conjunto de vertices esta fijo
 	public Grafo(int vertices) {
 		A = new Double[vertices][vertices];
 		inicializarMatriz();
@@ -66,11 +64,9 @@ public class Grafo implements Serializable{
         double va1 = Math.pow(sindLat, 2) + Math.pow(sindLng, 2)  
                 * Math.cos(Math.toRadians(coordenadas1.getLat())) * Math.cos(Math.toRadians( coordenadas2.getLat()));  
         double va2 = 2 * Math.atan2(Math.sqrt(va1), Math.sqrt(1 - va1));  
-        A[i][j] = A[j][i]  = radioTierra * va2;
-        
+        A[i][j] = A[j][i]  = radioTierra * va2;    
 	}
 
-	// Operaciones sobre aristas
 	public void agregarArista(int i, int j, Coordinate coordenadas1, Coordinate coordenadas2) {
 		verificarIndices(i, j);
 		distanciaEuclideana(i, j, coordenadas1, coordenadas2);
@@ -91,7 +87,6 @@ public class Grafo implements Serializable{
 		return A[i][j] != 0.0 ? true : false;
 	}
 
-	// Vecinos de un vertice
 	public Set<Integer> vecinos(int i){
 		verificarVertice(i);
 		
@@ -102,7 +97,8 @@ public class Grafo implements Serializable{
 		
 		return ret;
 	}
-		public Pair<Integer,Integer>vecinoMasPesado(int i){
+		
+	public Pair<Integer,Integer>vecinoMasPesado(int i){
 			Pair<Integer,Integer>masPesado=new Pair<Integer,Integer>(0,0);
 			double mayor=0.0;
 			for(int j=0; j<tamano(); ++j) 
@@ -112,35 +108,8 @@ public class Grafo implements Serializable{
 				}
 			return masPesado;
 		}
-		
-		public Pair<Integer,Integer> calcularAristaMasPesada() {
-			Double masPesada=Double.MIN_VALUE;
-			Pair<Integer,Integer>vertice=new Pair<Integer,Integer>(0,0);
-			for(int i=0;i<tamano();i++) {
-				for(int j=i+1;j<tamano() && j!=i;j++) {
-					if(existeArista(i,j) && getArista(i,j)>masPesada){
-						masPesada=getArista(i,j);
-						vertice=new Pair<Integer,Integer>(i,j);
-					}
-				}
-			}
-			return vertice;
-		}
-		
-		public Pair<Integer,Integer> aristaMenosPesada() {
-			Double menosPesada=Double.MAX_VALUE;
-			Pair<Integer,Integer>vertice=new Pair<Integer,Integer>(0,0);
-			for(int i=0;i<tamano();i++) {
-				for(int j=i+1;j<tamano() && j!=i;j++) {
-					if(existeArista(i,j) && getArista(i,j)<menosPesada){
-						menosPesada=getArista(i,j);
-						vertice=new Pair<Integer,Integer>(i,j);
-					}
-				}
-			}
-			return vertice;
-		}
-		public Double promedioVecinos(int vertice){
+
+	public Double promedioVecinos(int vertice){
 			Double pesos=0.0;
 			int cantidadVecinos=0;
 			for(int i=0;i<tamano();i++) {
@@ -150,8 +119,9 @@ public class Grafo implements Serializable{
 				}
 			}
 			return pesos/cantidadVecinos;
-		}
-		public Pair<Integer,Integer> promedioMasPesado(){
+	}
+	
+	public Pair<Integer,Integer> promedioMasPesado(){
 			Pair<Integer,Integer> verticeMasPesado=new Pair<Integer,Integer>(0,0);
 			Double masPesado=0.0;
 			for(int i=0;i<tamano();i++) {
@@ -161,13 +131,12 @@ public class Grafo implements Serializable{
 				}
 			}
 			return verticeMasPesado;
-		}
-	// Cantidad de vertices
+	}
+	
 	public int tamano() {
 		return A.length;
 	}
 	
-	// Lanza excepciones si los indices no son validos
 	private void verificarIndices(int i, int j) {
 		verificarVertice(i);
 		verificarVertice(j);
@@ -192,29 +161,15 @@ public class Grafo implements Serializable{
 		return ret;
 	}
 	
-	public Double[] getDistancias() {
-		Double[] valores=new Double[cantAristas()];
-		int cont=0;
-		for(int i=0;i<tamano();i++) {
-			for(int j=i+1;j<tamano() && j!=i;j++){
-				if(existeArista(i,j)) {
-					valores[cont]=getArista(i,j);
-					cont++;
-				}
-			}
-		}
-		return valores;
-	}
-	
 	public List<Pair<Integer,Integer>> getIndices() {
-		List<Pair<Integer,Integer>>valores=new ArrayList<Pair<Integer,Integer>>();
+		List<Pair<Integer,Integer>>indices=new ArrayList<Pair<Integer,Integer>>();
 		for(int i=0;i<tamano();i++) {
 			for(int j=i+1;j<tamano() && j!=i;j++){
 				if(existeArista(i,j)) 
-					valores.add(new Pair<Integer,Integer>(i,j));		
+					indices.add(new Pair<Integer,Integer>(i,j));		
 			}
 		}
-		return valores;
+		return indices;
 	}
 	
 }
