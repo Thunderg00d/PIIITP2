@@ -25,12 +25,12 @@ import com.google.gson.JsonPrimitive;
 import Intermediario.CareTaker;
 import Intermediario.Memento;
 
-public class HistorialOperaciones implements Serializable, Cloneable {
+public class HistorialSoluciones implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 	private List<String> strings;
 	private List<Double> doubles;
 
-	public HistorialOperaciones() {
+	public HistorialSoluciones() {
 		strings = new ArrayList<String>();
 		doubles = new ArrayList<Double>();
 	}

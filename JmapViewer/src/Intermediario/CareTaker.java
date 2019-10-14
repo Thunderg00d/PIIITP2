@@ -4,7 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import memoria.HistorialOperaciones;
+import memoria.HistorialSoluciones;
 
 /*
  * Componente que registra los cambios del Originator.
@@ -12,11 +12,11 @@ import memoria.HistorialOperaciones;
  *  distintos estados del Originator.
  */
 public class CareTaker {
-	private HistorialOperaciones repo;
+	private HistorialSoluciones repo;
 	private List<Memento> estadosGuardados = new ArrayList<Memento>();
 	private int estadoActual;
 	public  CareTaker() throws FileNotFoundException {
-		repo = new HistorialOperaciones();
+		repo = new HistorialSoluciones();
 	
 	}
     public void addMemento(Memento m) { 

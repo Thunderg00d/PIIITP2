@@ -21,7 +21,7 @@ public class Cluster {
 		inicializarOpciones();
 		color=generarColor();
 	}
-
+	
 	private void inicializarOpciones() {
 		opciones=new ArrayList<Pair<Color,String>>();
 		opciones.add(new Pair<Color,String>(Color.BLACK,"Negro"));
@@ -33,7 +33,6 @@ public class Cluster {
 		opciones.add(new Pair<Color,String>(Color.DARK_GRAY,"Gris"));
 		opciones.add(new Pair<Color,String>(Color.BLUE,"Azul"));
 		opciones.add(new Pair<Color,String>(Color.PINK,"Rosa"));
-		
 	}
 
 	public Set<Integer> getVertices() {
