@@ -67,7 +67,7 @@ public class Clustering {
 	private void calcularClusters() {
 		for (Pair<Integer, Integer> aristaMasPesada : aristasAEliminar) {
 			BFS bfs = new BFS(grafo);
-
+			grafo.borrarArista(aristaMasPesada.getKey(), aristaMasPesada.getValue());
 			if (clusters.isEmpty()) {
 				Double peso1 = bfs.pesoSubgrafo(aristaMasPesada.getKey());
 				Double peso2 = bfs.pesoSubgrafo(aristaMasPesada.getValue());
@@ -95,35 +95,38 @@ public class Clustering {
 	}
 
 	private void eliminarMasPesadas() {
-		Ordenar ordenar = new Ordenar(grafo);
+		Grafo aux=new Grafo(grafo);
+		Ordenar ordenar = new Ordenar(aux);
 		int aristasEliminadas = 0;
 		for (int i = ordenar.tamano() - 1; i >= 0; i--) {
 			if (aristasEliminadas == cantidadClusters - 1)
 				break;
 			aristasAEliminar.add(ordenar.indices(i));
-			grafo.borrarArista(ordenar.indices(i).getKey(), ordenar.indices(i).getValue());
+			aux.borrarArista(ordenar.indices(i).getKey(), ordenar.indices(i).getValue());
 			aristasEliminadas++;
 
 		}
 	}
 
 	private void eliminarPorPromedio() {
+		Grafo aux=new Grafo(grafo);
 		for (int i = 0; i < cantidadClusters - 1; i++) {
-			Pair<Integer, Integer> aristaMasPesada = grafo.promedioMasPesado();
+			Pair<Integer, Integer> aristaMasPesada = aux.promedioMasPesado();
 			aristasAEliminar.add(aristaMasPesada);
-			grafo.borrarArista(aristaMasPesada.getKey(), aristaMasPesada.getValue());
+			aux.borrarArista(aristaMasPesada.getKey(), aristaMasPesada.getValue());
 		}
 	}
 
 	private void eliminarAlAzar() {
 		int aristasEliminadas = 0;
+		Grafo aux=new Grafo(grafo);
 		while (aristasEliminadas != cantidadClusters - 1) {
 			Random r = new Random();
-			int i = r.nextInt(grafo.tamano());
-			int j = r.nextInt(grafo.tamano());
-			if (i != j && grafo.existeArista(i, j) && !aristasAEliminar.contains(new Pair<Integer, Integer>(i, j))) {
+			int i = r.nextInt(aux.tamano());
+			int j = r.nextInt(aux.tamano());
+			if (i != j && aux.existeArista(i, j) && !aristasAEliminar.contains(new Pair<Integer, Integer>(i, j))) {
 				aristasAEliminar.add(new Pair<Integer, Integer>(i, j));
-				grafo.borrarArista(i, j);
+				aux.borrarArista(i, j);
 				aristasEliminadas++;
 			}
 		}
