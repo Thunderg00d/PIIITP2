@@ -24,6 +24,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import Intermediario.CareTaker;
+import Intermediario.Memento;
 
 public class HistorialOperaciones implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
@@ -80,6 +81,19 @@ public class HistorialOperaciones implements Serializable, Cloneable {
 	 {
 	 BufferedReader br = new BufferedReader(new FileReader(archivo+".JSON"));
 	 ret = gson.fromJson(br, CareTaker.class);
+	 }
+	 catch (Exception e) {  }
+	 return ret;
+	 }
+	public  Memento traerMemento(String archivo)
+	 {
+	 Gson gson = new Gson();
+	 Memento ret = null;
+	
+	 try
+	 {
+	 BufferedReader br = new BufferedReader(new FileReader(archivo+".JSON"));
+	 ret = gson.fromJson(br, Memento.class);
 	 }
 	 catch (Exception e) {  }
 	 return ret;

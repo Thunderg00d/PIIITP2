@@ -46,4 +46,11 @@ public class CareTaker {
 		CareTaker temp = this.repo.leerJSON(("Grafos")) ;
 		return temp;
 	}
+	public void guardarGrafo(String nombre, Memento meme) {
+		repo.generarJSON(nombre+".JSON",meme);
+	}
+	public Memento getMemento(String archivo) {
+		return repo.traerMemento(archivo);
+	}
+
 }

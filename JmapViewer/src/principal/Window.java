@@ -84,7 +84,14 @@ public class Window {
 					ICoordinate obtenerPosicion = mapa.getMap().getPosition(new Point(e.getPoint().x, e.getPoint().y));
 					Coordinate coordenadaClickeada = new Coordinate(obtenerPosicion.getLat(), obtenerPosicion.getLon());
 					mapa.agregarMacador(coordenadaClickeada);
+					coordenadasClickeadas.clear();
 					coordenadasClickeadas.add(coordenadaClickeada);
+					List<Double> temp = new ArrayList<Double>();
+					temp.addAll((care.getMemento(care.estadoActual()).getEstado().getValue()));
+					for (int i =0; i<temp.size();i+=2) {
+						coordenadasClickeadas.add(new Coordinate(temp.get(i),temp.get(i+1)));
+					}
+					
 					
 				}
 		});
@@ -295,7 +302,7 @@ public class Window {
 						grafo = new Grafo(estado.getKey());
 						intermediario = new Intermediario(estado.getValue());
 						actualizarMapa();
-						
+						 
 					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
@@ -365,7 +372,7 @@ public class Window {
 					dibujarInstancias();
 					instancias.clear();
 					care.guardar();
-					//care= care.set();
+					care= care.set();
 					
 				} catch (IOException e) {
 					e.printStackTrace();
