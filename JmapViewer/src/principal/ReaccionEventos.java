@@ -48,13 +48,13 @@ public class ReaccionEventos {
 		agregarInstancias(instancias);
 		actualizarEstado();
 		actualizarMapa();
-		//coordenadasClickeadas.clear();
 	}
 
 	private void actualizarMapa() {
 		mapa.borrarGrafo();
 		mapa.agregarMarcas(intermediario.getCoordenadas());
 		dibujarAristas();
+		coordenadasClickeadas.clear();
 	}
 
 	private void actualizarEstado() {
@@ -132,6 +132,7 @@ public class ReaccionEventos {
 	public void eliminarNodo() {
 		if (coordenadasClickeadas.size() > 0) {
 			mapa.eliminarMarcador(coordenadasClickeadas.get(coordenadasClickeadas.size() - 1));
+			coordenadasClickeadas.remove(coordenadasClickeadas.size()-1);
 		}
 	}
 	public void aceptarInstancia(List<String>instancias) {
@@ -155,6 +156,7 @@ public class ReaccionEventos {
 				grafo = agm.calcularKruskal(grafo);
 				actualizarEstado();
 				actualizarMapa();
+				//coordenadasClickeadas.clear();
 			}
 		}
 	}
