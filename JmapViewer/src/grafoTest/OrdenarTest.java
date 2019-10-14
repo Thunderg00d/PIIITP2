@@ -12,7 +12,7 @@ import ordenar.Ordenar;
 public class OrdenarTest {
 	@Test
 	public void Ordenartest() {
-		Grafo grafo=CrearGrafos.crearGrafo1();
+		Grafo grafo=CrearGrafos.grafoConexo3();
 		/* Aristas del grafo
   			E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -34,7 +34,7 @@ public class OrdenarTest {
 	
 	@Test
 	public void OrdenarGrafoVacioTest() {
-		Grafo grafo=CrearGrafos.crearGrafo4();
+		Grafo grafo=CrearGrafos.todosAislados();
 		List<Pair<Integer,Integer>>esperados=new ArrayList<Pair<Integer,Integer>>();
 		Ordenar ordenar=new Ordenar(grafo);
 		Assert.iguales(ordenar.getIndices(), esperados);
@@ -43,7 +43,7 @@ public class OrdenarTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void OrdenarGrafoNullTest() {
-		Grafo grafo=CrearGrafos.crearGrafo5();
+		Grafo grafo=CrearGrafos.grafoNull();
 		@SuppressWarnings("unused")
 		Ordenar ordenar=new Ordenar(grafo);
 	}

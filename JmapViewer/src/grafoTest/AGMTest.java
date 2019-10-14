@@ -8,21 +8,23 @@ import grafo.AGM;
 import grafo.Grafo;
 
 public class AGMTest {
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void AGMGrafoNullTest() {
-		Grafo grafo=CrearGrafos.crearGrafo5();
+		Grafo grafo=CrearGrafos.grafoNull();
 		AGM agm=new AGM();
 		agm.calcularKruskal(grafo);
 	}
+	
 	@Test
 	public void AGM1Test() {
-		Grafo grafo = CrearGrafos.crearGrafo1();
+		Grafo grafo = CrearGrafos.grafoConexo2();
 		/* Aristas del grafo 
 		 	E(0, 2)= 1.0 
 		 	E(1, 2)=5.0 
 		 	E(1, 4)=3.0 
 		 	E(2, 5)=4.0 
-		 	E(5,3)=2.0     */
+		 	E(5, 3)=2.0     */
 		Grafo esperado = new Grafo(6);
 		esperado.agregarArista(0, 2, 1.0);
 
@@ -39,7 +41,7 @@ public class AGMTest {
 
 	@Test
 	public void AGM2Test() {
-		Grafo grafo = CrearGrafos.crearGrafo3();
+		Grafo grafo = CrearGrafos.grafoConexo3();
 		/*   Aristas del grafo 
 		 		E(0, 1)=4.0
 		  		E(0, 7)= 8.0 
@@ -74,7 +76,7 @@ public class AGMTest {
 
 	@Test
 	public void AGMGrafoNoConexoTest() {
-		Grafo grafo = CrearGrafos.crearGrafoNoConexo();
+		Grafo grafo = CrearGrafos.noConexo();
 		AGM agm = new AGM();
 		assertEquals(null, agm.calcularKruskal(grafo));
 	}

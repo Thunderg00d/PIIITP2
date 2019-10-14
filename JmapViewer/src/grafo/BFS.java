@@ -13,22 +13,21 @@ public class BFS
 	private boolean[] marcados;
 	private Double pesoTotal = 0.0;
 	
-	public BFS(Grafo g)
-	{
+	public BFS(Grafo g){
 		corroborarExistencia(g);
 		grafo = g;
 	}
+	
 	private void corroborarExistencia(Grafo g) {
 		if(g==null)
 			throw new IllegalArgumentException("El grafo no existe");
 	}
+	
 	// Determina si el grafo es conexo
-	public boolean esConexo()
-	{
+	public boolean esConexo(){
 		inicializarAuxiliares();
 		
-		while( pendientes.size() != 0 )
-		{
+		while( pendientes.size() != 0 ){
 			int i = seleccionarPendiente();
 			marcados[i] = true;
 			
@@ -38,10 +37,10 @@ public class BFS
 			pesoTotal=0.0;
 		return todosMarcados();
 	}
+	
 	public double pesoSubgrafo(int j) {
 		inicializarAuxiliares(j);
-		while( pendientes.size() != 0 )
-		{
+		while( pendientes.size() != 0 ){
 			int i = seleccionarPendiente();
 			marcados[i] = true;
 			pendientes.addAll(vecinosNoMarcados(i));
@@ -51,6 +50,7 @@ public class BFS
 			pesoTotal=0.0;
 		return temp;
 	}
+	
 	public Set<Integer> verticesDelSubgrafo(int j){
 		Set<Integer> vertices = new HashSet<Integer>();
 		inicializarAuxiliares(j);
@@ -67,11 +67,11 @@ public class BFS
 	}
 	
 	// Inicializa los elementos auxiliares
-	private void inicializarAuxiliares()
-	{
+	private void inicializarAuxiliares(){
 		pendientes = singleton(0);
 		marcados = new boolean[grafo.tamano()]; // Todos false
 	}
+	
 	private void inicializarAuxiliares(int j)
 	{
 		pendientes = singleton(j);
@@ -84,26 +84,21 @@ public class BFS
 		for(Integer vertice: grafo.vecinos(i) ) {
 			if( marcados[vertice] == false ) {
 				pesoTotal+=grafo.getArista(i, vertice);
-				ret.add(vertice);
-				 
-				
+				ret.add(vertice);		
 			}
-	}
+	    }
 		return ret;
 	}
 
 	// Construye un set con el parametro como unico elemento
-	private Set<Integer> singleton(int elemento)
-	{
+	private Set<Integer> singleton(int elemento){
 		Set<Integer> L = new HashSet<Integer>();
 		L.add(elemento);
-		
 		return L;
 	}
 
 	// Determina estan todos marcados
-	private boolean todosMarcados()
-	{
+	private boolean todosMarcados(){
 		int i = 0;
 		while( i < marcados.length && marcados[i] == true )
 			++i;
@@ -112,8 +107,7 @@ public class BFS
 	}
 
 	// Obtiene un elemento del set, si no esta vacio
-	private int seleccionarPendiente()
-	{
+	private int seleccionarPendiente(){
 		for(Integer elemento: pendientes)
 			return elemento;
 		

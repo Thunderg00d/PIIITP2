@@ -17,14 +17,14 @@ import grafoTest.CrearGrafos;
 public class ClusteringTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void ClusteringGrafoNullTest() {
-		Grafo grafo=CrearGrafos.crearGrafo5();
+		Grafo grafo=CrearGrafos.grafoNull();
 		
 		@SuppressWarnings("unused")
 		Clustering c=new Clustering(grafo,3);
 	}
 	@Test(expected = IllegalArgumentException.class)
 	public void ClusteringMasClustersQueAristas() {
-		Grafo grafo=CrearGrafos.crearGrafo1();
+		Grafo grafo=CrearGrafos.grafoConexo3();
 		
 		@SuppressWarnings("unused")
 		Clustering c=new Clustering(grafo,100);
@@ -32,32 +32,32 @@ public class ClusteringTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void ClusteringCantidadClustersNegativa() {
-		Grafo grafo=CrearGrafos.crearGrafo1();
+		Grafo grafo=CrearGrafos.grafoConexo3();
 		
 		@SuppressWarnings("unused")
 		Clustering c=new Clustering(grafo,-1);
 	}
 	@Test
 	public void ClusteringMasPesadasGrafoNoConexo() {
-		Grafo grafo=CrearGrafos.crearGrafoNoConexo();
+		Grafo grafo=CrearGrafos.noConexo();
 		Clustering c=new Clustering(grafo,2);
 		assertEquals(c.aristasMasPesadas(),false);
 	}
 	@Test
 	public void ClusteringPromedioGrafoNoConexo() {
-		Grafo grafo=CrearGrafos.crearGrafoNoConexo();
+		Grafo grafo=CrearGrafos.noConexo();
 		Clustering c=new Clustering(grafo,2);
 		assertEquals(c.promedio(),false);
 	}
 	@Test
 	public void ClusteringAzarGrafoNoConexo() {
-		Grafo grafo=CrearGrafos.crearGrafoNoConexo();
+		Grafo grafo=CrearGrafos.noConexo();
 		Clustering c=new Clustering(grafo,2);
 		assertEquals(c.azar(),false);
 	}
 	@Test
 	public void ClusteringMasPesadasTest() {
-		Grafo grafo = CrearGrafos.crearGrafo1();	
+		Grafo grafo = CrearGrafos.grafoConexo3();	
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -79,7 +79,7 @@ public class ClusteringTest {
 	
 	@Test
 	public void ClusteringMasPesadasPesoClustersTest() {
-		Grafo grafo = CrearGrafos.crearGrafo1();
+		Grafo grafo = CrearGrafos.grafoConexo3();
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -113,7 +113,7 @@ public class ClusteringTest {
 	
 	@Test
 	public void ClusteringMasPromedioPesoClustersTest() {
-		Grafo grafo = CrearGrafos.crearGrafo1();
+		Grafo grafo = CrearGrafos.grafoConexo3();
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -149,7 +149,7 @@ public class ClusteringTest {
 	@Test
 	
 	public void ClusteringAzarTest() {
-		Grafo grafo = CrearGrafos.crearGrafo1();
+		Grafo grafo = CrearGrafos.grafoConexo3();
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -164,7 +164,7 @@ public class ClusteringTest {
 	}
 	@Test
 	public void ClusteringPromedioTest() {
-		Grafo grafo = CrearGrafos.crearGrafo1();
+		Grafo grafo = CrearGrafos.grafoConexo3();
 		/* Aristas del grafo
 		  	E(0, 2)= 1.0	
 			E(1, 2)=5.0	

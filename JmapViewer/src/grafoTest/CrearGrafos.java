@@ -3,7 +3,8 @@ package grafoTest;
 import grafo.Grafo;
 
 public class CrearGrafos {
-	public static Grafo crearGrafo1() {
+	
+	public static Grafo grafoConexo1() {
 		Grafo grafo=new Grafo(6);
 		grafo.agregarArista(0, 2, 1.0);	
 		grafo.agregarArista(1, 2, 5.0);	
@@ -12,7 +13,16 @@ public class CrearGrafos {
 		grafo.agregarArista(5, 3, 2.0);
 		return grafo;
 	}
-	public static Grafo crearGrafo() {
+	
+	public static Grafo verticeAislado() {
+		Grafo grafo = new Grafo(4);
+		grafo.agregarArista(0, 1, 2.0);
+		grafo.agregarArista(0, 2,1.0);
+		grafo.agregarArista(1, 2,4.0);
+		return grafo;
+	}
+	
+	public static Grafo grafoConexo2() {
 		Grafo grafo=new Grafo(6);
 		grafo.agregarArista(0, 1, 6.0);
 		grafo.agregarArista(0, 2, 1.0);
@@ -29,7 +39,8 @@ public class CrearGrafos {
 		grafo.agregarArista(5,3, 2.0);
 		return grafo;
 	}
-	public static Grafo crearGrafo3() {
+	
+	public static Grafo grafoConexo3() {
 		Grafo grafo=new Grafo(9);
 		//A
 		grafo.agregarArista(0, 1, 4.0); //AB
@@ -63,14 +74,14 @@ public class CrearGrafos {
 		grafo.agregarArista(7, 1, 12.0); //HB
 		return grafo;
 	}
-	public static Grafo crearGrafo4() {
+	public static Grafo todosAislados() {
 		Grafo grafo=new Grafo(5);
 		return grafo;
 	}
-	public static Grafo crearGrafo5() {
+	public static Grafo grafoNull() {
 		return null;
 	}
-	public static Grafo crearGrafoNoConexo() {
+	public static Grafo noConexo() {
 		Grafo grafo=new Grafo(5);
 		grafo.agregarArista(0, 1, 3.0);
 		grafo.agregarArista(2, 3,2.2);
