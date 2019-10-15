@@ -99,6 +99,7 @@ public class Grafo {
 	}
 
 	public Double promedioVecinos(int vertice) {
+		verificarVertice(vertice);
 		Double pesos = 0.0;
 		int cantidadVecinos = 0;
 		for (int i = 0; i < tamano(); i++) {

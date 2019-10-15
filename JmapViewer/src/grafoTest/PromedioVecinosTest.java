@@ -21,4 +21,18 @@ public class PromedioVecinosTest {
 		
 		assertEquals(Double.valueOf(0.0),grafo.promedioVecinos(0));
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void promedioVecinosIndiceNegativoTest(){
+		Grafo grafo=CrearGrafos.grafoConexo1();
+		
+		grafo.promedioVecinos(-1);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void promedioVecinosIndiceExcedidoTest(){
+		Grafo grafo=CrearGrafos.grafoConexo1();
+		
+		grafo.promedioVecinos(10);
+	}
 }

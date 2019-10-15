@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -80,7 +81,9 @@ public class Window {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mapa.getMap());
 		frame.getContentPane().setLayout(null);
-		
+		ImageIcon ImageIcon = new ImageIcon(getClass().getResource("/Imagenes/mapa.png"));
+        Image Image = ImageIcon.getImage();
+        frame.setIconImage(Image);
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(Color.BLACK, 2));
 		panel.setBounds(500, 0, 184, 461);
