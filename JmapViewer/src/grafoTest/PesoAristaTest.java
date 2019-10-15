@@ -11,7 +11,31 @@ import org.openstreetmap.gui.jmapviewer.Coordinate;
 import grafo.Grafo;
 
 public class PesoAristaTest {
-
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void PesoSegundoIndiceExcedeTamano() {
+		Grafo grafo=new Grafo(4);
+		grafo.getArista(0, 10);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void PesoPrimerIndiceExcedeTamano() {
+		Grafo grafo=new Grafo(4);
+		grafo.getArista(10, 0);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void PesoPrimerIndiceNegativo() {
+		Grafo grafo=new Grafo(4);
+		grafo.getArista(-1, 2);
+	}
+	
+	@Test (expected = IllegalArgumentException.class)
+	public void PesoSegundoIndiceNegativo() {
+		Grafo grafo=new Grafo(4);
+		grafo.getArista(0, -1);
+	}
+	
 	@Test
 	public void PesoAristaExistenteTest() {
 		List<Coordinate>coordenadas=new ArrayList<Coordinate>();
@@ -26,24 +50,6 @@ public class PesoAristaTest {
 		Grafo grafo=new Grafo(4);
 		assertEquals(Double.valueOf(0.0),grafo.getArista(0, 1));
 	}
-	@Test (expected = IllegalArgumentException.class)
-	public void PesoSegundoIndiceExcedeTamano() {
-		Grafo grafo=new Grafo(4);
-		grafo.getArista(0, 10);
-	}
-	@Test (expected = IllegalArgumentException.class)
-	public void PesoPrimerIndiceExcedeTamano() {
-		Grafo grafo=new Grafo(4);
-		grafo.getArista(10, 0);
-	}
-	@Test (expected = IllegalArgumentException.class)
-	public void PesoPrimerIndiceNegativo() {
-		Grafo grafo=new Grafo(4);
-		grafo.getArista(-1, 2);
-	}
-	@Test (expected = IllegalArgumentException.class)
-	public void PesoSegundoIndiceNegativo() {
-		Grafo grafo=new Grafo(4);
-		grafo.getArista(0, -1);
-	}
+	
+
 }

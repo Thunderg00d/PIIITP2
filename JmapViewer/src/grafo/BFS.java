@@ -5,10 +5,8 @@ import java.util.Set;
 
 public class BFS
 {
-	// Grafo
-	private Grafo grafo;
 	
-	// Auxiliares para BFS
+	private Grafo grafo;
 	private Set<Integer> pendientes;
 	private boolean[] marcados;
 	private Double pesoTotal = 0.0;
@@ -23,7 +21,6 @@ public class BFS
 			throw new IllegalArgumentException("El grafo no existe");
 	}
 	
-	// Determina si el grafo es conexo
 	public boolean esConexo(){
 		inicializarAuxiliares();
 		
@@ -66,19 +63,17 @@ public class BFS
 		return vertices;
 	}
 	
-	// Inicializa los elementos auxiliares
+
 	private void inicializarAuxiliares(){
 		pendientes = singleton(0);
-		marcados = new boolean[grafo.tamano()]; // Todos false
+		marcados = new boolean[grafo.tamano()]; 
 	}
 	
-	private void inicializarAuxiliares(int j)
-	{
+	private void inicializarAuxiliares(int j){
 		pendientes = singleton(j);
-		marcados = new boolean[grafo.tamano()]; // Todos false
+		marcados = new boolean[grafo.tamano()]; 
 	}
 
-	// Vecinos no marcados de un vertice
 	private Set<Integer> vecinosNoMarcados(int i){
 		Set<Integer> ret = new HashSet<Integer>();
 		for(Integer vertice: grafo.vecinos(i) ) {
@@ -90,14 +85,12 @@ public class BFS
 		return ret;
 	}
 
-	// Construye un set con el parametro como unico elemento
 	private Set<Integer> singleton(int elemento){
 		Set<Integer> L = new HashSet<Integer>();
 		L.add(elemento);
 		return L;
 	}
 
-	// Determina estan todos marcados
 	private boolean todosMarcados(){
 		int i = 0;
 		while( i < marcados.length && marcados[i] == true )
@@ -106,7 +99,6 @@ public class BFS
 		return i == marcados.length;
 	}
 
-	// Obtiene un elemento del set, si no esta vacio
 	private int seleccionarPendiente(){
 		for(Integer elemento: pendientes)
 			return elemento;

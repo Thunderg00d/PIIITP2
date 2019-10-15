@@ -6,10 +6,10 @@ import java.util.List;
 import grafo.Grafo;
 import javafx.util.Pair;
 
-// componente que cambia de estado.
-public class Originator implements Serializable{
-	
-	private Pair<Grafo,List<Double>>estado;
+// Componente que cambia de estado.
+public class Originator implements Serializable {
+
+	private Pair<Grafo, List<Double>> estado;
 	private static final long serialVersionUID = 1L;
 
 	public Pair<Grafo, List<Double>> getEstado() {
@@ -26,19 +26,15 @@ public class Originator implements Serializable{
 		this.estado = estado;
 	}
 
-    public void set(Pair<Grafo,List<Double>> state) 
-    { 
-       estado = state; 
-    }
+	public void set(Pair<Grafo, List<Double>> state) {
+		estado = state;
+	}
 
-    public Memento guardarAMemento() 
-    { 
-        return new Memento(estado); 
-    }
+	public Memento guardarAMemento() {
+		return new Memento(estado);
+	}
 
-    public void obtenerDeMemento(Memento m) 
-    {
-        estado = m.getEstado(); 
-      }
+	public void obtenerDeMemento(Memento m) {
+		estado = m.getEstado();
+	}
 }
-

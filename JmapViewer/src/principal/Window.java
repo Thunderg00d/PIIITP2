@@ -24,7 +24,7 @@ import javax.swing.JCheckBox;
 
 public class Window {
 	private JFrame frame;
-	private static Mapa mapa;
+	private  Mapa mapa;
 
 	private JTextField pregunta;
 	private JTextField numeroClusters;
@@ -38,8 +38,8 @@ public class Window {
 				try {
 					Window window = new Window();
 					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (IOException e) {
+					//e.printStackTrace();
 				}
 			}
 		});
@@ -63,7 +63,7 @@ public class Window {
 	
 
 	private void inicializarValoresPantalla() throws FileNotFoundException {
-		
+
 		ReaccionEventos reacciones=new ReaccionEventos(mapa);
 		mapa.getMap().addMouseListener(new MouseAdapter() {	
 			@Override
@@ -159,7 +159,6 @@ public class Window {
 				if(instancia5.isSelected())
 					instancias.add("Instancia5");
 					reacciones.aceptarInstancia(instancias);
-				
 			}
 		});	
 		
@@ -172,8 +171,6 @@ public class Window {
 				reacciones.eliminarNodo();
 			}
 		});
-		
-
 		
 		JButton deshacer = new JButton("");
 		deshacer.setIcon(new ImageIcon(Window.class.getResource("/Imagenes/deshacer.png")));
@@ -240,8 +237,6 @@ public class Window {
 				reacciones.reiniciar();
 			}
 		});
-		
-		
 		
 		clusterAzar.addMouseListener(new MouseAdapter() {
 			@Override

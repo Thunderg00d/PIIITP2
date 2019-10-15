@@ -10,10 +10,9 @@ import org.openstreetmap.gui.jmapviewer.interfaces.MapMarker;
 import clustering.Cluster;
 
 public class Mapa {
-	private static JMapViewer mapa;
+	private JMapViewer mapa;
 	
-	
-	public Mapa() {
+	public Mapa(){
 		mapa = new JMapViewer();
 		Coordinate bsAs = new Coordinate (-34.5237,-58.7038);
 		mapa.setDisplayPosition(bsAs, 9);
@@ -21,13 +20,14 @@ public class Mapa {
 		mapa.setVisible(true);
 	}
 	
-	void dibujarLinea(List<Coordinate>coordenadas,int i,int j) {
+	public void dibujarLinea(List<Coordinate>coordenadas,int i,int j) {
 			mapa.addMapPolygon(
 					new MapPolygonImpl( 
 							new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon()),
 							new Coordinate(coordenadas.get(j).getLat(),coordenadas.get(j).getLon()),
 							new Coordinate(coordenadas.get(i).getLat(),coordenadas.get(i).getLon())));
-		}
+	}
+	
 	public void agregarMarcas(List<Coordinate>coordenadas, List<Cluster> clusters) {
 		for(Cluster cluster : clusters) {
 			for(Integer vertice : cluster.getVertices()) {
@@ -36,20 +36,23 @@ public class Mapa {
 						coordenadas.get(vertice).getLat(),
 						coordenadas.get(vertice).getLon());
 						mapa.addMapMarker(marker);
-			}
-			
+			}		
 		}
 	}
+	
 	public JMapViewer getMap() {
 		return mapa;
 	}
+	
 	public void borrarGrafo() {
 		mapa.removeAllMapPolygons();
 		mapa.removeAllMapMarkers();
 	}
+	
 	public void agregarMacador(Coordinate b) {
 		mapa.addMapMarker(new MapMarkerDot(b.getLat(),b.getLon()));
 	}
+	
 	public void eliminarMarcador(Coordinate b) {
 		List<MapMarker> marcas=mapa.getMapMarkerList();
 		if(marcas.size()!=0) 
@@ -57,9 +60,7 @@ public class Mapa {
 	}
 
 	public void agregarMarcas(List<Coordinate> coordenadas) {
-		for(Coordinate coordenada : coordenadas) {
+		for(Coordinate coordenada : coordenadas) 
 			mapa.addMapMarker(new MapMarkerDot(coordenada.getLat(),coordenada.getLon()));
-		}
-		
 	}	
 }

@@ -74,7 +74,6 @@ public class Clustering {
 				agregarClustersRestantes(aristaMasPesada);
 			}
 		}
-
 	}
 
 	private void agregarClustersRestantes(Pair<Integer, Integer> aristaMasPesada) {
@@ -158,6 +157,8 @@ public class Clustering {
 			throw new IllegalArgumentException("La cantidad de clusters debe ser menor a la cantidad de aristas");
 		if (cantidadClusters < 0)
 			throw new IllegalArgumentException("La cantidad de clusters debe ser positiva");
+		if (cantidadClusters == 1)
+			throw new IllegalArgumentException("La cantidad de clusters debe ser mayor a 1");
 	}
 
 	private boolean poseeClusters() {

@@ -11,13 +11,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class LectorTxt {
-	private  List<String> content;
-	
+	private List<String> content;
+
 	public LectorTxt() {
 		content = new ArrayList<String>();
 	}
-	
-	public List<String> LeerArchivo(String archivo) throws IOException{
+
+	public List<String> LeerArchivo(String archivo) throws IOException {
 		try {
 			content.clear();
 			File fr = new File(getPath() + "\\instancias\\" + archivo + ".txt");
@@ -27,26 +27,24 @@ public class LectorTxt {
 				content.add(st);
 			}
 			br.close();
-			}
-			
-			catch (FileNotFoundException e) {
+		}
+
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,"Archivo no encontrado : "+archivo);
-			}
-		
-		
-		
+			JOptionPane.showMessageDialog(null, "Archivo no encontrado : " + archivo);
+		}
+
 		return content;
 	}
+
 	private static String getPath() {
-		File miDir = new File (".");
-	     try {
-	      return (miDir.getCanonicalPath());
-	       }
-	     catch(Exception e) {
-	       e.printStackTrace();
-	       }
+		File miDir = new File(".");
+		try {
+			return (miDir.getCanonicalPath());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
-	     }
+	}
 
 }
