@@ -69,29 +69,38 @@ public class Clustering {
 			BFS bfs = new BFS(grafo);
 			grafo.borrarArista(aristaMasPesada.getKey(), aristaMasPesada.getValue());
 			if (clusters.isEmpty()) {
+				agregarPrimerCluster(aristaMasPesada, bfs);
+			} else {
+				agregarClustersRestantes(aristaMasPesada);
+			}
+		}
+
+	}
+
+	private void agregarClustersRestantes(Pair<Integer, Integer> aristaMasPesada) {
+		BFS bfs;
+		List<Cluster> clustersClonado = clonarCluster();
+		for (Cluster cluster : clustersClonado) {
+			bfs = new BFS(grafo);
+			if (cluster.getVertices().contains(aristaMasPesada.getKey())) {
 				Double peso1 = bfs.pesoSubgrafo(aristaMasPesada.getKey());
 				Double peso2 = bfs.pesoSubgrafo(aristaMasPesada.getValue());
 				Cluster c1 = new Cluster(peso1, bfs.verticesDelSubgrafo(aristaMasPesada.getKey()));
 				Cluster c2 = new Cluster(peso2, bfs.verticesDelSubgrafo(aristaMasPesada.getValue()));
+				clusters.remove(cluster);
 				clusters.add(c1);
 				clusters.add(c2);
-			} else {
-				List<Cluster> clustersClonado = clonarCluster();
-				for (Cluster cluster : clustersClonado) {
-					bfs = new BFS(grafo);
-					if (cluster.getVertices().contains(aristaMasPesada.getKey())) {
-						Double peso1 = bfs.pesoSubgrafo(aristaMasPesada.getKey());
-						Double peso2 = bfs.pesoSubgrafo(aristaMasPesada.getValue());
-						Cluster c1 = new Cluster(peso1, bfs.verticesDelSubgrafo(aristaMasPesada.getKey()));
-						Cluster c2 = new Cluster(peso2, bfs.verticesDelSubgrafo(aristaMasPesada.getValue()));
-						clusters.remove(cluster);
-						clusters.add(c1);
-						clusters.add(c2);
-					}
-				}
 			}
 		}
+	}
 
+	private void agregarPrimerCluster(Pair<Integer, Integer> aristaMasPesada, BFS bfs) {
+		Double peso1 = bfs.pesoSubgrafo(aristaMasPesada.getKey());
+		Double peso2 = bfs.pesoSubgrafo(aristaMasPesada.getValue());
+		Cluster c1 = new Cluster(peso1, bfs.verticesDelSubgrafo(aristaMasPesada.getKey()));
+		Cluster c2 = new Cluster(peso2, bfs.verticesDelSubgrafo(aristaMasPesada.getValue()));
+		clusters.add(c1);
+		clusters.add(c2);
 	}
 
 	private void eliminarMasPesadas() {
