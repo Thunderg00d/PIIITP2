@@ -221,4 +221,11 @@ public class ReaccionEventos {
 			return false;
 		}
 	}
+
+	public void reiniciar() {
+		grafo=new Grafo(0);
+		intermediario.reiniciarValores();
+		mapa.borrarGrafo();
+		coordenadasClickeadas.clear();
+	}
 }

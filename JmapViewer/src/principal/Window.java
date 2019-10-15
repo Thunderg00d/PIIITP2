@@ -28,7 +28,7 @@ public class Window {
 
 	private JTextField pregunta;
 	private JTextField numeroClusters;
-	private JTextField txtInstaciasDeseadas;
+	private JTextField instanciasDeseadas;
 	private List<String>instancias;
 	
 	
@@ -75,6 +75,7 @@ public class Window {
 		instancias=new ArrayList<String>();
 		
 		frame = new JFrame("Mapa");
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 700, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(mapa.getMap());
@@ -83,18 +84,20 @@ public class Window {
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(Color.BLACK, 2));
 		panel.setBounds(500, 0, 184, 461);
-		frame.getContentPane().add(panel);
+		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setLayout(null);
+		frame.getContentPane().add(panel);
 		
 		pregunta = new JTextField();
 		pregunta.setBorder(new EmptyBorder(0, 0, 0, 0));
 		pregunta.setHorizontalAlignment(SwingConstants.CENTER);
 		pregunta.setSelectionColor(Color.WHITE);
-		pregunta.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+		pregunta.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		pregunta.setEditable(false);
 		pregunta.setText("N\u00FAmero de clusters:");
 		pregunta.setBounds(25, 232, 134, 29);
 		pregunta.setColumns(10);
+		pregunta.setBackground(Color.LIGHT_GRAY);
 		panel.add(pregunta);
 		
 		numeroClusters = new JTextField();
@@ -102,36 +105,42 @@ public class Window {
 		numeroClusters.setColumns(10);
 		panel.add(numeroClusters);
 		
-		txtInstaciasDeseadas = new JTextField();
-		txtInstaciasDeseadas.setText("Instacias deseadas:");
-		txtInstaciasDeseadas.setSelectionColor(Color.WHITE);
-		txtInstaciasDeseadas.setHorizontalAlignment(SwingConstants.CENTER);
-		txtInstaciasDeseadas.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
-		txtInstaciasDeseadas.setEditable(false);
-		txtInstaciasDeseadas.setColumns(10);
-		txtInstaciasDeseadas.setBorder(new EmptyBorder(0, 0, 0, 0));
-		txtInstaciasDeseadas.setBounds(25, 31, 134, 29);
-		panel.add(txtInstaciasDeseadas);
+		instanciasDeseadas = new JTextField();
+		instanciasDeseadas.setText("Instancias deseadas:");
+		instanciasDeseadas.setBackground(Color.LIGHT_GRAY);
+		instanciasDeseadas.setSelectionColor(Color.WHITE);
+		instanciasDeseadas.setHorizontalAlignment(SwingConstants.CENTER);
+		instanciasDeseadas.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		instanciasDeseadas.setEditable(false);
+		instanciasDeseadas.setColumns(10);
+		instanciasDeseadas.setBorder(new EmptyBorder(0, 0, 0, 0));
+		instanciasDeseadas.setBounds(25, 31, 134, 29);
+		panel.add(instanciasDeseadas);
 
-		JCheckBox chckbxInstancia1 = new JCheckBox("Instancia 1");
-		chckbxInstancia1.setBounds(35, 67, 97, 23);
-		panel.add(chckbxInstancia1);
+		JCheckBox instancia1 = new JCheckBox("Instancia 1");
+		instancia1.setBackground(Color.LIGHT_GRAY);
+		instancia1.setBounds(35, 67, 97, 23);
+		panel.add(instancia1);
 		
-		JCheckBox chckbxInstancia2 = new JCheckBox("Instancia 2");
-		chckbxInstancia2.setBounds(35, 93, 97, 23);
-		panel.add(chckbxInstancia2);
+		JCheckBox instancia2 = new JCheckBox("Instancia 2");
+		instancia2.setBackground(Color.LIGHT_GRAY);
+		instancia2.setBounds(35, 93, 97, 23);
+		panel.add(instancia2);
 		
-		JCheckBox chckbxInstancia3 = new JCheckBox("Instancia 3");
-		chckbxInstancia3.setBounds(35, 119, 97, 23);
-		panel.add(chckbxInstancia3);
+		JCheckBox instancia3 = new JCheckBox("Instancia 3");
+		instancia3.setBackground(Color.LIGHT_GRAY);
+		instancia3.setBounds(35, 119, 97, 23);
+		panel.add(instancia3);
 		
-		JCheckBox chckbxInstancia4 = new JCheckBox("Instancia 4");
-		chckbxInstancia4.setBounds(35, 145, 97, 23);
-		panel.add(chckbxInstancia4);
+		JCheckBox instancia4 = new JCheckBox("Instancia 4");
+		instancia4.setBackground(Color.LIGHT_GRAY);
+		instancia4.setBounds(35, 145, 97, 23);
+		panel.add(instancia4);
 		
-		JCheckBox chckbxInstancia5 = new JCheckBox("Instancia 5");
-		chckbxInstancia5.setBounds(35, 171, 97, 23);
-		panel.add(chckbxInstancia5);
+		JCheckBox instancia5 = new JCheckBox("Instancia 5");
+		instancia5.setBackground(Color.LIGHT_GRAY);
+		instancia5.setBounds(35, 171, 97, 23);
+		panel.add(instancia5);
 		
 		JButton aceptarInstancia = new JButton("Aceptar");
 		aceptarInstancia.setBounds(25, 198, 134, 23);
@@ -139,15 +148,15 @@ public class Window {
 		aceptarInstancia.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(chckbxInstancia1.isSelected())
+				if(instancia1.isSelected())
 					instancias.add("Instancia1");
-				if(chckbxInstancia2.isSelected())
+				if(instancia2.isSelected())
 					instancias.add("Instancia2");
-				if(chckbxInstancia3.isSelected())
+				if(instancia3.isSelected())
 					instancias.add("Instancia3");
-				if(chckbxInstancia4.isSelected()) 
+				if(instancia4.isSelected()) 
 					instancias.add("Instancia4");
-				if(chckbxInstancia5.isSelected())
+				if(instancia5.isSelected())
 					instancias.add("Instancia5");
 					reacciones.aceptarInstancia(instancias);
 				
@@ -155,7 +164,7 @@ public class Window {
 		});	
 		
 		JButton eliminarNodo = new JButton("Eliminar Nodo");
-		eliminarNodo.setBounds(25, 393, 134, 23);
+		eliminarNodo.setBounds(25, 368, 134, 23);
 		panel.add(eliminarNodo);
 		eliminarNodo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -221,6 +230,19 @@ public class Window {
 		JButton clusterAzar = new JButton("Azar");
 		clusterAzar.setBounds(25, 281, 134, 23);
 		panel.add(clusterAzar);
+		
+		JButton nuevoGrafo = new JButton("Nuevo Grafo");
+		nuevoGrafo.setBounds(25, 391, 134, 23);
+		panel.add(nuevoGrafo);
+		nuevoGrafo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				reacciones.reiniciar();
+			}
+		});
+		
+		
+		
 		clusterAzar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
