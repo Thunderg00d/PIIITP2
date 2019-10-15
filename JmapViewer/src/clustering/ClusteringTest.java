@@ -57,7 +57,7 @@ public class ClusteringTest {
 	}
 	@Test
 	public void ClusteringMasPesadasTest() {
-		Grafo grafo = CrearGrafos.grafoConexo3();	
+		Grafo grafo = CrearGrafos.grafoConexo1();	
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -79,7 +79,7 @@ public class ClusteringTest {
 	
 	@Test
 	public void ClusteringMasPesadasPesoClustersTest() {
-		Grafo grafo = CrearGrafos.grafoConexo3();
+		Grafo grafo = CrearGrafos.grafoConexo1();
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -113,7 +113,7 @@ public class ClusteringTest {
 	
 	@Test
 	public void ClusteringMasPromedioPesoClustersTest() {
-		Grafo grafo = CrearGrafos.grafoConexo3();
+		Grafo grafo = CrearGrafos.grafoConexo1();
 		/* Aristas del grafo
 	  		E(0, 2)= 1.0	
 			E(1, 2)=5.0	
@@ -164,7 +164,7 @@ public class ClusteringTest {
 	}
 	@Test
 	public void ClusteringPromedioTest() {
-		Grafo grafo = CrearGrafos.grafoConexo3();
+		Grafo grafo = CrearGrafos.grafoConexo1();
 		/* Aristas del grafo
 		  	E(0, 2)= 1.0	
 			E(1, 2)=5.0	
